@@ -1,16 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Gamepad2, Settings, Bell, Volume2, VolumeX } from "lucide-react";
+import { Gamepad2, Settings, Bell, Volume2, VolumeX, LogOut, Loader2, Wifi, WifiOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/hooks";
 
 interface HeaderProps {
   soundEnabled: boolean;
   onToggleSound: () => void;
   notificationCount?: number;
+  isLoading?: boolean;
 }
 
-export function Header({ soundEnabled, onToggleSound, notificationCount = 0 }: HeaderProps) {
+export function Header({ soundEnabled, onToggleSound, notificationCount = 0, isLoading = false }: HeaderProps) {
+  const { user, isAuthenticated, logout } = useAuth();
+
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
@@ -67,6 +71,25 @@ export function Header({ soundEnabled, onToggleSound, notificationCount = 0 }: H
             )}
           </motion.button>
 
+          {/* Connection Status */}
+          <div
+            className={cn(
+              "p-2 rounded-xl transition-colors flex items-center gap-1.5",
+              isAuthenticated ? "bg-accent/20" : "bg-secondary"
+            )}
+          >
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+            ) : isAuthenticated ? (
+              <Wifi className="w-4 h-4 text-accent" />
+            ) : (
+              <WifiOff className="w-4 h-4 text-muted-foreground" />
+            )}
+            <span className="text-xs text-muted-foreground hidden sm:inline">
+              {isLoading ? "Syncing..." : isAuthenticated ? "Connected" : "Offline"}
+            </span>
+          </div>
+
           {/* Settings */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -75,6 +98,19 @@ export function Header({ soundEnabled, onToggleSound, notificationCount = 0 }: H
           >
             <Settings className="w-5 h-5 text-foreground" />
           </motion.button>
+
+          {/* Logout (only when authenticated) */}
+          {isAuthenticated && (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={logout}
+              className="p-2 rounded-xl bg-destructive/10 hover:bg-destructive/20 transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-5 h-5 text-destructive" />
+            </motion.button>
+          )}
         </div>
       </div>
     </motion.header>

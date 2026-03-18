@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { CharacterCard } from "./character-card";
 import { StatsPanel } from "./stats-panel";
@@ -11,8 +11,10 @@ import { AIQuestGenerator } from "./ai-quest-generator";
 import { Leaderboard } from "./leaderboard";
 import { Header } from "./header";
 import { NotificationPopup, FloatingXP } from "./notification-popup";
-import { mockUser, mockQuests, mockGear, mockLeaderboard } from "@/lib/mock-data";
+import { useQuests, useLeaderboard, useProfile } from "@/lib/hooks";
+import { mockUser, mockGear, mockLeaderboard, mockQuests } from "@/lib/mock-data";
 import { calculateLevel, getTitle } from "@/lib/utils";
+import * as api from "@/lib/api";
 import type { Quest, Stats, Notification } from "@/lib/types";
 
 interface FloatingXPItem {
@@ -23,13 +25,37 @@ interface FloatingXPItem {
 }
 
 export function Dashboard() {
-  const [user, setUser] = useState(mockUser);
-  const [quests, setQuests] = useState(mockQuests);
+  // API hooks with fallback to mock data
+  const { quests: apiQuests, completeQuest: apiCompleteQuest, createQuest, isLoading: questsLoading } = useQuests();
+  const { leaderboard: apiLeaderboard, isLoading: leaderboardLoading } = useLeaderboard();
+  const { user: apiUser, updateLocalProfile, isLoading: profileLoading } = useProfile();
+
+  // Local state with mock data fallback
+  const [localUser, setLocalUser] = useState(mockUser);
+  const [localQuests, setLocalQuests] = useState(mockQuests);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [floatingXPs, setFloatingXPs] = useState<FloatingXPItem[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<string>();
   const [statChanges, setStatChanges] = useState<Partial<Stats>>({});
+
+  // Sync with API data when available
+  useEffect(() => {
+    if (apiUser) {
+      setLocalUser(apiUser);
+    }
+  }, [apiUser]);
+
+  useEffect(() => {
+    if (apiQuests.length > 0) {
+      setLocalQuests(apiQuests);
+    }
+  }, [apiQuests]);
+
+  // Use API data if available, otherwise fall back to mock data
+  const user = apiUser || localUser;
+  const quests = apiQuests.length > 0 ? apiQuests : localQuests;
+  const leaderboard = apiLeaderboard.length > 0 ? apiLeaderboard : mockLeaderboard;
 
   const addNotification = useCallback((notification: Omit<Notification, "id">) => {
     const id = `notif-${Date.now()}-${Math.random()}`;
@@ -41,7 +67,7 @@ export function Dashboard() {
   }, []);
 
   const handleCompleteQuest = useCallback(
-    (quest: Quest, event: React.MouseEvent) => {
+    async (quest: Quest, event: React.MouseEvent) => {
       // Add floating XP at click position
       const floatId = `float-${Date.now()}`;
       setFloatingXPs((prev) => [
@@ -52,8 +78,23 @@ export function Dashboard() {
         setFloatingXPs((prev) => prev.filter((f) => f.id !== floatId));
       }, 1000);
 
-      // Update user XP and stats
-      setUser((prev) => {
+      // Try API call first
+      try {
+        await apiCompleteQuest(quest.id);
+        
+        // Log activity to backend
+        await api.logActivity({
+          type: "quest_complete",
+          questId: quest.id,
+          xpGained: quest.xpReward,
+          statChanges: quest.statRewards,
+        });
+      } catch {
+        // Fall back to local update if API fails
+      }
+
+      // Update local user state (either API or fallback)
+      setLocalUser((prev) => {
         const newXp = prev.xp + quest.xpReward;
         const newLevel = calculateLevel(newXp);
         const newStats = { ...prev.stats };
@@ -76,21 +117,28 @@ export function Dashboard() {
           });
         }
 
-        return {
+        const updatedUser = {
           ...prev,
           xp: newXp,
           level: newLevel,
           title: getTitle(newLevel),
           stats: newStats,
         };
+
+        // Update profile hook if connected
+        if (apiUser) {
+          updateLocalProfile(updatedUser);
+        }
+
+        return updatedUser;
       });
 
       // Show stat changes
       setStatChanges(quest.statRewards);
       setTimeout(() => setStatChanges({}), 2000);
 
-      // Mark quest as completed
-      setQuests((prev) =>
+      // Mark quest as completed locally
+      setLocalQuests((prev) =>
         prev.map((q) => (q.id === quest.id ? { ...q, completed: true } : q))
       );
 
@@ -113,25 +161,42 @@ export function Dashboard() {
         }
       });
     },
-    [addNotification]
+    [addNotification, apiCompleteQuest, apiUser, updateLocalProfile]
   );
 
-  const handleGenerateQuests = useCallback((newQuests: Quest[]) => {
-    setQuests((prev) => [...prev, ...newQuests]);
+  const handleGenerateQuests = useCallback(async (newQuests: Quest[]) => {
+    // Try to create quests via API
+    for (const quest of newQuests) {
+      try {
+        await createQuest({
+          title: quest.title,
+          description: quest.description,
+          xpReward: quest.xpReward,
+          statRewards: quest.statRewards,
+          category: quest.category,
+        });
+      } catch {
+        // API unavailable, use local state
+      }
+    }
+
+    // Always update local state for immediate UI feedback
+    setLocalQuests((prev) => [...prev, ...newQuests]);
     addNotification({
       type: "quest",
       message: `${newQuests.length} new quest${newQuests.length > 1 ? "s" : ""} added!`,
     });
-  }, [addNotification]);
+  }, [addNotification, createQuest]);
 
   const handleSelectRegion = useCallback((region: string) => {
     setSelectedRegion(region);
-    // Could filter quests by region here
   }, []);
 
   const handleLevelUp = useCallback(() => {
     // Additional level up effects could go here
   }, []);
+
+  const isLoading = questsLoading || leaderboardLoading || profileLoading;
 
   return (
     <div className="min-h-screen bg-background">
@@ -145,6 +210,7 @@ export function Dashboard() {
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled(!soundEnabled)}
         notificationCount={notifications.length}
+        isLoading={isLoading}
       />
 
       {/* Notifications */}
@@ -189,7 +255,7 @@ export function Dashboard() {
           {/* Right Column - Quests & Leaderboard */}
           <div className="lg:col-span-4 space-y-6">
             <QuestPanel quests={quests} onCompleteQuest={handleCompleteQuest} />
-            <Leaderboard entries={mockLeaderboard} />
+            <Leaderboard entries={leaderboard} currentUserId={user.id} />
           </div>
         </div>
       </main>
