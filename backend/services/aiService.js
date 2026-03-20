@@ -1,10 +1,15 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export const generateTasks = async (hobby) => {
+  const client = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  if (!process.env.OPENAI_API_KEY) {
+    console.log("❌ API KEY NOT FOUND");
+    throw new Error("Missing OpenAI API Key");
+  }
+
   const prompt = `
   Hobby: ${hobby}
   Generate:
