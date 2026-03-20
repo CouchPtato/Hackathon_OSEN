@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+:root {
+  /* Soft pastel green and beige nature palette */
+  --background: 45 30% 96%;
+  --foreground: 150 10% 20%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 150 10% 20%;
+  
+  --popover: 0 0% 100%;
+  --popover-foreground: 150 10% 20%;
+  
+  --primary: 142 43% 45%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 45 25% 90%;
+  --secondary-foreground: 150 10% 25%;
+  
+  --muted: 45 20% 92%;
+  --muted-foreground: 150 8% 45%;
+  
+  --accent: 142 35% 55%;
+  --accent-foreground: 0 0% 100%;
+  
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
+  
+  --border: 142 15% 85%;
+  --input: 142 15% 88%;
+  --ring: 142 43% 45%;
+  
+  --radius: 1rem;
+  
+  /* Garden specific colors */
+  --seed: 45 60% 50%;
+  --sprout: 142 50% 50%;
+  --plant: 142 55% 40%;
+  --tree: 142 60% 30%;
+  
+  /* XP and streak */
+  --xp: 142 50% 45%;
+  --streak: 25 95% 55%;
+}
+
+@theme inline {
+  /* Core Colors */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  
+  /* Border Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  
+  /* Garden Colors */
+  --color-seed: hsl(var(--seed));
+  --color-sprout: hsl(var(--sprout));
+  --color-plant: hsl(var(--plant));
+  --color-tree: hsl(var(--tree));
+  --color-xp: hsl(var(--xp));
+  --color-streak: hsl(var(--streak));
+  
+  /* Fonts */
+  --font-sans: var(--font-nunito);
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Plant sway animation */
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+.plant-sway {
+  animation: sway 3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Glow effect for plant growth */
+@keyframes grow-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(74, 222, 128, 0.2);
+    transform: scale(1.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    transform: scale(1);
+  }
+}
+
+.grow-effect {
+  animation: grow-glow 0.5s ease-out;
+}
+
+/* Streak popup animation */
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(1.2);
+  }
+}
+
+.streak-popup {
+  animation: float-up 1s ease-out forwards;
+}
+
+/* XP bar shine */
+@keyframes xp-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.xp-shine {
+  animation: xp-shine 2s ease-in-out infinite;
+}
+
+/* Checkbox animation */
+@keyframes check-bounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.check-animate {
+  animation: check-bounce 0.3s ease-out;
+}
+
+/* Garden background gradient */
+.garden-bg {
+  background: linear-gradient(
+    180deg,
+    hsl(200 60% 85%) 0%,
+    hsl(180 50% 88%) 30%,
+    hsl(142 40% 85%) 70%,
+    hsl(142 50% 75%) 100%
+  );
+}
+
+/* Soil effect */
+.soil-gradient {
+  background: linear-gradient(
+    180deg,
+    hsl(30 40% 35%) 0%,
+    hsl(25 45% 25%) 100%
+  );
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
