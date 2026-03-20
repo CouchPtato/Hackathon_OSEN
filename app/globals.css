@@ -1,56 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  /* Dark fantasy RPG theme */
-  --background: 222 47% 6%;
-  --foreground: 210 40% 98%;
+  /* Dark fantasy RPG theme - Deep dark with subtle blue undertones */
+  --background: 220 20% 4%;
+  --foreground: 0 0% 98%;
   
-  --card: 222 47% 9%;
-  --card-foreground: 210 40% 98%;
+  --card: 220 20% 7%;
+  --card-foreground: 0 0% 98%;
   
-  --popover: 222 47% 9%;
-  --popover-foreground: 210 40% 98%;
+  --popover: 220 20% 7%;
+  --popover-foreground: 0 0% 98%;
   
-  --primary: 263 70% 50%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 265 89% 62%;
+  --primary-foreground: 0 0% 100%;
   
-  --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 220 15% 12%;
+  --secondary-foreground: 0 0% 98%;
   
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
+  --muted: 220 15% 15%;
+  --muted-foreground: 220 10% 55%;
   
-  --accent: 142 71% 45%;
-  --accent-foreground: 222 47% 6%;
+  --accent: 142 76% 46%;
+  --accent-foreground: 220 20% 4%;
   
   --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive-foreground: 0 0% 98%;
   
-  --border: 217 33% 17%;
-  --input: 217 33% 17%;
-  --ring: 263 70% 50%;
+  --border: 220 15% 15%;
+  --input: 220 15% 12%;
+  --ring: 265 89% 62%;
   
-  --radius: 0.75rem;
+  --radius: 0.875rem;
   
-  /* Custom RPG colors */
-  --xp-bar: 45 93% 47%;
+  /* Custom RPG colors - Vibrant gaming palette */
+  --xp-bar: 43 96% 56%;
   --health: 0 84% 60%;
   --mana: 217 91% 60%;
-  --strength: 0 84% 60%;
+  --strength: 0 72% 55%;
   --intelligence: 217 91% 60%;
-  --creativity: 280 87% 65%;
-  --charisma: 45 93% 58%;
-  --logic: 142 71% 45%;
+  --creativity: 280 82% 62%;
+  --charisma: 38 92% 58%;
+  --logic: 142 76% 46%;
   
-  /* Rarity colors */
-  --common: 215 20% 65%;
-  --uncommon: 142 71% 45%;
+  /* Rarity colors - Gaming standard */
+  --common: 220 10% 60%;
+  --uncommon: 142 76% 46%;
   --rare: 217 91% 60%;
-  --epic: 280 87% 65%;
-  --legendary: 45 93% 47%;
+  --epic: 280 82% 62%;
+  --legendary: 43 96% 56%;
 }
 
 @theme inline {
+  /* Core Colors */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -70,12 +71,15 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+  
+  /* Border Radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
   
-  /* RPG Colors */
+  /* RPG Colors - Stats */
   --color-xp: hsl(var(--xp-bar));
   --color-health: hsl(var(--health));
   --color-mana: hsl(var(--mana));
@@ -85,13 +89,14 @@
   --color-charisma: hsl(var(--charisma));
   --color-logic: hsl(var(--logic));
   
-  /* Rarity */
+  /* Rarity Colors */
   --color-common: hsl(var(--common));
   --color-uncommon: hsl(var(--uncommon));
   --color-rare: hsl(var(--rare));
   --color-epic: hsl(var(--epic));
   --color-legendary: hsl(var(--legendary));
   
+  /* Fonts */
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 }
@@ -125,27 +130,135 @@ body {
   background: hsl(var(--muted-foreground));
 }
 
-/* Glassmorphism utility */
+/* Glassmorphism utility - Enhanced for dark fantasy theme */
 .glass {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 18, 25, 0.85) 0%,
+    rgba(10, 12, 18, 0.75) 100%
+  );
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* Glow effects */
+.glass-card {
+  background: linear-gradient(
+    145deg,
+    rgba(20, 24, 35, 0.9) 0%,
+    rgba(12, 15, 22, 0.85) 100%
+  );
+  backdrop-filter: blur(20px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Glow effects - More vibrant */
 .glow-primary {
-  box-shadow: 0 0 20px hsl(var(--primary) / 0.4), 0 0 40px hsl(var(--primary) / 0.2);
+  box-shadow: 
+    0 0 20px hsl(var(--primary) / 0.5),
+    0 0 40px hsl(var(--primary) / 0.3),
+    0 0 60px hsl(var(--primary) / 0.15);
 }
 
 .glow-xp {
-  box-shadow: 0 0 20px hsl(var(--xp-bar) / 0.4), 0 0 40px hsl(var(--xp-bar) / 0.2);
+  box-shadow: 
+    0 0 20px hsl(var(--xp-bar) / 0.5),
+    0 0 40px hsl(var(--xp-bar) / 0.3),
+    0 0 60px hsl(var(--xp-bar) / 0.15);
 }
 
 .glow-accent {
-  box-shadow: 0 0 20px hsl(var(--accent) / 0.4), 0 0 40px hsl(var(--accent) / 0.2);
+  box-shadow: 
+    0 0 20px hsl(var(--accent) / 0.5),
+    0 0 40px hsl(var(--accent) / 0.3),
+    0 0 60px hsl(var(--accent) / 0.15);
 }
 
-/* Text glow */
+.glow-level {
+  box-shadow: 
+    0 0 30px hsl(var(--xp-bar) / 0.6),
+    0 0 60px hsl(var(--xp-bar) / 0.4),
+    0 0 90px hsl(var(--xp-bar) / 0.2);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 30px hsl(var(--xp-bar) / 0.6),
+      0 0 60px hsl(var(--xp-bar) / 0.4),
+      0 0 90px hsl(var(--xp-bar) / 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 40px hsl(var(--xp-bar) / 0.8),
+      0 0 80px hsl(var(--xp-bar) / 0.5),
+      0 0 120px hsl(var(--xp-bar) / 0.3);
+  }
+}
+
+/* Text glow - Enhanced */
 .text-glow {
-  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+/* RPG stat bar animations */
+@keyframes stat-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.stat-bar-shine {
+  animation: stat-shine 2s ease-in-out infinite;
+}
+
+/* Floating animation for XP */
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(1.2);
+  }
+}
+
+.float-xp {
+  animation: float-up 1s ease-out forwards;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Animated background gradient */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
 }

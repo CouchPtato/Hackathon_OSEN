@@ -200,10 +200,22 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Animated background */}
+      {/* Animated background with multiple layers */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000" />
+        {/* Primary glow */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[100px] animate-pulse" />
+        {/* Accent glow */}
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/6 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
+        {/* Secondary glow */}
+        <div className="absolute top-1/2 right-1/3 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[60px] animate-pulse" style={{ animationDelay: '2s' }} />
+        {/* Grid pattern overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: '50px 50px',
+          }}
+        />
       </div>
 
       <Header

@@ -14,13 +14,16 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "LifeRPG - Gamify Your Productivity",
-  description: "Transform your daily tasks into epic quests. Level up your life with LifeRPG.",
+  description: "Transform your daily tasks into epic quests. Level up your life with LifeRPG - the ultimate RPG-style productivity dashboard.",
+  keywords: ["productivity", "gamification", "RPG", "tasks", "quests", "leveling"],
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f1419",
+  themeColor: "#0a0c12",
   width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
