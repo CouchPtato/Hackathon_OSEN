@@ -169,6 +169,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.js [app-client] (ecmascript) <export default as ArrowRight>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$moon$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Moon$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/moon.js [app-client] (ecmascript) <export default as Moon>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sun$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sun$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sun.js [app-client] (ecmascript) <export default as Sun>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sprout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sprout$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sprout.js [app-client] (ecmascript) <export default as Sprout>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/input.tsx [app-client] (ecmascript)");
 ;
@@ -183,10 +184,23 @@ function LandingPage(param) {
     let { onStartGarden, onAddHobby, darkMode = false, onToggleDarkMode } = param;
     _s();
     const [hobbyInput, setHobbyInput] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [showSuccess, setShowSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const suggestedHobbies = [
+        "Guitar",
+        "Painting",
+        "Fitness",
+        "Reading",
+        "Cooking",
+        "Photography",
+        "Writing",
+        "Gardening"
+    ];
     const handleAddHobby = ()=>{
         if (hobbyInput.trim()) {
             onAddHobby(hobbyInput.trim());
             setHobbyInput("");
+            setShowSuccess(true);
+            setTimeout(()=>setShowSuccess(false), 1200);
         }
     };
     const features = [
@@ -207,29 +221,78 @@ function LandingPage(param) {
         }
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen bg-background relative overflow-hidden",
+        className: "min-h-screen bg-gradient-to-br from-green-50 via-emerald-100 to-white dark:from-[#1a2e1a] dark:via-[#1a2e1a] dark:to-[#101c10] relative overflow-hidden",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
                 className: "absolute inset-0 -z-10",
+                initial: {
+                    opacity: 0
+                },
+                animate: {
+                    opacity: 1
+                },
+                transition: {
+                    duration: 1
+                },
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-green-300/20 blur-3xl rounded-full"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        className: "absolute top-[-100px] left-[-100px] w-[350px] h-[350px] bg-green-300/30 blur-3xl rounded-full",
+                        animate: {
+                            scale: [
+                                1,
+                                1.1,
+                                1
+                            ]
+                        },
+                        transition: {
+                            duration: 8,
+                            repeat: Infinity
+                        }
                     }, void 0, false, {
                         fileName: "[project]/components/landing-page.tsx",
-                        lineNumber: 61,
+                        lineNumber: 73,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute bottom-[-120px] right-[-120px] w-[300px] h-[300px] bg-emerald-400/20 blur-3xl rounded-full"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        className: "absolute bottom-[-120px] right-[-120px] w-[350px] h-[350px] bg-emerald-400/30 blur-3xl rounded-full",
+                        animate: {
+                            scale: [
+                                1,
+                                1.08,
+                                1
+                            ]
+                        },
+                        transition: {
+                            duration: 7,
+                            repeat: Infinity
+                        }
                     }, void 0, false, {
                         fileName: "[project]/components/landing-page.tsx",
-                        lineNumber: 62,
+                        lineNumber: 78,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        className: "absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-green-100/10 blur-2xl rounded-full -translate-x-1/2 -translate-y-1/2",
+                        animate: {
+                            rotate: [
+                                0,
+                                360
+                            ]
+                        },
+                        transition: {
+                            duration: 60,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }
+                    }, void 0, false, {
+                        fileName: "[project]/components/landing-page.tsx",
+                        lineNumber: 83,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/landing-page.tsx",
-                lineNumber: 60,
+                lineNumber: 67,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
@@ -244,107 +307,144 @@ function LandingPage(param) {
                             className: "h-5 w-5"
                         }, void 0, false, {
                             fileName: "[project]/components/landing-page.tsx",
-                            lineNumber: 71,
+                            lineNumber: 96,
                             columnNumber: 17
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$moon$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Moon$3e$__["Moon"], {
                             className: "h-5 w-5"
                         }, void 0, false, {
                             fileName: "[project]/components/landing-page.tsx",
-                            lineNumber: 73,
+                            lineNumber: 98,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/landing-page.tsx",
-                        lineNumber: 69,
+                        lineNumber: 94,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/landing-page.tsx",
-                    lineNumber: 67,
+                    lineNumber: 92,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/landing-page.tsx",
-                lineNumber: 66,
+                lineNumber: 91,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                className: "px-4 py-28 text-center",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].h1, {
-                        initial: {
-                            opacity: 0,
-                            y: 20
-                        },
-                        animate: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        className: "text-4xl font-bold sm:text-5xl lg:text-6xl",
-                        children: "Grow Your Life 🌱"
-                    }, void 0, false, {
-                        fileName: "[project]/components/landing-page.tsx",
-                        lineNumber: 82,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].p, {
-                        initial: {
-                            opacity: 0,
-                            y: 20
-                        },
-                        animate: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        transition: {
-                            delay: 0.1
-                        },
-                        className: "mt-6 text-lg text-muted-foreground",
-                        children: "Build habits. Gain XP. Watch your hobbies evolve."
-                    }, void 0, false, {
-                        fileName: "[project]/components/landing-page.tsx",
-                        lineNumber: 90,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-                        initial: {
-                            opacity: 0
-                        },
-                        animate: {
-                            opacity: 1
-                        },
-                        transition: {
-                            delay: 0.2
-                        },
-                        className: "mt-10",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                            onClick: onStartGarden,
-                            size: "lg",
-                            className: "text-lg px-8 py-6 gap-2 hover:scale-105 active:scale-95",
-                            children: [
-                                "Start Growing",
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                    className: "h-5 w-5"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/landing-page.tsx",
-                                    lineNumber: 111,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                className: "px-4 py-28 text-center relative",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                    initial: {
+                        scale: 0.9,
+                        opacity: 0
+                    },
+                    animate: {
+                        scale: 1,
+                        opacity: 1
+                    },
+                    transition: {
+                        duration: 0.7
+                    },
+                    className: "flex flex-col items-center",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                            animate: {
+                                rotate: [
+                                    0,
+                                    10,
+                                    -10,
+                                    0
+                                ]
+                            },
+                            transition: {
+                                duration: 3,
+                                repeat: Infinity,
+                                repeatDelay: 4
+                            },
+                            className: "inline-block mb-2",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sprout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sprout$3e$__["Sprout"], {
+                                className: "h-12 w-12 text-green-500 drop-shadow-lg"
+                            }, void 0, false, {
+                                fileName: "[project]/components/landing-page.tsx",
+                                lineNumber: 118,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
                             fileName: "[project]/components/landing-page.tsx",
-                            lineNumber: 105,
+                            lineNumber: 113,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                            className: "text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-green-600 via-emerald-500 to-lime-400 bg-clip-text text-transparent drop-shadow-lg",
+                            children: "Grow Your Life"
+                        }, void 0, false, {
+                            fileName: "[project]/components/landing-page.tsx",
+                            lineNumber: 120,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].p, {
+                            initial: {
+                                opacity: 0,
+                                y: 20
+                            },
+                            animate: {
+                                opacity: 1,
+                                y: 0
+                            },
+                            transition: {
+                                delay: 0.1
+                            },
+                            className: "mt-6 text-xl sm:text-2xl text-muted-foreground font-medium",
+                            children: "Build habits. Gain XP. Watch your hobbies evolve."
+                        }, void 0, false, {
+                            fileName: "[project]/components/landing-page.tsx",
+                            lineNumber: 123,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                            initial: {
+                                opacity: 0
+                            },
+                            animate: {
+                                opacity: 1
+                            },
+                            transition: {
+                                delay: 0.2
+                            },
+                            className: "mt-10",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                onClick: onStartGarden,
+                                size: "lg",
+                                className: "text-lg px-10 py-6 gap-2 rounded-full shadow-lg bg-gradient-to-r from-green-500 to-emerald-400 hover:scale-105 active:scale-95 transition",
+                                children: [
+                                    "Start Growing",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                        className: "h-5 w-5"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/landing-page.tsx",
+                                        lineNumber: 143,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/landing-page.tsx",
+                                lineNumber: 137,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/components/landing-page.tsx",
+                            lineNumber: 131,
                             columnNumber: 11
                         }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/landing-page.tsx",
-                        lineNumber: 99,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/landing-page.tsx",
+                    lineNumber: 107,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/components/landing-page.tsx",
-                lineNumber: 81,
+                lineNumber: 106,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -352,58 +452,128 @@ function LandingPage(param) {
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "mx-auto max-w-xl",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "glass rounded-2xl p-6",
+                        className: "glass rounded-2xl p-6 shadow-xl",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                 className: "text-lg font-semibold text-center mb-4",
-                                children: "Plant your first hobby 🌱"
-                            }, void 0, false, {
+                                children: [
+                                    "Plant your first hobby ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "inline-block animate-bounce",
+                                        children: "🌱"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/landing-page.tsx",
+                                        lineNumber: 154,
+                                        columnNumber: 38
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/components/landing-page.tsx",
-                                lineNumber: 120,
+                                lineNumber: 153,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex gap-3",
+                                className: "flex gap-3 items-center",
                                 children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        htmlFor: "hobby-input",
+                                        className: "sr-only",
+                                        children: "Hobby Name"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/landing-page.tsx",
+                                        lineNumber: 157,
+                                        columnNumber: 15
+                                    }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                        id: "hobby-input",
+                                        name: "hobby",
                                         placeholder: "e.g. Guitar, Gym, Coding...",
                                         value: hobbyInput,
                                         onChange: (e)=>setHobbyInput(e.target.value),
-                                        onKeyDown: (e)=>e.key === "Enter" && handleAddHobby()
+                                        onKeyDown: (e)=>e.key === "Enter" && handleAddHobby(),
+                                        className: "text-lg px-4 py-3 rounded-full shadow",
+                                        autoComplete: "off"
                                     }, void 0, false, {
                                         fileName: "[project]/components/landing-page.tsx",
-                                        lineNumber: 125,
+                                        lineNumber: 160,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                         onClick: handleAddHobby,
                                         disabled: !hobbyInput.trim(),
+                                        className: "rounded-full px-6 text-lg",
                                         children: "Plant"
                                     }, void 0, false, {
                                         fileName: "[project]/components/landing-page.tsx",
-                                        lineNumber: 134,
+                                        lineNumber: 172,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/landing-page.tsx",
-                                lineNumber: 124,
+                                lineNumber: 156,
                                 columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex flex-wrap gap-2 mt-4 justify-center",
+                                children: suggestedHobbies.map((suggestion)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>setHobbyInput(suggestion),
+                                        className: "rounded-full px-3 py-1 text-sm bg-secondary text-secondary-foreground hover:bg-green-100 dark:hover:bg-green-900/40 transition-all duration-200 hover:scale-105 active:scale-95",
+                                        children: suggestion
+                                    }, suggestion, false, {
+                                        fileName: "[project]/components/landing-page.tsx",
+                                        lineNumber: 183,
+                                        columnNumber: 17
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "[project]/components/landing-page.tsx",
+                                lineNumber: 181,
+                                columnNumber: 13
+                            }, this),
+                            showSuccess && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                initial: {
+                                    opacity: 0,
+                                    y: 10
+                                },
+                                animate: {
+                                    opacity: 1,
+                                    y: 0
+                                },
+                                exit: {
+                                    opacity: 0,
+                                    y: 10
+                                },
+                                className: "mt-4 text-green-600 font-semibold flex items-center justify-center gap-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sprout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sprout$3e$__["Sprout"], {
+                                        className: "h-5 w-5"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/landing-page.tsx",
+                                        lineNumber: 201,
+                                        columnNumber: 17
+                                    }, this),
+                                    " Hobby planted!"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/landing-page.tsx",
+                                lineNumber: 195,
+                                columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/landing-page.tsx",
-                        lineNumber: 119,
+                        lineNumber: 152,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/landing-page.tsx",
-                    lineNumber: 118,
+                    lineNumber: 151,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/landing-page.tsx",
-                lineNumber: 117,
+                lineNumber: 150,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -412,11 +582,11 @@ function LandingPage(param) {
                     className: "mx-auto max-w-5xl text-center",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-2xl font-bold mb-12 sm:text-3xl",
+                            className: "text-2xl font-bold mb-12 sm:text-3xl bg-gradient-to-r from-green-600 via-emerald-500 to-lime-400 bg-clip-text text-transparent",
                             children: "Why this works"
                         }, void 0, false, {
                             fileName: "[project]/components/landing-page.tsx",
-                            lineNumber: 148,
+                            lineNumber: 211,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -433,7 +603,7 @@ function LandingPage(param) {
                                     transition: {
                                         delay: 0.3 + index * 0.1
                                     },
-                                    className: "glass rounded-2xl p-6 hover:scale-105 transition",
+                                    className: "glass rounded-2xl p-6 hover:scale-105 transition shadow-lg",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10",
@@ -441,12 +611,12 @@ function LandingPage(param) {
                                                 className: "h-6 w-6 text-primary"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/landing-page.tsx",
-                                                lineNumber: 162,
+                                                lineNumber: 224,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/landing-page.tsx",
-                                            lineNumber: 161,
+                                            lineNumber: 223,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -454,7 +624,7 @@ function LandingPage(param) {
                                             children: feature.title
                                         }, void 0, false, {
                                             fileName: "[project]/components/landing-page.tsx",
-                                            lineNumber: 165,
+                                            lineNumber: 226,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -462,39 +632,39 @@ function LandingPage(param) {
                                             children: feature.description
                                         }, void 0, false, {
                                             fileName: "[project]/components/landing-page.tsx",
-                                            lineNumber: 169,
+                                            lineNumber: 229,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, feature.title, true, {
                                     fileName: "[project]/components/landing-page.tsx",
-                                    lineNumber: 154,
+                                    lineNumber: 216,
                                     columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/components/landing-page.tsx",
-                            lineNumber: 152,
+                            lineNumber: 214,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/landing-page.tsx",
-                    lineNumber: 147,
+                    lineNumber: 210,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/landing-page.tsx",
-                lineNumber: 146,
+                lineNumber: 209,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/landing-page.tsx",
-        lineNumber: 57,
+        lineNumber: 65,
         columnNumber: 5
     }, this);
 }
-_s(LandingPage, "9EKy/u1OjttBqIlgEalGxaNl/f0=");
+_s(LandingPage, "lkr7wWorxOr9bc+Og41ssjiacaM=");
 _c = LandingPage;
 var _c;
 __turbopack_context__.k.register(_c, "LandingPage");
@@ -596,40 +766,12 @@ function Navbar(param) {
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "flex items-center gap-2 sm:gap-4",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-                            className: "hidden sm:flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 shadow-sm border border-green-200/30",
-                            whileHover: {
-                                scale: 1.05
-                            },
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-lg",
-                                    children: levelEmojis[level]
-                                }, void 0, false, {
-                                    fileName: "[project]/components/navbar.tsx",
-                                    lineNumber: 71,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-sm font-semibold",
-                                    children: levelTitles[level]
-                                }, void 0, false, {
-                                    fileName: "[project]/components/navbar.tsx",
-                                    lineNumber: 72,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/navbar.tsx",
-                            lineNumber: 67,
-                            columnNumber: 11
-                        }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex sm:hidden items-center px-2 py-1 bg-secondary rounded-full",
                             children: levelEmojis[level]
                         }, void 0, false, {
                             fileName: "[project]/components/navbar.tsx",
-                            lineNumber: 78,
+                            lineNumber: 69,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -653,12 +795,12 @@ function Navbar(param) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/navbar.tsx",
-                                lineNumber: 88,
+                                lineNumber: 79,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/navbar.tsx",
-                            lineNumber: 83,
+                            lineNumber: 74,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -670,18 +812,18 @@ function Navbar(param) {
                                 className: "h-4 w-4 sm:h-5 sm:w-5"
                             }, void 0, false, {
                                 fileName: "[project]/components/navbar.tsx",
-                                lineNumber: 101,
+                                lineNumber: 92,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$moon$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Moon$3e$__["Moon"], {
                                 className: "h-4 w-4 sm:h-5 sm:w-5"
                             }, void 0, false, {
                                 fileName: "[project]/components/navbar.tsx",
-                                lineNumber: 103,
+                                lineNumber: 94,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/navbar.tsx",
-                            lineNumber: 94,
+                            lineNumber: 85,
                             columnNumber: 11
                         }, this),
                         onOpenProfile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].button, {
@@ -700,12 +842,12 @@ function Navbar(param) {
                                         className: "h-3 w-3 sm:h-4 sm:w-4 text-primary"
                                     }, void 0, false, {
                                         fileName: "[project]/components/navbar.tsx",
-                                        lineNumber: 116,
+                                        lineNumber: 107,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/navbar.tsx",
-                                    lineNumber: 115,
+                                    lineNumber: 106,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -713,13 +855,13 @@ function Navbar(param) {
                                     children: gardenerName
                                 }, void 0, false, {
                                     fileName: "[project]/components/navbar.tsx",
-                                    lineNumber: 119,
+                                    lineNumber: 110,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/navbar.tsx",
-                            lineNumber: 109,
+                            lineNumber: 100,
                             columnNumber: 13
                         }, this)
                     ]
@@ -1268,24 +1410,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$
 ;
 ;
 ;
-// 🌱 Emojis
-const levelEmojis = {
-    Seed: "🌱",
-    Sprout: "🌿",
-    Plant: "🌾",
-    Tree: "🌳"
-};
-// 🧠 Cleaner titles
-const levelTitles = {
-    Seed: "Beginner",
-    Sprout: "Growing",
-    Plant: "Skilled",
-    Tree: "Master"
+// Gardener emojis and titles
+const gardenerEmojis = {
+    "Beginner Gardener": "🧑‍🌾",
+    "Growing Gardener": "🌱",
+    "Pro Gardener": "🌿",
+    "Master Gardener": "🌳"
 };
 function ProgressCard(param) {
-    let { totalXp, currentLevel, xpToNextLevel } = param;
-    const currentLevelIndex = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEVEL_ORDER"].indexOf(currentLevel);
-    const progressPercentage = Math.min(totalXp / xpToNextLevel * 100, 100);
+    let { totalXp, currentLevel, xpToNextLevel, xpInLevel } = param;
+    const currentLevelIndex = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["GARDENER_LEVELS"].findIndex((l)=>l.level === currentLevel);
+    const progressPercentage = xpToNextLevel === 0 ? 100 : Math.min(xpInLevel / xpToNextLevel * 100, 100);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
         className: "glass",
         children: [
@@ -1295,12 +1430,12 @@ function ProgressCard(param) {
                     children: "Progress"
                 }, void 0, false, {
                     fileName: "[project]/components/progress-card.tsx",
-                    lineNumber: 44,
+                    lineNumber: 36,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/progress-card.tsx",
-                lineNumber: 43,
+                lineNumber: 35,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1317,25 +1452,25 @@ function ProgressCard(param) {
                                         children: "XP"
                                     }, void 0, false, {
                                         fileName: "[project]/components/progress-card.tsx",
-                                        lineNumber: 52,
+                                        lineNumber: 44,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "font-medium",
                                         children: [
-                                            totalXp,
+                                            xpInLevel,
                                             " / ",
                                             xpToNextLevel
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/progress-card.tsx",
-                                        lineNumber: 53,
+                                        lineNumber: 45,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/progress-card.tsx",
-                                lineNumber: 51,
+                                lineNumber: 43,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -1350,18 +1485,18 @@ function ProgressCard(param) {
                                     value: progressPercentage
                                 }, void 0, false, {
                                     fileName: "[project]/components/progress-card.tsx",
-                                    lineNumber: 63,
+                                    lineNumber: 54,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/progress-card.tsx",
-                                lineNumber: 58,
+                                lineNumber: 49,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/progress-card.tsx",
-                        lineNumber: 50,
+                        lineNumber: 42,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1380,25 +1515,25 @@ function ProgressCard(param) {
                             },
                             className: "text-lg font-semibold",
                             children: [
-                                levelEmojis[currentLevel],
+                                gardenerEmojis[currentLevel],
                                 " ",
-                                levelTitles[currentLevel]
+                                currentLevel
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/progress-card.tsx",
-                            lineNumber: 69,
+                            lineNumber: 60,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/progress-card.tsx",
-                        lineNumber: 68,
+                        lineNumber: 59,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex justify-center gap-3 bg-secondary/50 rounded-xl p-3",
-                        children: __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEVEL_ORDER"].map((level, idx)=>{
+                        children: __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["GARDENER_LEVELS"].map((l, idx)=>{
                             const isActive = idx <= currentLevelIndex;
-                            const isCurrent = level === currentLevel;
+                            const isCurrent = l.level === currentLevel;
                             return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
                                 className: "flex flex-col items-center gap-1 ".concat(isActive ? "" : "opacity-30"),
                                 animate: isCurrent ? {
@@ -1417,47 +1552,47 @@ function ProgressCard(param) {
                                         className: "p-2 rounded-full ".concat(isCurrent ? "bg-green-200 ring-2 ring-green-500" : isActive ? "bg-green-100" : "bg-muted"),
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             className: "text-lg",
-                                            children: levelEmojis[level]
+                                            children: gardenerEmojis[l.level]
                                         }, void 0, false, {
                                             fileName: "[project]/components/progress-card.tsx",
-                                            lineNumber: 102,
+                                            lineNumber: 82,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/progress-card.tsx",
-                                        lineNumber: 93,
+                                        lineNumber: 81,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "text-[10px] font-medium",
-                                        children: levelTitles[level]
+                                        children: l.level
                                     }, void 0, false, {
                                         fileName: "[project]/components/progress-card.tsx",
-                                        lineNumber: 105,
+                                        lineNumber: 84,
                                         columnNumber: 17
                                     }, this)
                                 ]
-                            }, level, true, {
+                            }, l.level, true, {
                                 fileName: "[project]/components/progress-card.tsx",
-                                lineNumber: 85,
+                                lineNumber: 75,
                                 columnNumber: 15
                             }, this);
                         })
                     }, void 0, false, {
                         fileName: "[project]/components/progress-card.tsx",
-                        lineNumber: 79,
+                        lineNumber: 70,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/progress-card.tsx",
-                lineNumber: 47,
+                lineNumber: 39,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/progress-card.tsx",
-        lineNumber: 42,
+        lineNumber: 34,
         columnNumber: 5
     }, this);
 }
@@ -1528,6 +1663,7 @@ function getPlantType(name) {
 // 🧱 PIXEL WITH OUTLINE
 function Pixel(param) {
     let { x, y, w, h, fill } = param;
+    // Thinner outline: 0.5px inset instead of 1px
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
@@ -1538,18 +1674,18 @@ function Pixel(param) {
                 fill: OUTLINE
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 55,
+                lineNumber: 56,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: x + 1,
-                y: y + 1,
-                width: w - 2,
-                height: h - 2,
+                x: x + 0.5,
+                y: y + 0.5,
+                width: w - 1,
+                height: h - 1,
                 fill: fill
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 56,
+                lineNumber: 57,
                 columnNumber: 7
             }, this)
         ]
@@ -1605,7 +1741,7 @@ function PixelPlant(param) {
                     fill: "rgba(0,0,0,0.25)"
                 }, void 0, false, {
                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                    lineNumber: 99,
+                    lineNumber: 100,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
@@ -1630,7 +1766,7 @@ function PixelPlant(param) {
                                     fill: "#5d4037"
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 110,
+                                    lineNumber: 111,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1641,7 +1777,7 @@ function PixelPlant(param) {
                                     fill: "#3e2723"
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 111,
+                                    lineNumber: 112,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -1656,7 +1792,7 @@ function PixelPlant(param) {
                                     fill: c.dark
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 118,
+                                    lineNumber: 119,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1667,7 +1803,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 119,
+                                    lineNumber: 120,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1678,7 +1814,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 120,
+                                    lineNumber: 121,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -1693,7 +1829,7 @@ function PixelPlant(param) {
                                     fill: c.dark
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 127,
+                                    lineNumber: 128,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1704,7 +1840,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 128,
+                                    lineNumber: 129,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1715,7 +1851,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 129,
+                                    lineNumber: 130,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1726,7 +1862,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 130,
+                                    lineNumber: 131,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -1741,7 +1877,7 @@ function PixelPlant(param) {
                                     fill: c.dark
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 137,
+                                    lineNumber: 138,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1752,7 +1888,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 138,
+                                    lineNumber: 139,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1763,7 +1899,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 139,
+                                    lineNumber: 140,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1774,7 +1910,7 @@ function PixelPlant(param) {
                                     fill: c.flower
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 140,
+                                    lineNumber: 141,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -1789,7 +1925,7 @@ function PixelPlant(param) {
                                     fill: "#6b3e1f"
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 147,
+                                    lineNumber: 148,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1800,7 +1936,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 148,
+                                    lineNumber: 149,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1811,7 +1947,7 @@ function PixelPlant(param) {
                                     fill: c.flower
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 150,
+                                    lineNumber: 151,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1822,7 +1958,7 @@ function PixelPlant(param) {
                                     fill: c.flower
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 151,
+                                    lineNumber: 152,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -1837,7 +1973,7 @@ function PixelPlant(param) {
                                     fill: "#5d4037"
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 158,
+                                    lineNumber: 159,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1848,7 +1984,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 159,
+                                    lineNumber: 160,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1859,7 +1995,7 @@ function PixelPlant(param) {
                                     fill: c.leaf
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 160,
+                                    lineNumber: 161,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1870,7 +2006,7 @@ function PixelPlant(param) {
                                     fill: c.flower
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 162,
+                                    lineNumber: 163,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1881,7 +2017,7 @@ function PixelPlant(param) {
                                     fill: c.flower
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 163,
+                                    lineNumber: 164,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
@@ -1892,7 +2028,7 @@ function PixelPlant(param) {
                                     fill: c.flower
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 164,
+                                    lineNumber: 165,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -1900,7 +2036,7 @@ function PixelPlant(param) {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                    lineNumber: 102,
+                    lineNumber: 103,
                     columnNumber: 9
                 }, this),
                 isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
@@ -1929,7 +2065,7 @@ function PixelPlant(param) {
                             fill: "#87ceeb"
                         }, void 0, false, {
                             fileName: "[project]/components/garden/pixel-plants.tsx",
-                            lineNumber: 175,
+                            lineNumber: 176,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
@@ -1940,24 +2076,24 @@ function PixelPlant(param) {
                             fill: "#87ceeb"
                         }, void 0, false, {
                             fileName: "[project]/components/garden/pixel-plants.tsx",
-                            lineNumber: 176,
+                            lineNumber: 177,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                    lineNumber: 171,
+                    lineNumber: 172,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/garden/pixel-plants.tsx",
-            lineNumber: 93,
+            lineNumber: 94,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/garden/pixel-plants.tsx",
-        lineNumber: 92,
+        lineNumber: 93,
         columnNumber: 5
     }, this);
 }
@@ -1999,13 +2135,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/card.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/garden/pixel-plants.tsx [app-client] (ecmascript)");
 ;
-var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
+var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature(), _s2 = __turbopack_context__.k.signature();
 "use client";
-;
 ;
 ;
 ;
@@ -2169,9 +2303,11 @@ _c1 = Bees;
 // ---------- 🌱 PLANT ----------
 function GardenPlant(param) {
     let { hobby, position, onClick } = param;
+    _s1();
     const stage = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["levelToPixelStage"])(hobby.level);
+    const [hovered, setHovered] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-        className: "absolute cursor-pointer",
+        className: "absolute cursor-pointer group",
         style: {
             left: "".concat(position.x, "%"),
             top: "".concat(position.y, "%"),
@@ -2192,12 +2328,14 @@ function GardenPlant(param) {
             damping: 15
         },
         onClick: onClick,
+        onMouseEnter: ()=>setHovered(true),
+        onMouseLeave: ()=>setHovered(false),
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "absolute w-8 h-2 bg-black/30 rounded-full blur-sm bottom-6 left-1/2 -translate-x-1/2"
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 167,
+                lineNumber: 170,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2207,27 +2345,37 @@ function GardenPlant(param) {
                     hobbyName: hobby.name
                 }, void 0, false, {
                     fileName: "[project]/components/garden/pixel-garden.tsx",
-                    lineNumber: 170,
+                    lineNumber: 173,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 169,
+                lineNumber: 172,
                 columnNumber: 7
+            }, this),
+            hovered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute left-1/2 top-full mt-0.5 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded shadow z-20 pointer-events-none whitespace-nowrap",
+                children: hobby.name
+            }, void 0, false, {
+                fileName: "[project]/components/garden/pixel-garden.tsx",
+                lineNumber: 178,
+                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 149,
+        lineNumber: 150,
         columnNumber: 5
     }, this);
 }
+_s1(GardenPlant, "V8YbV+gTZxGliGj1g0fftBlvsq4=");
 _c2 = GardenPlant;
 function PixelGarden(param) {
-    let { hobbies, onPlantClick, onAddHobby } = param;
-    _s1();
+    let { hobbies, onPlantClick, onAddHobby, onRemoveHobby } = param;
+    _s2();
     const [positionsMap, setPositionsMap] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const [timePhase, setTimePhase] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("day");
+    const [shovelMode, setShovelMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "PixelGarden.useEffect": ()=>{
             const update = {
@@ -2282,37 +2430,77 @@ function PixelGarden(param) {
         className: "h-full",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
-                className: "flex justify-between",
+                className: "flex justify-between items-center gap-2",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
                         children: "🌻 Hobby Garden"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 237,
+                        lineNumber: 250,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                        onClick: onAddHobby,
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
-                            className: "w-4 h-4"
-                        }, void 0, false, {
-                            fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 239,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-2 items-center",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setShovelMode((m)=>!m),
+                                title: shovelMode ? "Exit Shovel Mode" : "Remove Plant (Shovel Mode)",
+                                className: "rounded-full bg-yellow-400 hover:bg-yellow-500 text-white p-2 shadow transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 flex items-center justify-center ".concat(shovelMode ? 'ring-2 ring-yellow-600' : ''),
+                                style: {
+                                    width: 36,
+                                    height: 36
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    style: {
+                                        fontSize: 20
+                                    },
+                                    role: "img",
+                                    "aria-label": "Shovel",
+                                    children: "🧹"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-garden.tsx",
+                                    lineNumber: 258,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden/pixel-garden.tsx",
+                                lineNumber: 252,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: onAddHobby,
+                                title: "Add Hobby",
+                                className: "rounded-full bg-green-500 hover:bg-green-600 text-white p-2 shadow transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 flex items-center justify-center",
+                                style: {
+                                    width: 36,
+                                    height: 36
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                                    className: "w-5 h-5"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-garden.tsx",
+                                    lineNumber: 266,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden/pixel-garden.tsx",
+                                lineNumber: 260,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 238,
+                        lineNumber: 251,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 236,
+                lineNumber: 249,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
-                className: "relative min-h-[400px] overflow-hidden",
+                className: "relative min-h-[400px] overflow-hidden ".concat(shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''),
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none",
@@ -2324,14 +2512,14 @@ function PixelGarden(param) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 246,
+                        lineNumber: 274,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none ".concat(timePhase === "dawn" ? "bg-orange-200/30" : timePhase === "noon" ? "bg-yellow-100/20" : timePhase === "dusk" ? "bg-purple-300/30" : timePhase === "night" ? "bg-indigo-900/60" : "")
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 257,
+                        lineNumber: 285,
                         columnNumber: 9
                     }, this),
                     timePhase !== "night" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bees, {
@@ -2339,7 +2527,7 @@ function PixelGarden(param) {
                         positionsMap: positionsMap
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 273,
+                        lineNumber: 301,
                         columnNumber: 11
                     }, this),
                     hobbies.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2347,7 +2535,7 @@ function PixelGarden(param) {
                         children: "🌱 Start planting your hobbies"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 278,
+                        lineNumber: 306,
                         columnNumber: 11
                     }, this),
                     hobbies.map((h)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2359,31 +2547,37 @@ function PixelGarden(param) {
                                     y: 70,
                                     scale: 1
                                 },
-                                onClick: ()=>onPlantClick(h)
+                                onClick: ()=>{
+                                    if (shovelMode) {
+                                        onRemoveHobby(h.id);
+                                    } else {
+                                        onPlantClick(h);
+                                    }
+                                }
                             }, void 0, false, {
                                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 286,
+                                lineNumber: 314,
                                 columnNumber: 13
                             }, this)
                         }, h.id, false, {
                             fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 285,
+                            lineNumber: 313,
                             columnNumber: 11
                         }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 243,
+                lineNumber: 271,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 235,
+        lineNumber: 248,
         columnNumber: 5
     }, this);
 }
-_s1(PixelGarden, "r2Q7OuslkUKMu/Q1SGfpnDvBSxQ=");
+_s2(PixelGarden, "Af95iuTmGo7GqplM4M9kJ25b7NE=");
 _c3 = PixelGarden;
 var _c, _c1, _c2, _c3;
 __turbopack_context__.k.register(_c, "Bee");
@@ -3670,7 +3864,11 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 __turbopack_context__.s([
     "default",
-    ()=>HomePage
+    ()=>HomePage,
+    "getGardenerXpInLevel",
+    ()=>getGardenerXpInLevel,
+    "getGardenerXpToNextLevel",
+    ()=>getGardenerXpToNextLevel
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
@@ -3706,42 +3904,9 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 // ---- SAME DATA ----
-const initialHobbies = [
-    {
-        id: "1",
-        name: "Guitar",
-        level: "Seed",
-        streak: 1,
-        xp: 25,
-        maxXp: 100,
-        waterLevel: 60,
-        careActions: 2
-    },
-    {
-        id: "2",
-        name: "Fitness",
-        level: "Sprout",
-        streak: 3,
-        xp: 150,
-        maxXp: 250,
-        waterLevel: 80,
-        careActions: 5
-    }
-];
-const initialTasks = [
-    {
-        id: "t1",
-        hobbyId: "1",
-        title: "Practice chord transitions for 15 minutes",
-        completed: false
-    },
-    {
-        id: "t2",
-        hobbyId: "2",
-        title: "Complete 20 push-ups",
-        completed: false
-    }
-];
+// Start with an empty garden for first-time visitors
+const initialHobbies = [];
+const initialTasks = [];
 // ---- AI TASKS ----
 const aiTaskTemplates = {
     Guitar: [
@@ -3759,6 +3924,18 @@ const aiTaskTemplates = {
         "Watch tutorial"
     ]
 };
+function getGardenerXpInLevel(totalXp) {
+    if (totalXp >= 500) return totalXp - 500;
+    if (totalXp >= 150) return totalXp - 150;
+    if (totalXp >= 50) return totalXp - 50;
+    return totalXp;
+}
+function getGardenerXpToNextLevel(totalXp) {
+    if (totalXp >= 500) return 0; // Maxed out
+    if (totalXp >= 150) return 500 - 150; // Pro → Master
+    if (totalXp >= 50) return 150 - 50; // Growing → Pro
+    return 50; // Beginner → Growing
+}
 function HomePage() {
     _s();
     const [showLanding, setShowLanding] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
@@ -3840,12 +4017,27 @@ function HomePage() {
     if (showLanding) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$landing$2d$page$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LandingPage"], {
             onStartGarden: ()=>setShowLanding(false),
-            onAddHobby: ()=>setShowLanding(false),
+            onAddHobby: (hobbyName)=>{
+                setHobbies((prev)=>[
+                        ...prev,
+                        {
+                            id: "".concat(Date.now(), "_").concat(Math.floor(Math.random() * 100000)),
+                            name: hobbyName,
+                            level: "Seed",
+                            streak: 0,
+                            xp: 0,
+                            maxXp: 100,
+                            waterLevel: 50,
+                            careActions: 0
+                        }
+                    ]);
+                setShowLanding(false);
+            },
             darkMode: darkMode,
             onToggleDarkMode: ()=>setDarkMode(!darkMode)
         }, void 0, false, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 126,
+            lineNumber: 138,
             columnNumber: 7
         }, this);
     }
@@ -3861,7 +4053,35 @@ function HomePage() {
                 gardenerName: gardenerProfile.name
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 137,
+                lineNumber: 164,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex justify-end max-w-7xl mx-auto px-4 mt-2",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                    variant: "outline",
+                    className: "gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100",
+                    onClick: ()=>setShowLanding(true),
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            role: "img",
+                            "aria-label": "Home",
+                            children: "🏡"
+                        }, void 0, false, {
+                            fileName: "[project]/app/page.tsx",
+                            lineNumber: 178,
+                            columnNumber: 11
+                        }, this),
+                        " Back to Home"
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/page.tsx",
+                    lineNumber: 173,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/app/page.tsx",
+                lineNumber: 172,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -3883,24 +4103,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplets$3e$__["Droplets"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 156,
+                                lineNumber: 192,
                                 columnNumber: 15
                             }, this),
                             " Plant Cared!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 155,
+                        lineNumber: 191,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 149,
+                    lineNumber: 185,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 147,
+                lineNumber: 183,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -3920,24 +4140,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__["Star"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 172,
+                                lineNumber: 208,
                                 columnNumber: 15
                             }, this),
                             " LEVEL UP!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 171,
+                        lineNumber: 207,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 165,
+                    lineNumber: 201,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 163,
+                lineNumber: 199,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -3954,16 +4174,17 @@ function HomePage() {
                                     onCompleteTask: handleCompleteTask
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 183,
+                                    lineNumber: 219,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$progress$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ProgressCard"], {
                                     totalXp: totalXp,
-                                    currentLevel: getOverallLevel(),
-                                    xpToNextLevel: 100
+                                    currentLevel: gardenerProfile.level,
+                                    xpToNextLevel: getGardenerXpToNextLevel(totalXp),
+                                    xpInLevel: getGardenerXpInLevel(totalXp)
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 189,
+                                    lineNumber: 225,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -3991,20 +4212,20 @@ function HomePage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {}, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 216,
+                                            lineNumber: 252,
                                             columnNumber: 15
                                         }, this),
                                         " Generate Tasks"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 195,
+                                    lineNumber: 231,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 182,
+                            lineNumber: 218,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4014,26 +4235,29 @@ function HomePage() {
                                     setSelectedHobby(hobby);
                                     setShowHobbyModal(true);
                                 },
-                                onAddHobby: ()=>setShowAddHobbyModal(true)
+                                onAddHobby: ()=>setShowAddHobbyModal(true),
+                                onRemoveHobby: (hobbyId)=>{
+                                    setHobbies((prev)=>prev.filter((h)=>h.id !== hobbyId));
+                                }
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 222,
+                                lineNumber: 258,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 221,
+                            lineNumber: 257,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 179,
+                    lineNumber: 215,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 178,
+                lineNumber: 214,
                 columnNumber: 7
             }, this),
             profileModalOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$gardener$2d$profile$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["GardenerProfileModal"], {
@@ -4042,7 +4266,7 @@ function HomePage() {
                 onClose: ()=>setProfileModalOpen(false)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 235,
+                lineNumber: 274,
                 columnNumber: 9
             }, this),
             showHobbyModal && selectedHobby && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HobbyModal"], {
@@ -4053,22 +4277,37 @@ function HomePage() {
                 onGenerateTask: ()=>{}
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 244,
+                lineNumber: 283,
                 columnNumber: 9
             }, this),
             showAddHobbyModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AddHobbyModal"], {
                 open: showAddHobbyModal,
                 onOpenChange: setShowAddHobbyModal,
-                onAddHobby: ()=>{}
+                onAddHobby: (hobbyName)=>{
+                    setHobbies((prev)=>[
+                            ...prev,
+                            {
+                                id: "".concat(Date.now(), "_").concat(Math.floor(Math.random() * 100000)),
+                                name: hobbyName,
+                                level: "Seed",
+                                streak: 0,
+                                xp: 0,
+                                maxXp: 100,
+                                waterLevel: 50,
+                                careActions: 0
+                            }
+                        ]);
+                    setShowAddHobbyModal(false);
+                }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 255,
+                lineNumber: 294,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 136,
+        lineNumber: 163,
         columnNumber: 5
     }, this);
 }

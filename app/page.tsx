@@ -23,15 +23,11 @@ import {
 } from "@/lib/types";
 
 // ---- SAME DATA ----
-const initialHobbies: Hobby[] = [
-  { id: "1", name: "Guitar", level: "Seed", streak: 1, xp: 25, maxXp: 100, waterLevel: 60, careActions: 2 },
-  { id: "2", name: "Fitness", level: "Sprout", streak: 3, xp: 150, maxXp: 250, waterLevel: 80, careActions: 5 },
-];
 
-const initialTasks: Task[] = [
-  { id: "t1", hobbyId: "1", title: "Practice chord transitions for 15 minutes", completed: false },
-  { id: "t2", hobbyId: "2", title: "Complete 20 push-ups", completed: false },
-];
+// Start with an empty garden for first-time visitors
+const initialHobbies: Hobby[] = [];
+const initialTasks: Task[] = [];
+
 
 // ---- AI TASKS ----
 const aiTaskTemplates: Record<string, string[]> = {
@@ -39,6 +35,22 @@ const aiTaskTemplates: Record<string, string[]> = {
   Fitness: ["30 jumping jacks", "1 min plank", "15 squats"],
   default: ["Practice 15 mins", "Watch tutorial"],
 };
+
+
+// Gardener XP helpers (define outside of component, after HomePage)
+export function getGardenerXpInLevel(totalXp: number): number {
+  if (totalXp >= 500) return totalXp - 500;
+  if (totalXp >= 150) return totalXp - 150;
+  if (totalXp >= 50) return totalXp - 50;
+  return totalXp;
+}
+
+export function getGardenerXpToNextLevel(totalXp: number): number {
+  if (totalXp >= 500) return 0; // Maxed out
+  if (totalXp >= 150) return 500 - 150; // Pro → Master
+  if (totalXp >= 50) return 150 - 50; // Growing → Pro
+  return 50; // Beginner → Growing
+}
 
 export default function HomePage() {
   const [showLanding, setShowLanding] = useState(true);
@@ -125,7 +137,22 @@ export default function HomePage() {
     return (
       <LandingPage
         onStartGarden={() => setShowLanding(false)}
-        onAddHobby={() => setShowLanding(false)}
+        onAddHobby={(hobbyName) => {
+          setHobbies((prev) => [
+            ...prev,
+            {
+              id: `${Date.now()}_${Math.floor(Math.random() * 100000)}`,
+              name: hobbyName,
+              level: "Seed",
+              streak: 0,
+              xp: 0,
+              maxXp: 100,
+              waterLevel: 50,
+              careActions: 0,
+            },
+          ]);
+          setShowLanding(false);
+        }}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
       />
@@ -142,6 +169,15 @@ export default function HomePage() {
         onOpenProfile={() => setProfileModalOpen(true)}
         gardenerName={gardenerProfile.name}
       />
+      <div className="flex justify-end max-w-7xl mx-auto px-4 mt-2">
+        <Button
+          variant="outline"
+          className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
+          onClick={() => setShowLanding(true)}
+        >
+          <span role="img" aria-label="Home">🏡</span> Back to Home
+        </Button>
+      </div>
 
       {/* 💧 CARE ANIMATION */}
       <AnimatePresence>
@@ -188,10 +224,10 @@ export default function HomePage() {
 
             <ProgressCard
               totalXp={totalXp}
-              currentLevel={getOverallLevel()}
-              xpToNextLevel={100}
+              currentLevel={gardenerProfile.level}
+              xpToNextLevel={getGardenerXpToNextLevel(totalXp)}
+              xpInLevel={getGardenerXpInLevel(totalXp)}
             />
-
             <Button
               className="w-full gap-2"
               onClick={() => {
@@ -226,6 +262,9 @@ export default function HomePage() {
                 setShowHobbyModal(true);
               }}
               onAddHobby={() => setShowAddHobbyModal(true)}
+              onRemoveHobby={(hobbyId) => {
+                setHobbies((prev) => prev.filter((h) => h.id !== hobbyId));
+              }}
             />
           </div>
         </div>
@@ -255,7 +294,22 @@ export default function HomePage() {
         <AddHobbyModal
           open={showAddHobbyModal}
           onOpenChange={setShowAddHobbyModal}
-          onAddHobby={() => {}}
+          onAddHobby={(hobbyName) => {
+            setHobbies((prev) => [
+              ...prev,
+              {
+                id: `${Date.now()}_${Math.floor(Math.random() * 100000)}`,
+                name: hobbyName,
+                level: "Seed",
+                streak: 0,
+                xp: 0,
+                maxXp: 100,
+                waterLevel: 50,
+                careActions: 0,
+              },
+            ]);
+            setShowAddHobbyModal(false);
+          }}
         />
       )}
     </div>

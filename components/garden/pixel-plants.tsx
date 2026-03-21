@@ -50,10 +50,11 @@ function Pixel({
   h: number;
   fill: string;
 }) {
+  // Thinner outline: 0.5px inset instead of 1px
   return (
     <>
       <rect x={x} y={y} width={w} height={h} fill={OUTLINE} />
-      <rect x={x + 1} y={y + 1} width={w - 2} height={h - 2} fill={fill} />
+      <rect x={x + 0.5} y={y + 0.5} width={w - 1} height={h - 1} fill={fill} />
     </>
   );
 }

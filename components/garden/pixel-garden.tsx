@@ -144,10 +144,11 @@ function GardenPlant({
   onClick: () => void;
 }) {
   const stage = levelToPixelStage(hobby.level);
+  const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
-      className="absolute cursor-pointer"
+      className="absolute cursor-pointer group"
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
@@ -162,6 +163,8 @@ function GardenPlant({
       whileHover={{ scale: position.scale + 0.05 }}
       transition={{ type: "spring", stiffness: 200, damping: 15 }}
       onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* shadow */}
       <div className="absolute w-8 h-2 bg-black/30 rounded-full blur-sm bottom-6 left-1/2 -translate-x-1/2" />
@@ -169,6 +172,13 @@ function GardenPlant({
       <div className="w-24 h-32">
         <PixelPlant stage={stage} hobbyName={hobby.name} />
       </div>
+
+      {/* Hobby name below plant on hover */}
+      {hovered && (
+        <div className="absolute left-1/2 top-full mt-0.5 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded shadow z-20 pointer-events-none whitespace-nowrap">
+          {hobby.name}
+        </div>
+      )}
     </motion.div>
   );
 }
@@ -178,13 +188,16 @@ export function PixelGarden({
   hobbies,
   onPlantClick,
   onAddHobby,
+  onRemoveHobby,
 }: {
   hobbies: Hobby[];
   onPlantClick: (h: Hobby) => void;
   onAddHobby: () => void;
+  onRemoveHobby: (hobbyId: string) => void;
 }) {
   const [positionsMap, setPositionsMap] = useState<PositionsMap>({});
   const [timePhase, setTimePhase] = useState<TimePhase>("day");
+  const [shovelMode, setShovelMode] = useState(false);
 
   useEffect(() => {
     const update = () => setTimePhase(getTimePhase());
@@ -233,14 +246,29 @@ export function PixelGarden({
 
   return (
     <Card className="h-full">
-      <CardHeader className="flex justify-between">
+      <CardHeader className="flex justify-between items-center gap-2">
         <CardTitle>🌻 Hobby Garden</CardTitle>
-        <Button onClick={onAddHobby}>
-          <Plus className="w-4 h-4" />
-        </Button>
+        <div className="flex gap-2 items-center">
+          <button
+            onClick={() => setShovelMode((m) => !m)}
+            title={shovelMode ? "Exit Shovel Mode" : "Remove Plant (Shovel Mode)"}
+            className={`rounded-full bg-yellow-400 hover:bg-yellow-500 text-white p-2 shadow transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 flex items-center justify-center ${shovelMode ? 'ring-2 ring-yellow-600' : ''}`}
+            style={{ width: 36, height: 36 }}
+          >
+            <span style={{ fontSize: 20 }} role="img" aria-label="Shovel">🧹</span>
+          </button>
+          <button
+            onClick={onAddHobby}
+            title="Add Hobby"
+            className="rounded-full bg-green-500 hover:bg-green-600 text-white p-2 shadow transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 flex items-center justify-center"
+            style={{ width: 36, height: 36 }}
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+        </div>
       </CardHeader>
 
-      <CardContent className="relative min-h-[400px] overflow-hidden">
+      <CardContent className={`relative min-h-[400px] overflow-hidden ${shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''}`}>
 
         {/* 🌿 BACKGROUND (FIXED) */}
         <div
@@ -286,7 +314,13 @@ export function PixelGarden({
             <GardenPlant
               hobby={h}
               position={positionsMap[h.id] || { x: 50, y: 70, scale: 1 }}
-              onClick={() => onPlantClick(h)}
+              onClick={() => {
+                if (shovelMode) {
+                  onRemoveHobby(h.id);
+                } else {
+                  onPlantClick(h);
+                }
+              }}
             />
           </div>
         ))}

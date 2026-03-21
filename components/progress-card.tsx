@@ -3,40 +3,32 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { PlantLevel, LEVEL_ORDER } from "@/lib/types";
+
+import { GardenerLevel, GARDENER_LEVELS } from "@/lib/types";
 
 interface ProgressCardProps {
   totalXp: number;
-  currentLevel: PlantLevel;
+  currentLevel: GardenerLevel;
   xpToNextLevel: number;
+  xpInLevel: number;
 }
 
-// 🌱 Emojis
-const levelEmojis: Record<PlantLevel, string> = {
-  Seed: "🌱",
-  Sprout: "🌿",
-  Plant: "🌾",
-  Tree: "🌳",
-};
-
-// 🧠 Cleaner titles
-const levelTitles: Record<PlantLevel, string> = {
-  Seed: "Beginner",
-  Sprout: "Growing",
-  Plant: "Skilled",
-  Tree: "Master",
+// Gardener emojis and titles
+const gardenerEmojis: Record<GardenerLevel, string> = {
+  "Beginner Gardener": "🧑‍🌾",
+  "Growing Gardener": "🌱",
+  "Pro Gardener": "🌿",
+  "Master Gardener": "🌳",
 };
 
 export function ProgressCard({
   totalXp,
   currentLevel,
   xpToNextLevel,
+  xpInLevel,
 }: ProgressCardProps) {
-  const currentLevelIndex = LEVEL_ORDER.indexOf(currentLevel);
-  const progressPercentage = Math.min(
-    (totalXp / xpToNextLevel) * 100,
-    100
-  );
+  const currentLevelIndex = GARDENER_LEVELS.findIndex(l => l.level === currentLevel);
+  const progressPercentage = xpToNextLevel === 0 ? 100 : Math.min((xpInLevel / xpToNextLevel) * 100, 100);
 
   return (
     <Card className="glass">
@@ -51,10 +43,9 @@ export function ProgressCard({
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">XP</span>
             <span className="font-medium">
-              {totalXp} / {xpToNextLevel}
+              {xpInLevel} / {xpToNextLevel}
             </span>
           </div>
-
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
@@ -64,47 +55,33 @@ export function ProgressCard({
           </motion.div>
         </div>
 
-        {/* 🌿 CURRENT LEVEL */}
+        {/* 👨‍🌾 CURRENT GARDENER LEVEL */}
         <div className="text-center">
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="text-lg font-semibold"
           >
-            {levelEmojis[currentLevel]} {levelTitles[currentLevel]}
+            {gardenerEmojis[currentLevel]} {currentLevel}
           </motion.div>
         </div>
 
-        {/* 🌱 LEVEL PATH */}
+        {/* 👨‍🌾 GARDENER LEVEL PATH */}
         <div className="flex justify-center gap-3 bg-secondary/50 rounded-xl p-3">
-          {LEVEL_ORDER.map((level, idx) => {
+          {GARDENER_LEVELS.map((l, idx) => {
             const isActive = idx <= currentLevelIndex;
-            const isCurrent = level === currentLevel;
-
+            const isCurrent = l.level === currentLevel;
             return (
               <motion.div
-                key={level}
-                className={`flex flex-col items-center gap-1 ${
-                  isActive ? "" : "opacity-30"
-                }`}
+                key={l.level}
+                className={`flex flex-col items-center gap-1 ${isActive ? "" : "opacity-30"}`}
                 animate={isCurrent ? { scale: [1, 1.15, 1] } : {}}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                <div
-                  className={`p-2 rounded-full ${
-                    isCurrent
-                      ? "bg-green-200 ring-2 ring-green-500"
-                      : isActive
-                      ? "bg-green-100"
-                      : "bg-muted"
-                  }`}
-                >
-                  <span className="text-lg">{levelEmojis[level]}</span>
+                <div className={`p-2 rounded-full ${isCurrent ? "bg-green-200 ring-2 ring-green-500" : isActive ? "bg-green-100" : "bg-muted"}`}>
+                  <span className="text-lg">{gardenerEmojis[l.level]}</span>
                 </div>
-
-                <span className="text-[10px] font-medium">
-                  {levelTitles[level]}
-                </span>
+                <span className="text-[10px] font-medium">{l.level}</span>
               </motion.div>
             );
           })}

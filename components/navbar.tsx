@@ -63,16 +63,7 @@ export function Navbar({
         {/* ⚡ RIGHT */}
         <div className="flex items-center gap-2 sm:gap-4">
 
-          {/* 🌱 LEVEL */}
-          <motion.div
-            className="hidden sm:flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 shadow-sm border border-green-200/30"
-            whileHover={{ scale: 1.05 }}
-          >
-            <span className="text-lg">{levelEmojis[level]}</span>
-            <span className="text-sm font-semibold">
-              {levelTitles[level]}
-            </span>
-          </motion.div>
+          {/* 🌱 LEVEL removed as requested */}
 
           {/* 📱 MOBILE */}
           <div className="flex sm:hidden items-center px-2 py-1 bg-secondary rounded-full">
