@@ -3,19 +3,13 @@
 import { motion } from "framer-motion";
 import { Flame } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Hobby, PlantLevel } from "@/lib/types";
+import { Plant } from "@/components/plant";
+import { Hobby } from "@/lib/types";
 
 interface HobbyCardProps {
   hobby: Hobby;
   onClick: () => void;
 }
-
-const levelEmojis: Record<PlantLevel, string> = {
-  Seed: "🌱",
-  Sprout: "🌿",
-  Plant: "🌾",
-  Tree: "🌳",
-};
 
 export function HobbyCard({ hobby, onClick }: HobbyCardProps) {
   return (
@@ -31,18 +25,8 @@ export function HobbyCard({ hobby, onClick }: HobbyCardProps) {
       >
         <CardContent className="p-4 sm:p-5">
           <div className="flex flex-col items-center text-center gap-3">
-            {/* Emoji Plant */}
-            <motion.span
-              className="text-4xl sm:text-5xl"
-              animate={{ y: [0, -3, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 1,
-              }}
-            >
-              {levelEmojis[hobby.level]}
-            </motion.span>
+            {/* SVG Plant */}
+            <Plant level={hobby.level} size="md" />
 
             {/* Hobby Name */}
             <h3 className="font-semibold text-foreground text-sm sm:text-base">
