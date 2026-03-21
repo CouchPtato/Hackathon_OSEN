@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Target, Flame, ArrowRight } from "lucide-react";
+import { Sparkles, Target, Flame, ArrowRight, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 interface LandingPageProps {
   onStartGarden: () => void;
   onAddHobby: (hobby: string) => void;
+  darkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }
 
-export function LandingPage({ onStartGarden, onAddHobby }: LandingPageProps) {
+export function LandingPage({ onStartGarden, onAddHobby, darkMode = false, onToggleDarkMode }: LandingPageProps) {
   const [hobbyInput, setHobbyInput] = useState("");
 
   const handleAddHobby = () => {
@@ -41,6 +43,27 @@ export function LandingPage({ onStartGarden, onAddHobby }: LandingPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Top navbar with dark mode toggle */}
+      <header className="absolute top-0 left-0 right-0 z-50 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-end">
+          {onToggleDarkMode && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggleDarkMode}
+              className="h-9 w-9"
+            >
+              {darkMode ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+              <span className="sr-only">Toggle dark mode</span>
+            </Button>
+          )}
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden px-4 py-20 sm:py-32">
         {/* Background decorations */}
@@ -78,7 +101,7 @@ export function LandingPage({ onStartGarden, onAddHobby }: LandingPageProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-10"
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button
               onClick={onStartGarden}

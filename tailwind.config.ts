@@ -80,6 +80,15 @@ const config: Config = {
           "50%": { opacity: "1", transform: "scale(1.2) translateY(-10px)" },
           "100%": { opacity: "0", transform: "scale(1) translateY(-20px)" },
         },
+        "water-drop": {
+          "0%": { opacity: "1", transform: "translateY(0) scale(1)" },
+          "100%": { opacity: "0", transform: "translateY(30px) scale(0.5)" },
+        },
+        "bloom": {
+          "0%": { transform: "scale(0) rotate(-180deg)" },
+          "50%": { transform: "scale(1.2) rotate(0deg)" },
+          "100%": { transform: "scale(1) rotate(0deg)" },
+        },
       },
       animation: {
         sway: "sway 3s ease-in-out infinite",
@@ -87,6 +96,8 @@ const config: Config = {
         glow: "glow 0.5s ease-in-out",
         "fade-in-up": "fade-in-up 0.3s ease-out",
         "streak-pop": "streak-pop 1s ease-out forwards",
+        "water-drop": "water-drop 1s ease-out forwards",
+        "bloom": "bloom 0.6s ease-out forwards",
       },
     },
   },

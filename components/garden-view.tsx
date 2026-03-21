@@ -11,12 +11,14 @@ interface GardenViewProps {
   hobbies: Hobby[];
   onPlantClick: (hobby: Hobby) => void;
   onAddHobby: () => void;
+  recentlyCaredHobbyId?: string | null;
 }
 
 export function GardenView({
   hobbies,
   onPlantClick,
   onAddHobby,
+  recentlyCaredHobbyId,
 }: GardenViewProps) {
   return (
     <Card className="h-full min-h-[400px]">
@@ -63,7 +65,11 @@ export function GardenView({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <HobbyCard hobby={hobby} onClick={() => onPlantClick(hobby)} />
+                  <HobbyCard 
+                    hobby={hobby} 
+                    onClick={() => onPlantClick(hobby)} 
+                    recentlyCared={recentlyCaredHobbyId === hobby.id}
+                  />
                 </motion.div>
               ))}
             </motion.div>
