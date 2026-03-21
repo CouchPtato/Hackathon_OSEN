@@ -1,19 +1,42 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Flame, Sprout } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Moon, Sun, Sprout } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PlantLevel } from "@/lib/types";
 
 interface NavbarProps {
-  totalStreak: number;
+  totalXp: number;
+  level: PlantLevel;
+  darkMode: boolean;
+  onToggleDarkMode: () => void;
 }
 
-export function Navbar({ totalStreak }: NavbarProps) {
+const levelEmojis: Record<PlantLevel, string> = {
+  Seed: "🌱",
+  Sprout: "🌿",
+  Plant: "🌾",
+  Tree: "🌳",
+};
+
+const levelTitles: Record<PlantLevel, string> = {
+  Seed: "Beginner Gardener",
+  Sprout: "Growing Gardener",
+  Plant: "Skilled Gardener",
+  Tree: "Master Gardener",
+};
+
+export function Navbar({
+  totalXp,
+  level,
+  darkMode,
+  onToggleDarkMode,
+}: NavbarProps) {
   return (
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="glass sticky top-0 z-50 px-6 py-4"
+      className="glass sticky top-0 z-50 px-4 py-3 sm:px-6"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         {/* Logo */}
@@ -22,31 +45,55 @@ export function Navbar({ totalStreak }: NavbarProps) {
             animate={{ rotate: [0, 10, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
           >
-            <Sprout className="h-7 w-7 text-primary" />
+            <Sprout className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
           </motion.div>
-          <span className="text-xl font-semibold text-foreground">
+          <span className="text-lg font-semibold text-foreground sm:text-xl">
             AI Hobby Garden
           </span>
         </div>
 
-        {/* Right side - Streak + Avatar */}
-        <div className="flex items-center gap-4">
-          {/* Streak Counter */}
+        {/* Right side - Level, XP, Dark Mode */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          {/* Gardener Level */}
           <motion.div
-            className="flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5"
-            whileHover={{ scale: 1.05 }}
+            className="hidden sm:flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5"
+            whileHover={{ scale: 1.02 }}
           >
-            <Flame className="h-5 w-5 text-orange-500" />
-            <span className="font-medium text-foreground">{totalStreak}</span>
+            <span className="text-lg">{levelEmojis[level]}</span>
+            <span className="text-sm font-medium text-foreground">
+              {levelTitles[level]}
+            </span>
           </motion.div>
 
-          {/* Profile Avatar */}
-          <Avatar className="h-9 w-9 border-2 border-primary/30">
-            <AvatarImage src="/placeholder-user.jpg" alt="Profile" />
-            <AvatarFallback className="bg-primary/20 text-primary">
-              JD
-            </AvatarFallback>
-          </Avatar>
+          {/* Mobile level display */}
+          <motion.div
+            className="flex sm:hidden items-center gap-1 rounded-full bg-secondary px-2 py-1"
+            whileHover={{ scale: 1.02 }}
+          >
+            <span className="text-base">{levelEmojis[level]}</span>
+          </motion.div>
+
+          {/* XP Count */}
+          <div className="flex items-center gap-1 rounded-full bg-primary/10 px-2 py-1 sm:px-3 sm:py-1.5">
+            <span className="text-xs font-semibold text-primary sm:text-sm">
+              {totalXp} XP
+            </span>
+          </div>
+
+          {/* Dark Mode Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleDarkMode}
+            className="h-8 w-8 sm:h-9 sm:w-9"
+          >
+            {darkMode ? (
+              <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
+            ) : (
+              <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
+            )}
+            <span className="sr-only">Toggle dark mode</span>
+          </Button>
         </div>
       </div>
     </motion.header>

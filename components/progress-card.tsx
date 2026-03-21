@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sprout, Leaf, TreeDeciduous, Flower2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PlantLevel, LEVEL_ORDER } from "@/lib/types";
@@ -12,11 +11,18 @@ interface ProgressCardProps {
   xpToNextLevel: number;
 }
 
-const levelIcons: Record<PlantLevel, React.ReactNode> = {
-  Seed: <Sprout className="h-5 w-5" />,
-  Sprout: <Leaf className="h-5 w-5" />,
-  Plant: <Flower2 className="h-5 w-5" />,
-  Tree: <TreeDeciduous className="h-5 w-5" />,
+const levelEmojis: Record<PlantLevel, string> = {
+  Seed: "🌱",
+  Sprout: "🌿",
+  Plant: "🌾",
+  Tree: "🌳",
+};
+
+const levelTitles: Record<PlantLevel, string> = {
+  Seed: "Beginner Gardener",
+  Sprout: "Growing Gardener",
+  Plant: "Skilled Gardener",
+  Tree: "Pro Gardener",
 };
 
 export function ProgressCard({
@@ -50,9 +56,16 @@ export function ProgressCard({
           </motion.div>
         </div>
 
+        {/* Level Title */}
+        <div className="text-center">
+          <span className="text-sm text-muted-foreground">
+            {levelTitles[currentLevel]}
+          </span>
+        </div>
+
         {/* Level Display */}
-        <div className="flex items-center gap-2 rounded-xl bg-secondary/50 p-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center gap-2 rounded-xl bg-secondary/50 p-3">
+          <div className="flex items-center gap-4">
             {LEVEL_ORDER.map((level, idx) => {
               const isActive = idx <= currentLevelIndex;
               const isCurrent = level === currentLevel;
@@ -61,7 +74,7 @@ export function ProgressCard({
                 <motion.div
                   key={level}
                   className={`flex flex-col items-center gap-1 ${
-                    isActive ? "text-primary" : "text-muted-foreground/40"
+                    isActive ? "" : "opacity-40"
                   }`}
                   animate={isCurrent ? { scale: [1, 1.1, 1] } : {}}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -75,9 +88,9 @@ export function ProgressCard({
                           : "bg-muted"
                     }`}
                   >
-                    {levelIcons[level]}
+                    <span className="text-xl">{levelEmojis[level]}</span>
                   </div>
-                  <span className="text-xs font-medium">{level}</span>
+                  <span className="text-xs font-medium text-foreground">{level}</span>
                 </motion.div>
               );
             })}

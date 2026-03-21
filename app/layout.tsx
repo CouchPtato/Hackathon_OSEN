@@ -10,7 +10,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "AI Hobby Garden",
   description:
-    "Grow your hobbies like a garden - track progress, complete tasks, and watch your skills flourish",
+    "Grow your hobbies like a garden - AI guides you, your garden grows with your consistency",
 };
 
 export const viewport: Viewport = {
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable} font-sans`}>{children}</body>
     </html>
   );

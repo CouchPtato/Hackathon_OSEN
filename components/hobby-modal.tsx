@@ -1,30 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Flame, Sprout, Leaf, Flower2, TreeDeciduous } from "lucide-react";
+import { Flame, Sparkles } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Hobby, PlantLevel, LEVEL_ORDER, LEVEL_XP_THRESHOLDS } from "@/lib/types";
+import { Hobby, PlantLevel } from "@/lib/types";
 
 interface HobbyModalProps {
   hobby: Hobby | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onCompleteTask: (hobbyId: string) => void;
+  onGenerateTask: (hobbyId: string) => void;
 }
 
-const levelIcons: Record<PlantLevel, React.ReactNode> = {
-  Seed: <Sprout className="h-8 w-8" />,
-  Sprout: <Leaf className="h-8 w-8" />,
-  Plant: <Flower2 className="h-8 w-8" />,
-  Tree: <TreeDeciduous className="h-8 w-8" />,
+const levelEmojis: Record<PlantLevel, string> = {
+  Seed: "🌱",
+  Sprout: "🌿",
+  Plant: "🌾",
+  Tree: "🌳",
 };
 
 export function HobbyModal({
@@ -32,105 +31,73 @@ export function HobbyModal({
   open,
   onOpenChange,
   onCompleteTask,
+  onGenerateTask,
 }: HobbyModalProps) {
   if (!hobby) return null;
-
-  const progressPercentage = Math.min(
-    (hobby.xp / LEVEL_XP_THRESHOLDS[hobby.level]) * 100,
-    100
-  );
-  const levelIndex = LEVEL_ORDER.indexOf(hobby.level);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 text-xl">
-            <motion.div
-              className="text-primary"
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
-            >
-              {levelIcons[hobby.level]}
-            </motion.div>
-            {hobby.name}
-          </DialogTitle>
-          <DialogDescription>
-            Keep nurturing your hobby to watch it grow!
-          </DialogDescription>
+        <DialogHeader className="sr-only">
+          <DialogTitle>{hobby.name}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          {/* Level & Streak Row */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Level:</span>
-              <span className="font-semibold text-primary">{hobby.level}</span>
-            </div>
-            <div className="flex items-center gap-1.5 rounded-full bg-orange-100 px-3 py-1">
-              <Flame className="h-4 w-4 text-orange-500" />
-              <span className="font-medium text-orange-700">
-                {hobby.streak} day streak
-              </span>
-            </div>
-          </div>
-
-          {/* XP Progress */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">XP Progress</span>
-              <span className="font-medium">
-                {hobby.xp} / {LEVEL_XP_THRESHOLDS[hobby.level]} XP
-              </span>
-            </div>
-            <Progress value={progressPercentage} />
-            {levelIndex < LEVEL_ORDER.length - 1 && (
-              <p className="text-xs text-muted-foreground">
-                Next level: {LEVEL_ORDER[levelIndex + 1]}
-              </p>
-            )}
-          </div>
-
-          {/* Level progression visual */}
-          <div className="flex items-center justify-between rounded-xl bg-secondary/50 p-3">
-            {LEVEL_ORDER.map((level, idx) => {
-              const isActive = idx <= levelIndex;
-              const isCurrent = level === hobby.level;
-
-              return (
-                <div
-                  key={level}
-                  className={`flex flex-col items-center gap-1 ${
-                    isActive ? "text-primary" : "text-muted-foreground/40"
-                  }`}
-                >
-                  <div
-                    className={`rounded-full p-1.5 ${
-                      isCurrent
-                        ? "bg-primary/20 ring-2 ring-primary"
-                        : isActive
-                          ? "bg-primary/10"
-                          : "bg-muted"
-                    }`}
-                  >
-                    {levelIcons[level]}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Complete Task Button */}
-          <Button
-            onClick={() => {
-              onCompleteTask(hobby.id);
-              onOpenChange(false);
-            }}
-            className="w-full"
-            size="lg"
+        <div className="flex flex-col items-center py-6 space-y-6">
+          {/* Big Emoji Plant */}
+          <motion.div
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            className="text-8xl"
           >
-            Complete Task (+25 XP)
-          </Button>
+            <motion.span
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              {levelEmojis[hobby.level]}
+            </motion.span>
+          </motion.div>
+
+          {/* Hobby Name */}
+          <h2 className="text-2xl font-bold text-foreground">{hobby.name}</h2>
+
+          {/* Streak Count */}
+          <div className="flex items-center gap-2 rounded-full bg-orange-100 dark:bg-orange-900/30 px-4 py-2">
+            <Flame className="h-5 w-5 text-orange-500" />
+            <span className="font-semibold text-orange-700 dark:text-orange-400">
+              {hobby.streak} day streak
+            </span>
+          </div>
+
+          {/* Level Badge */}
+          <div className="text-sm text-muted-foreground">
+            Level: <span className="font-medium text-primary">{hobby.level}</span>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col gap-3 w-full mt-4">
+            <Button
+              onClick={() => {
+                onCompleteTask(hobby.id);
+                onOpenChange(false);
+              }}
+              size="lg"
+              className="w-full"
+            >
+              Complete Task
+            </Button>
+            <Button
+              onClick={() => {
+                onGenerateTask(hobby.id);
+                onOpenChange(false);
+              }}
+              variant="outline"
+              size="lg"
+              className="w-full gap-2"
+            >
+              <Sparkles className="h-4 w-4" />
+              Generate Task
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
