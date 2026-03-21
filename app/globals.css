@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light mode - Soft pastel green and beige palette */
+  --background: 45 30% 96%;
+  --foreground: 140 25% 20%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 140 25% 20%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 140 25% 20%;
+
+  --primary: 142 45% 45%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 45 35% 90%;
+  --secondary-foreground: 140 25% 20%;
+
+  --muted: 45 20% 92%;
+  --muted-foreground: 140 15% 45%;
+
+  --accent: 142 35% 85%;
+  --accent-foreground: 140 25% 20%;
+
+  --destructive: 0 65% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 142 20% 85%;
+  --input: 142 20% 85%;
+  --ring: 142 45% 45%;
+
+  --garden: 142 40% 35%;
+  --garden-light: 142 50% 75%;
+  --garden-dark: 142 35% 25%;
+
+  --radius: 1rem;
+}
+
+.dark {
+  /* Dark mode */
+  --background: 160 20% 8%;
+  --foreground: 142 20% 90%;
+
+  --card: 160 15% 12%;
+  --card-foreground: 142 20% 90%;
+
+  --popover: 160 15% 12%;
+  --popover-foreground: 142 20% 90%;
+
+  --primary: 142 50% 50%;
+  --primary-foreground: 160 20% 8%;
+
+  --secondary: 160 15% 18%;
+  --secondary-foreground: 142 20% 90%;
+
+  --muted: 160 15% 20%;
+  --muted-foreground: 142 15% 60%;
+
+  --accent: 142 30% 25%;
+  --accent-foreground: 142 20% 90%;
+
+  --destructive: 0 65% 45%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 160 15% 20%;
+  --input: 160 15% 20%;
+  --ring: 142 50% 50%;
+
+  --garden: 142 45% 45%;
+  --garden-light: 142 40% 30%;
+  --garden-dark: 142 35% 20%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Glassmorphism utility */
+.glass {
+  @apply bg-card/70 backdrop-blur-md border border-border/50 shadow-lg;
+}
+
+.dark .glass {
+  @apply bg-card/80 backdrop-blur-md border border-border/30;
+}
+
+/* Garden ground gradient */
+.garden-ground {
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--garden-light) / 0.3) 0%,
+    hsl(var(--garden) / 0.2) 100%
+  );
+}
+
+/* Garden pattern */
+.garden-pattern {
+  background-image: radial-gradient(
+      circle at 20% 80%,
+      hsl(var(--garden-light) / 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      hsl(var(--secondary) / 0.2) 0%,
+      transparent 40%
+    );
+}
