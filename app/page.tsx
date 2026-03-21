@@ -7,7 +7,7 @@ import { LandingPage } from "@/components/landing-page";
 import { Navbar } from "@/components/navbar";
 import { TodaysTasks } from "@/components/todays-tasks";
 import { ProgressCard } from "@/components/progress-card";
-import { GardenView } from "@/components/garden-view";
+import { PixelGarden } from "@/components/garden/pixel-garden";
 import { HobbyModal } from "@/components/hobby-modal";
 import { AddHobbyModal } from "@/components/add-hobby-modal";
 import { GardenerProfileModal } from "@/components/gardener-profile";
@@ -468,7 +468,7 @@ export default function HomePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <GardenView
+            <PixelGarden
               hobbies={hobbies}
               onPlantClick={handlePlantClick}
               onAddHobby={() => setAddHobbyModalOpen(true)}

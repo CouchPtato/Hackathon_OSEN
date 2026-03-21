@@ -145,3 +145,78 @@
 .soil-texture {
   background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1' fill='%235d3a1a' fill-opacity='0.3'/%3E%3Ccircle cx='12' cy='8' r='1.5' fill='%235d3a1a' fill-opacity='0.2'/%3E%3Ccircle cx='7' cy='15' r='1' fill='%235d3a1a' fill-opacity='0.25'/%3E%3C/svg%3E");
 }
+
+/* Pixel art style utilities */
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Pixel font styling */
+.pixel-text {
+  font-family: monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Pixel border style */
+.pixel-border {
+  border-style: solid;
+  border-width: 4px;
+  border-image: linear-gradient(
+    to bottom right,
+    rgba(255,255,255,0.3) 0%,
+    transparent 50%,
+    rgba(0,0,0,0.2) 100%
+  ) 1;
+}
+
+/* Pixel grass pattern background */
+.pixel-grass {
+  background-color: #5a9b4f;
+  background-image: 
+    linear-gradient(90deg, transparent 0%, rgba(74, 139, 63, 0.2) 50%, transparent 100%),
+    linear-gradient(0deg, #4a8b3f 0%, transparent 30%);
+}
+
+/* Pixel grass pattern with dots */
+.pixel-grass-detailed {
+  background-color: #5a9b4f;
+  background-image: 
+    radial-gradient(circle at 10% 20%, #4a8b3f 1px, transparent 1px),
+    radial-gradient(circle at 30% 60%, #3d6b37 1px, transparent 1px),
+    radial-gradient(circle at 50% 30%, #6bab5f 1px, transparent 1px),
+    radial-gradient(circle at 70% 70%, #4a8b3f 1px, transparent 1px),
+    radial-gradient(circle at 90% 40%, #3d6b37 1px, transparent 1px),
+    linear-gradient(0deg, #4a8b3f 0%, transparent 30%);
+  background-size: 40px 40px, 50px 50px, 60px 60px, 45px 45px, 55px 55px, 100% 100%;
+}
+
+/* Pixel grow animation */
+@keyframes pixel-grow {
+  0% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+.animate-pixel-grow {
+  animation: pixel-grow 0.5s ease-out forwards;
+}
+
+/* Pixel bounce for hover */
+@keyframes pixel-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.hover\:animate-pixel-bounce:hover {
+  animation: pixel-bounce 0.4s ease-in-out;
+}
