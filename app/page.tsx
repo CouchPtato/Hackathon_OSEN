@@ -237,22 +237,30 @@ export default function HomePage() {
   }, []);
 
   // Generate AI task for specific hobby
-  const handleGenerateTaskForHobby = useCallback((hobbyId: string) => {
-    const hobby = hobbies.find((h) => h.id === hobbyId);
-    if (!hobby) return;
+  const handleGenerateTaskForHobby = useCallback(
+    (hobbyId: string) => {
+      setHobbies((currentHobbies) => {
+        const hobby = currentHobbies.find((h) => h.id === hobbyId);
+        if (!hobby) return currentHobbies;
 
-    const templates = aiTaskTemplates[hobby.name] || aiTaskTemplates.default;
-    const randomTask = templates[Math.floor(Math.random() * templates.length)];
+        const templates =
+          aiTaskTemplates[hobby.name] || aiTaskTemplates.default;
+        const randomTask =
+          templates[Math.floor(Math.random() * templates.length)];
 
-    const newTask: Task = {
-      id: `task-${Date.now()}`,
-      hobbyId: hobby.id,
-      title: randomTask,
-      completed: false,
-    };
+        const newTask: Task = {
+          id: `task-${Date.now()}`,
+          hobbyId: hobby.id,
+          title: randomTask,
+          completed: false,
+        };
 
-    setTasks((prev) => [...prev, newTask]);
-  }, [hobbies]);
+        setTasks((prev) => [...prev, newTask]);
+        return currentHobbies;
+      });
+    },
+    []
+  );
 
   // Generate AI tasks for all hobbies
   const handleGenerateAITasks = useCallback(async () => {
