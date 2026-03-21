@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Hobby, PlantLevel } from "@/lib/types";
-import { GrowthStage, getPlantComponent } from "@/components/garden/plant-graphics";
+import { PixelPlant, levelToPixelStage } from "@/components/garden/pixel-plants";
 
 interface HobbyModalProps {
   hobby: Hobby | null;
