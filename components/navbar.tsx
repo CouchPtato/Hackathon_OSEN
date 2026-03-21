@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Moon, Sun, Sprout } from "lucide-react";
+import { Moon, Sun, Sprout, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlantLevel } from "@/lib/types";
 
@@ -10,6 +10,8 @@ interface NavbarProps {
   level: PlantLevel;
   darkMode: boolean;
   onToggleDarkMode: () => void;
+  onOpenProfile?: () => void;
+  gardenerName?: string;
 }
 
 const levelEmojis: Record<PlantLevel, string> = {
@@ -31,6 +33,8 @@ export function Navbar({
   level,
   darkMode,
   onToggleDarkMode,
+  onOpenProfile,
+  gardenerName = "Gardener",
 }: NavbarProps) {
   return (
     <motion.header
@@ -94,6 +98,23 @@ export function Navbar({
             )}
             <span className="sr-only">Toggle dark mode</span>
           </Button>
+
+          {/* Profile Button */}
+          {onOpenProfile && (
+            <motion.button
+              onClick={onOpenProfile}
+              className="flex items-center gap-2 rounded-full bg-secondary px-2 py-1.5 sm:px-3 hover:bg-secondary/80 transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-primary/20 flex items-center justify-center">
+                <User className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+              </div>
+              <span className="hidden sm:inline text-sm font-medium text-foreground">
+                {gardenerName}
+              </span>
+            </motion.button>
+          )}
         </div>
       </div>
     </motion.header>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Sparkles, Loader2, TreeDeciduous } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, Loader2, Droplets } from "lucide-react";
 import { LandingPage } from "@/components/landing-page";
 import { Navbar } from "@/components/navbar";
 import { TodaysTasks } from "@/components/todays-tasks";
@@ -10,7 +10,7 @@ import { ProgressCard } from "@/components/progress-card";
 import { GardenView } from "@/components/garden-view";
 import { HobbyModal } from "@/components/hobby-modal";
 import { AddHobbyModal } from "@/components/add-hobby-modal";
-import { InteractiveGarden } from "@/components/garden/interactive-garden";
+import { GardenerProfileModal } from "@/components/gardener-profile";
 import { Button } from "@/components/ui/button";
 import {
   Hobby,
@@ -18,12 +18,14 @@ import {
   PlantLevel,
   LEVEL_XP_THRESHOLDS,
   getNextLevel,
+  GardenerProfile,
+  getGardenerLevel,
 } from "@/lib/types";
 
 // Initial mock data
 const initialHobbies: Hobby[] = [
-  { id: "1", name: "Guitar", level: "Seed", streak: 1, xp: 25, maxXp: 100 },
-  { id: "2", name: "Fitness", level: "Sprout", streak: 3, xp: 150, maxXp: 250 },
+  { id: "1", name: "Guitar", level: "Seed", streak: 1, xp: 25, maxXp: 100, waterLevel: 60, careActions: 2 },
+  { id: "2", name: "Fitness", level: "Sprout", streak: 3, xp: 150, maxXp: 250, waterLevel: 80, careActions: 5 },
 ];
 
 const initialTasks: Task[] = [
@@ -109,7 +111,6 @@ const aiTaskTemplates: Record<string, string[]> = {
 
 export default function HomePage() {
   const [showLanding, setShowLanding] = useState(true);
-  const [showInteractiveGarden, setShowInteractiveGarden] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [hobbies, setHobbies] = useState<Hobby[]>(initialHobbies);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
@@ -117,6 +118,19 @@ export default function HomePage() {
   const [hobbyModalOpen, setHobbyModalOpen] = useState(false);
   const [addHobbyModalOpen, setAddHobbyModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [recentlyCaredHobbyId, setRecentlyCaredHobbyId] = useState<string | null>(null);
+  const [showCareAnimation, setShowCareAnimation] = useState(false);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+
+  // Gardener profile state
+  const [gardenerProfile, setGardenerProfile] = useState<GardenerProfile>({
+    name: "Gardener",
+    level: "Beginner Gardener",
+    totalXp: 0,
+    totalTasksCompleted: 0,
+    longestStreak: 0,
+    joinDate: new Date(),
+  });
 
   // Apply dark mode class
   useEffect(() => {
@@ -129,6 +143,15 @@ export default function HomePage() {
 
   // Calculate total XP
   const totalXp = hobbies.reduce((sum, h) => sum + h.xp, 0);
+
+  // Update gardener profile when XP changes
+  useEffect(() => {
+    setGardenerProfile(prev => ({
+      ...prev,
+      totalXp,
+      level: getGardenerLevel(totalXp),
+    }));
+  }, [totalXp]);
 
   // Determine overall level based on total XP
   const getOverallLevel = (): PlantLevel => {
@@ -145,7 +168,34 @@ export default function HomePage() {
     return LEVEL_XP_THRESHOLDS[nextLevel];
   };
 
-  // Handle task completion
+  // Automatic plant care when task is completed
+  const performPlantCare = useCallback((hobbyId: string) => {
+    setHobbies((prev) =>
+      prev.map((h) => {
+        if (h.id === hobbyId) {
+          const newWaterLevel = Math.min(100, (h.waterLevel || 50) + 20);
+          const newCareActions = (h.careActions || 0) + 1;
+          return {
+            ...h,
+            waterLevel: newWaterLevel,
+            careActions: newCareActions,
+            lastCaredAt: new Date(),
+          };
+        }
+        return h;
+      })
+    );
+
+    // Show care animation
+    setRecentlyCaredHobbyId(hobbyId);
+    setShowCareAnimation(true);
+    setTimeout(() => {
+      setShowCareAnimation(false);
+      setRecentlyCaredHobbyId(null);
+    }, 2000);
+  }, []);
+
+  // Handle task completion - now includes automatic plant care
   const handleCompleteTask = useCallback(
     (taskId: string) => {
       setTasks((prev) =>
@@ -154,6 +204,7 @@ export default function HomePage() {
 
       const task = tasks.find((t) => t.id === taskId);
       if (task) {
+        // Award XP and level up
         setHobbies((prev) =>
           prev.map((h) => {
             if (h.id === task.hobbyId) {
@@ -179,9 +230,23 @@ export default function HomePage() {
             return h;
           })
         );
+
+        // Automatic plant care
+        performPlantCare(task.hobbyId);
+
+        // Update gardener profile
+        setGardenerProfile(prev => {
+          const hobby = hobbies.find(h => h.id === task.hobbyId);
+          const newLongestStreak = hobby ? Math.max(prev.longestStreak, hobby.streak + 1) : prev.longestStreak;
+          return {
+            ...prev,
+            totalTasksCompleted: prev.totalTasksCompleted + 1,
+            longestStreak: newLongestStreak,
+          };
+        });
       }
     },
-    [tasks]
+    [tasks, performPlantCare, hobbies]
   );
 
   // Handle completing task from hobby modal
@@ -219,9 +284,18 @@ export default function HomePage() {
             return h;
           })
         );
+
+        // Automatic plant care even without specific task
+        performPlantCare(hobbyId);
+
+        // Update gardener profile
+        setGardenerProfile(prev => ({
+          ...prev,
+          totalTasksCompleted: prev.totalTasksCompleted + 1,
+        }));
       }
     },
-    [tasks, handleCompleteTask]
+    [tasks, handleCompleteTask, performPlantCare]
   );
 
   // Handle adding new hobby
@@ -233,9 +307,16 @@ export default function HomePage() {
       streak: 0,
       xp: 0,
       maxXp: 100,
+      waterLevel: 50,
+      careActions: 0,
     };
     setHobbies((prev) => [...prev, newHobby]);
     setShowLanding(false);
+  }, []);
+
+  // Update gardener profile name
+  const handleUpdateGardenerName = useCallback((name: string) => {
+    setGardenerProfile(prev => ({ ...prev, name }));
   }, []);
 
   // Generate AI task for specific hobby
@@ -302,19 +383,8 @@ export default function HomePage() {
       <LandingPage
         onStartGarden={() => setShowLanding(false)}
         onAddHobby={handleAddHobby}
-        onOpenInteractiveGarden={() => {
-          setShowLanding(false);
-          setShowInteractiveGarden(true);
-        }}
-      />
-    );
-  }
-
-  // Show interactive garden
-  if (showInteractiveGarden) {
-    return (
-      <InteractiveGarden
-        onBackToHome={() => setShowInteractiveGarden(false)}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode(!darkMode)}
       />
     );
   }
@@ -326,7 +396,31 @@ export default function HomePage() {
         level={getOverallLevel()}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
+        onOpenProfile={() => setProfileModalOpen(true)}
+        gardenerName={gardenerProfile.name}
       />
+
+      {/* Care animation overlay */}
+      <AnimatePresence>
+        {showCareAnimation && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 pointer-events-none z-40 flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0, y: -50 }}
+              className="bg-sky-500/90 text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg"
+            >
+              <Droplets className="h-5 w-5" />
+              <span className="font-medium">Plant Cared!</span>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
@@ -366,16 +460,6 @@ export default function HomePage() {
                 </>
               )}
             </Button>
-
-            <Button
-              onClick={() => setShowInteractiveGarden(true)}
-              variant="outline"
-              className="w-full gap-2"
-              size="lg"
-            >
-              <TreeDeciduous className="h-4 w-4" />
-              Interactive Garden
-            </Button>
           </motion.div>
 
           {/* Right Column - Garden View */}
@@ -388,6 +472,7 @@ export default function HomePage() {
               hobbies={hobbies}
               onPlantClick={handlePlantClick}
               onAddHobby={() => setAddHobbyModalOpen(true)}
+              recentlyCaredHobbyId={recentlyCaredHobbyId}
             />
           </motion.div>
         </div>
@@ -407,6 +492,15 @@ export default function HomePage() {
         onOpenChange={setAddHobbyModalOpen}
         onAddHobby={handleAddHobby}
       />
+
+      {/* Gardener Profile Modal */}
+      {profileModalOpen && (
+        <GardenerProfileModal
+          profile={gardenerProfile}
+          onUpdateName={handleUpdateGardenerName}
+          onClose={() => setProfileModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
