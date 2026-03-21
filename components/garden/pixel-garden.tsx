@@ -8,6 +8,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Hobby } from "@/lib/types";
 import { PixelPlant, levelToPixelStage } from "./pixel-plants";
 
+// ---------- TYPES ----------
+type Position = {
+  x: number;
+  y: number;
+  scale: number;
+};
+
+type PositionsMap = Record<string, Position>;
+
 // ---------- RANDOM ----------
 const rand = (min: number, max: number) =>
   Math.random() * (max - min) + min;
@@ -25,51 +34,64 @@ function getTimePhase(): TimePhase {
 }
 
 // ---------- 🐝 SMART BEE ----------
-function Bee({ hobbies, positionsMap }: any) {
-  const [pos, setPos] = useState({ x: 50, y: 30 });
+function Bee({
+  hobbies,
+  positionsMap,
+}: {
+  hobbies: Hobby[];
+  positionsMap: PositionsMap;
+}) {
+  const [pos, setPos] = useState<{ x: number; y: number }>({
+    x: 50,
+    y: 30,
+  });
   const [direction, setDirection] = useState(1);
 
   const pickTarget = () => {
     if (!hobbies.length) return null;
 
-    const flowering = hobbies.filter((h: any) => h.level === "Tree");
-    let pool = flowering.length ? flowering : hobbies;
+    const flowering = hobbies.filter((h) => h.level === "Tree");
+    const pool = (flowering.length ? flowering : hobbies).sort(
+      (a, b) => b.xp - a.xp
+    );
 
-    pool = [...pool].sort((a, b) => b.xp - a.xp);
     return pool[Math.floor(Math.random() * Math.min(3, pool.length))];
   };
 
   useEffect(() => {
-    let timeout: any;
+    let timeout: NodeJS.Timeout;
 
     const move = () => {
-      const target = pickTarget();
+      setPos((prev) => {
+        const target = pickTarget();
 
-      if (target && positionsMap[target.id]) {
-        const t = positionsMap[target.id];
+        let newX = prev.x;
+        let newY = prev.y;
 
-        const newX = t.x + rand(-5, 5);
-        const newY = t.y - 10 + rand(-5, 5);
+        if (target && positionsMap[target.id]) {
+          const t = positionsMap[target.id];
+          newX = t.x + rand(-5, 5);
+          newY = t.y - 10 + rand(-5, 5);
+        } else {
+          newX = prev.x + rand(-10, 10);
+          newY = prev.y + rand(-10, 10);
+        }
 
-        setDirection(newX > pos.x ? 1 : -1);
+        newX = Math.max(5, Math.min(95, newX));
+        newY = Math.max(10, Math.min(80, newY));
 
-        setPos({
-          x: Math.max(5, Math.min(95, newX)),
-          y: Math.max(10, Math.min(80, newY)),
-        });
-      } else {
-        setPos((prev) => ({
-          x: Math.max(5, Math.min(95, prev.x + rand(-10, 10))),
-          y: Math.max(10, Math.min(70, prev.y + rand(-10, 10))),
-        }));
-      }
+        // update direction safely
+        setDirection(newX > prev.x ? 1 : -1);
+
+        return { x: newX, y: newY };
+      });
 
       timeout = setTimeout(move, 2000 + Math.random() * 2000);
     };
 
     move();
     return () => clearTimeout(timeout);
-  }, [hobbies, positionsMap]);
+  }, [hobbies, positionsMap]); // ✅ NO pos here
 
   return (
     <motion.div
@@ -87,7 +109,7 @@ function Bee({ hobbies, positionsMap }: any) {
       >
         <img
           src="/sprites/bee.png"
-          className="w-6 h-6"
+          className="w-16 h-16"
           style={{ imageRendering: "pixelated" }}
         />
       </motion.div>
@@ -95,7 +117,13 @@ function Bee({ hobbies, positionsMap }: any) {
   );
 }
 
-function Bees({ hobbies, positionsMap }: any) {
+function Bees({
+  hobbies,
+  positionsMap,
+}: {
+  hobbies: Hobby[];
+  positionsMap: PositionsMap;
+}) {
   return (
     <>
       <Bee hobbies={hobbies} positionsMap={positionsMap} />
@@ -106,7 +134,15 @@ function Bees({ hobbies, positionsMap }: any) {
 }
 
 // ---------- 🌱 PLANT ----------
-function GardenPlant({ hobby, position, onClick }: any) {
+function GardenPlant({
+  hobby,
+  position,
+  onClick,
+}: {
+  hobby: Hobby;
+  position: Position;
+  onClick: () => void;
+}) {
   const stage = levelToPixelStage(hobby.level);
 
   return (
@@ -128,9 +164,9 @@ function GardenPlant({ hobby, position, onClick }: any) {
       onClick={onClick}
     >
       {/* shadow */}
-      <div className="absolute w-8 h-2 bg-black/30 rounded-full blur-sm bottom-0 left-1/2 -translate-x-1/2" />
+      <div className="absolute w-8 h-2 bg-black/30 rounded-full blur-sm bottom-6 left-1/2 -translate-x-1/2" />
 
-      <div className="w-12 h-16">
+      <div className="w-24 h-32">
         <PixelPlant stage={stage} hobbyName={hobby.name} />
       </div>
     </motion.div>
@@ -142,8 +178,12 @@ export function PixelGarden({
   hobbies,
   onPlantClick,
   onAddHobby,
-}: any) {
-  const [positionsMap, setPositionsMap] = useState<any>({});
+}: {
+  hobbies: Hobby[];
+  onPlantClick: (h: Hobby) => void;
+  onAddHobby: () => void;
+}) {
+  const [positionsMap, setPositionsMap] = useState<PositionsMap>({});
   const [timePhase, setTimePhase] = useState<TimePhase>("day");
 
   useEffect(() => {
@@ -153,16 +193,16 @@ export function PixelGarden({
     return () => clearInterval(interval);
   }, []);
 
-  // ---------- NON-OVERLAP PLACEMENT ----------
+  // ---------- NON-OVERLAP LOGIC ----------
   useEffect(() => {
-    setPositionsMap((prev: any) => {
-      const updated = { ...prev };
-      const placed: any[] = [];
+    setPositionsMap((prev) => {
+      const updated: PositionsMap = { ...prev };
+      const placed: Position[] = [];
 
-      hobbies.forEach((h: Hobby) => {
+      hobbies.forEach((h) => {
         if (!updated[h.id]) {
           let tries = 0;
-          let pos;
+          let pos: Position;
 
           do {
             pos = {
@@ -170,7 +210,6 @@ export function PixelGarden({
               y: rand(55, 85),
               scale: rand(0.8, 1),
             };
-
             tries++;
           } while (
             placed.some(
@@ -202,9 +241,10 @@ export function PixelGarden({
       </CardHeader>
 
       <CardContent className="relative min-h-[400px] overflow-hidden">
-        {/* 🌿 BACKGROUND */}
+
+        {/* 🌿 BACKGROUND (FIXED) */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage: "url('/tiles/grass.jpg')",
             backgroundRepeat: "repeat",
@@ -213,7 +253,7 @@ export function PixelGarden({
           }}
         />
 
-        {/* 🌙 TIME */}
+        {/* 🌙 TIME OVERLAY (SAFE) */}
         <div
           className={`absolute inset-0 pointer-events-none ${
             timePhase === "dawn"
@@ -228,31 +268,28 @@ export function PixelGarden({
           }`}
         />
 
-        {/* 🐝 BEES */}
+        {/* 🐝 BEES (already safe) */}
         {timePhase !== "night" && (
           <Bees hobbies={hobbies} positionsMap={positionsMap} />
         )}
 
         {/* 🌱 EMPTY */}
         {hobbies.length === 0 && (
-          <div className="absolute inset-0 flex items-center justify-center text-white">
+          <div className="absolute inset-0 flex items-center justify-center text-white pointer-events-none">
             🌱 Start planting your hobbies
           </div>
         )}
 
-        {/* 🌱 PLANTS */}
-        {hobbies.map((h: Hobby) => {
-          const pos = positionsMap[h.id] || { x: 50, y: 70, scale: 1 };
-
-          return (
+        {/* 🌱 PLANTS (FORCE CLICKABLE) */}
+        {hobbies.map((h) => (
+          <div key={h.id} className="pointer-events-auto">
             <GardenPlant
-              key={h.id}
               hobby={h}
-              position={pos}
+              position={positionsMap[h.id] || { x: 50, y: 70, scale: 1 }}
               onClick={() => onPlantClick(h)}
             />
-          );
-        })}
+          </div>
+        ))}
       </CardContent>
     </Card>
   );

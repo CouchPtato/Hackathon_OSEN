@@ -1477,587 +1477,529 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$mo
 "use client";
 ;
 ;
-// Helper to get colors based on hobby type
-function getHobbyColors(hobbyName) {
-    const name = hobbyName.toLowerCase();
-    if (name.includes("guitar") || name.includes("music")) {
-        return {
-            primary: "#e6c95a",
-            secondary: "#c4a742",
-            accent: "#8b5a2b",
-            flower: "#ffd700"
-        };
-    }
-    if (name.includes("fitness") || name.includes("exercise") || name.includes("gym")) {
-        return {
-            primary: "#ff6b6b",
-            secondary: "#ee5a5a",
-            accent: "#c45a3a",
-            flower: "#ff4757"
-        };
-    }
-    if (name.includes("paint") || name.includes("art") || name.includes("draw")) {
-        return {
-            primary: "#a29bfe",
-            secondary: "#6c5ce7",
-            accent: "#5f27cd",
-            flower: "#ff6b81"
-        };
-    }
-    if (name.includes("read") || name.includes("book")) {
-        return {
-            primary: "#81c784",
-            secondary: "#66bb6a",
-            accent: "#8d6e63",
-            flower: "#fff9c4"
-        };
-    }
-    if (name.includes("cook") || name.includes("bak")) {
-        return {
-            primary: "#ff7043",
-            secondary: "#ff5722",
-            accent: "#bf360c",
-            flower: "#ffcc80"
-        };
-    }
-    if (name.includes("photo") || name.includes("camera")) {
-        return {
-            primary: "#ffc107",
-            secondary: "#ff9800",
-            accent: "#5d4037",
-            flower: "#ffeb3b"
-        };
-    }
-    if (name.includes("writ") || name.includes("journal")) {
-        return {
-            primary: "#7986cb",
-            secondary: "#5c6bc0",
-            accent: "#3f51b5",
-            flower: "#e8eaf6"
-        };
-    }
-    if (name.includes("garden") || name.includes("plant")) {
-        return {
-            primary: "#66bb6a",
-            secondary: "#4caf50",
-            accent: "#2e7d32",
-            flower: "#e91e63"
-        };
-    }
-    if (name.includes("yoga") || name.includes("meditat")) {
-        return {
-            primary: "#80deea",
-            secondary: "#4dd0e1",
-            accent: "#00acc1",
-            flower: "#b2ebf2"
-        };
-    }
-    if (name.includes("game") || name.includes("gaming")) {
-        return {
-            primary: "#ba68c8",
-            secondary: "#9c27b0",
-            accent: "#7b1fa2",
-            flower: "#ce93d8"
-        };
-    }
-    // Default green
+const OUTLINE = "#1b1b1b";
+function getColors() {
     return {
-        primary: "#4caf50",
-        secondary: "#388e3c",
-        accent: "#2e7d32",
-        flower: "#ffeb3b"
+        leafLight: "#7ed957",
+        leafMid: "#4caf50",
+        leafDark: "#2e7d32",
+        trunkLight: "#a0522d",
+        trunkDark: "#6b3e1f",
+        flower: "#ffd54f"
     };
+}
+// 🌿 detect type
+function getPlantType(name) {
+    const n = name.toLowerCase();
+    if (n.includes("fitness") || n.includes("gym")) return "cactus";
+    if (n.includes("art") || n.includes("paint")) return "flower";
+    if (n.includes("music") || n.includes("guitar")) return "palm";
+    if (n.includes("read") || n.includes("book")) return "wide";
+    return "default";
 }
 function PixelPlant(param) {
     let { stage, hobbyName, isWatered, className } = param;
-    const colors = getHobbyColors(hobbyName);
-    const stemColor = isWatered ? "#2d5a27" : "#3d6b37";
-    const leafColor = isWatered ? "#4a8b3f" : "#5a9b4f";
-    // Pixel size for the grid
-    const px = 4;
+    const c = getColors();
+    const type = getPlantType(hobbyName);
+    // 🌬 base idle animation
+    const idle = {
+        scale: [
+            1,
+            1.02,
+            1
+        ]
+    };
+    // 🌱 growth animations
+    const growthAnimations = {
+        default: {
+            scaleY: [
+                0.8,
+                1
+            ],
+            opacity: [
+                0.6,
+                1
+            ]
+        },
+        cactus: {
+            scaleY: [
+                0.5,
+                1
+            ],
+            opacity: [
+                0.6,
+                1
+            ]
+        },
+        flower: {
+            scale: [
+                0.6,
+                1
+            ],
+            opacity: [
+                0.5,
+                1
+            ]
+        },
+        palm: {
+            scaleY: [
+                0.7,
+                1
+            ],
+            rotate: [
+                0,
+                1,
+                0
+            ]
+        },
+        wide: {
+            scaleX: [
+                0.6,
+                1
+            ],
+            opacity: [
+                0.5,
+                1
+            ]
+        }
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
         viewBox: "0 0 64 80",
         className: className,
         style: {
             imageRendering: "pixelated"
         },
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: 16,
-                y: 68,
-                width: px * 8,
-                height: px * 2,
-                fill: "#5d3a1a"
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
+                cx: "32",
+                cy: "72",
+                rx: "12",
+                ry: "4",
+                fill: "rgba(0,0,0,0.25)"
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 70,
+                lineNumber: 67,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: 12,
-                y: 72,
-                width: px * 10,
-                height: px * 2,
-                fill: "#6b4423"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 71,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: 20,
-                y: 64,
-                width: px * 6,
-                height: px,
-                fill: "#5d3a1a"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 72,
-                columnNumber: 7
-            }, this),
-            stage === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    opacity: 0
-                },
-                animate: {
-                    opacity: [
-                        0.3,
-                        0.6,
-                        0.3
-                    ]
-                },
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
+                animate: idle,
                 transition: {
-                    duration: 2,
+                    duration: 4,
                     repeat: Infinity
                 },
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                    x: 28,
-                    y: 64,
-                    width: px * 2,
-                    height: px,
-                    fill: "#7d5a3a"
-                }, void 0, false, {
+                style: {
+                    transformOrigin: "bottom center"
+                },
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
+                    initial: "hidden",
+                    animate: "visible",
+                    variants: {
+                        hidden: growthAnimations[type],
+                        visible: {
+                            scale: 1,
+                            scaleX: 1,
+                            scaleY: 1,
+                            opacity: 1,
+                            rotate: 0
+                        }
+                    },
+                    transition: {
+                        duration: 0.6
+                    },
+                    style: {
+                        transformOrigin: "bottom center"
+                    },
+                    children: [
+                        stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 29,
+                                    y: 57,
+                                    width: 6,
+                                    height: 10,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 93,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 27,
+                                    y: 53,
+                                    width: 10,
+                                    height: 6,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 94,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 30,
+                                    y: 58,
+                                    width: 4,
+                                    height: 8,
+                                    fill: c.trunkDark
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 96,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 28,
+                                    y: 54,
+                                    width: 8,
+                                    height: 4,
+                                    fill: c.leafMid
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 97,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true),
+                        stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 29,
+                                    y: 47,
+                                    width: 6,
+                                    height: 14,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 104,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 23,
+                                    y: 47,
+                                    width: 8,
+                                    height: 8,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 105,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 33,
+                                    y: 47,
+                                    width: 8,
+                                    height: 8,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 106,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 30,
+                                    y: 48,
+                                    width: 4,
+                                    height: 12,
+                                    fill: c.trunkDark
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 108,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 24,
+                                    y: 48,
+                                    width: 6,
+                                    height: 6,
+                                    fill: c.leafDark
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 110,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 34,
+                                    y: 48,
+                                    width: 6,
+                                    height: 6,
+                                    fill: c.leafMid
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 111,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 26,
+                                    y: 46,
+                                    width: 4,
+                                    height: 2,
+                                    fill: c.leafLight
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 113,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true),
+                        stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 29,
+                                    y: 35,
+                                    width: 6,
+                                    height: 16,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 120,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 19,
+                                    y: 35,
+                                    width: 12,
+                                    height: 8,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 121,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 33,
+                                    y: 35,
+                                    width: 12,
+                                    height: 8,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 122,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 23,
+                                    y: 29,
+                                    width: 18,
+                                    height: 8,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 123,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 30,
+                                    y: 36,
+                                    width: 4,
+                                    height: 14,
+                                    fill: c.trunkDark
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 125,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 31,
+                                    y: 36,
+                                    width: 2,
+                                    height: 14,
+                                    fill: c.trunkLight
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 126,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 20,
+                                    y: 36,
+                                    width: 10,
+                                    height: 6,
+                                    fill: c.leafDark
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 128,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 34,
+                                    y: 36,
+                                    width: 10,
+                                    height: 6,
+                                    fill: c.leafMid
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 129,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 24,
+                                    y: 30,
+                                    width: 16,
+                                    height: 6,
+                                    fill: c.leafMid
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 131,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 26,
+                                    y: 28,
+                                    width: 12,
+                                    height: 4,
+                                    fill: c.leafLight
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 132,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true),
+                        stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 29,
+                                    y: 21,
+                                    width: 6,
+                                    height: 18,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 139,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 17,
+                                    y: 21,
+                                    width: 30,
+                                    height: 10,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 140,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 21,
+                                    y: 15,
+                                    width: 22,
+                                    height: 10,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 141,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 25,
+                                    y: 11,
+                                    width: 14,
+                                    height: 8,
+                                    fill: OUTLINE
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 142,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 30,
+                                    y: 22,
+                                    width: 4,
+                                    height: 16,
+                                    fill: c.trunkDark
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 144,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 31,
+                                    y: 22,
+                                    width: 2,
+                                    height: 16,
+                                    fill: c.trunkLight
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 145,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 18,
+                                    y: 22,
+                                    width: 28,
+                                    height: 8,
+                                    fill: c.leafDark
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 147,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 22,
+                                    y: 16,
+                                    width: 20,
+                                    height: 8,
+                                    fill: c.leafMid
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 148,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 26,
+                                    y: 12,
+                                    width: 12,
+                                    height: 6,
+                                    fill: c.leafLight
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 149,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 30,
+                                    y: 10,
+                                    width: 4,
+                                    height: 2,
+                                    fill: "#9cff7a"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 151,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                    x: 31,
+                                    y: 8,
+                                    width: 2,
+                                    height: 2,
+                                    fill: c.flower
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden/pixel-plants.tsx",
+                                    lineNumber: 152,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true)
+                    ]
+                }, void 0, true, {
                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                    lineNumber: 81,
-                    columnNumber: 11
+                    lineNumber: 74,
+                    columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 76,
-                columnNumber: 9
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scaleY: 0
-                },
-                animate: {
-                    scaleY: 1
-                },
-                style: {
-                    transformOrigin: "bottom"
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 28,
-                        y: 56,
-                        width: px * 2,
-                        height: px * 3,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 93,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 24,
-                        y: 52,
-                        width: px,
-                        height: px,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 95,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 36,
-                        y: 52,
-                        width: px,
-                        height: px,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 96,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 28,
-                        y: 48,
-                        width: px * 2,
-                        height: px,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 97,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 87,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.2
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 28,
-                        y: 40,
-                        width: px * 2,
-                        height: px * 4,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 109,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 20,
-                        y: 44,
-                        width: px * 2,
-                        height: px,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 111,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 16,
-                        y: 40,
-                        width: px * 2,
-                        height: px * 2,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 112,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 12,
-                        y: 44,
-                        width: px * 2,
-                        height: px,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 113,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 36,
-                        y: 44,
-                        width: px * 2,
-                        height: px,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 115,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 40,
-                        y: 40,
-                        width: px * 2,
-                        height: px * 2,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 116,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 44,
-                        y: 44,
-                        width: px * 2,
-                        height: px,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 117,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 103,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.4
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 28,
-                        y: 28,
-                        width: px * 2,
-                        height: px * 3,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 129,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 20,
-                        y: 32,
-                        width: px * 2,
-                        height: px,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 131,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 36,
-                        y: 32,
-                        width: px * 2,
-                        height: px,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 132,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 12,
-                        y: 28,
-                        width: px * 3,
-                        height: px * 2,
-                        fill: colors.primary
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 134,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 8,
-                        y: 32,
-                        width: px * 2,
-                        height: px,
-                        fill: colors.secondary
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 135,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 40,
-                        y: 28,
-                        width: px * 3,
-                        height: px * 2,
-                        fill: colors.primary
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 136,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 48,
-                        y: 32,
-                        width: px * 2,
-                        height: px,
-                        fill: colors.secondary
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 137,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 24,
-                        y: 24,
-                        width: px * 4,
-                        height: px,
-                        fill: leafColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 139,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 123,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.6,
-                    type: "spring"
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 28,
-                        y: 16,
-                        width: px * 2,
-                        height: px * 3,
-                        fill: stemColor
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 151,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 16,
-                        y: 8,
-                        width: px * 8,
-                        height: px * 4,
-                        fill: colors.primary
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 154,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 12,
-                        y: 12,
-                        width: px * 10,
-                        height: px * 3,
-                        fill: colors.primary
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 155,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 20,
-                        y: 4,
-                        width: px * 6,
-                        height: px * 2,
-                        fill: colors.secondary
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 156,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].rect, {
-                        x: 16,
-                        y: 8,
-                        width: px,
-                        height: px,
-                        fill: colors.flower,
-                        animate: {
-                            opacity: [
-                                0.8,
-                                1,
-                                0.8
-                            ]
-                        },
-                        transition: {
-                            duration: 1.5,
-                            repeat: Infinity
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 159,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].rect, {
-                        x: 40,
-                        y: 12,
-                        width: px,
-                        height: px,
-                        fill: colors.flower,
-                        animate: {
-                            opacity: [
-                                1,
-                                0.8,
-                                1
-                            ]
-                        },
-                        transition: {
-                            duration: 1.5,
-                            repeat: Infinity,
-                            delay: 0.5
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 165,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].rect, {
-                        x: 28,
-                        y: 4,
-                        width: px,
-                        height: px,
-                        fill: colors.flower,
-                        animate: {
-                            opacity: [
-                                0.8,
-                                1,
-                                0.8
-                            ]
-                        },
-                        transition: {
-                            duration: 1.5,
-                            repeat: Infinity,
-                            delay: 0.3
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 171,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 145,
-                columnNumber: 9
+                lineNumber: 69,
+                columnNumber: 7
             }, this),
             isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    opacity: 0
-                },
                 animate: {
                     opacity: [
                         0,
-                        0.8,
+                        1,
                         0
                     ],
                     y: [
                         0,
-                        8,
-                        16
+                        10,
+                        20
                     ]
                 },
                 transition: {
@@ -2068,35 +2010,35 @@ function PixelPlant(param) {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
                         x: 24,
                         y: 20,
-                        width: px,
-                        height: px * 2,
+                        width: 2,
+                        height: 4,
                         fill: "#87ceeb"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 187,
+                        lineNumber: 164,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: 36,
-                        y: 28,
-                        width: px,
-                        height: px * 2,
+                        x: 38,
+                        y: 24,
+                        width: 2,
+                        height: 4,
                         fill: "#87ceeb"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-plants.tsx",
-                        lineNumber: 188,
+                        lineNumber: 165,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 182,
+                lineNumber: 160,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/pixel-plants.tsx",
-        lineNumber: 62,
+        lineNumber: 61,
         columnNumber: 5
     }, this);
 }
@@ -2166,10 +2108,7 @@ function Bee(param) {
     const pickTarget = ()=>{
         if (!hobbies.length) return null;
         const flowering = hobbies.filter((h)=>h.level === "Tree");
-        let pool = flowering.length ? flowering : hobbies;
-        pool = [
-            ...pool
-        ].sort((a, b)=>b.xp - a.xp);
+        const pool = (flowering.length ? flowering : hobbies).sort((a, b)=>b.xp - a.xp);
         return pool[Math.floor(Math.random() * Math.min(3, pool.length))];
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -2177,24 +2116,29 @@ function Bee(param) {
             let timeout;
             const move = {
                 "Bee.useEffect.move": ()=>{
-                    const target = pickTarget();
-                    if (target && positionsMap[target.id]) {
-                        const t = positionsMap[target.id];
-                        const newX = t.x + rand(-5, 5);
-                        const newY = t.y - 10 + rand(-5, 5);
-                        setDirection(newX > pos.x ? 1 : -1);
-                        setPos({
-                            x: Math.max(5, Math.min(95, newX)),
-                            y: Math.max(10, Math.min(80, newY))
-                        });
-                    } else {
-                        setPos({
-                            "Bee.useEffect.move": (prev)=>({
-                                    x: Math.max(5, Math.min(95, prev.x + rand(-10, 10))),
-                                    y: Math.max(10, Math.min(70, prev.y + rand(-10, 10)))
-                                })
-                        }["Bee.useEffect.move"]);
-                    }
+                    setPos({
+                        "Bee.useEffect.move": (prev)=>{
+                            const target = pickTarget();
+                            let newX = prev.x;
+                            let newY = prev.y;
+                            if (target && positionsMap[target.id]) {
+                                const t = positionsMap[target.id];
+                                newX = t.x + rand(-5, 5);
+                                newY = t.y - 10 + rand(-5, 5);
+                            } else {
+                                newX = prev.x + rand(-10, 10);
+                                newY = prev.y + rand(-10, 10);
+                            }
+                            newX = Math.max(5, Math.min(95, newX));
+                            newY = Math.max(10, Math.min(80, newY));
+                            // update direction safely
+                            setDirection(newX > prev.x ? 1 : -1);
+                            return {
+                                x: newX,
+                                y: newY
+                            };
+                        }
+                    }["Bee.useEffect.move"]);
                     timeout = setTimeout(move, 2000 + Math.random() * 2000);
                 }
             }["Bee.useEffect.move"];
@@ -2206,7 +2150,7 @@ function Bee(param) {
     }["Bee.useEffect"], [
         hobbies,
         positionsMap
-    ]);
+    ]); // ✅ NO pos here
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
         className: "absolute pointer-events-none",
         animate: {
@@ -2243,27 +2187,27 @@ function Bee(param) {
             },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                 src: "/sprites/bee.png",
-                className: "w-6 h-6",
+                className: "w-16 h-16",
                 style: {
                     imageRendering: "pixelated"
                 }
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 88,
+                lineNumber: 110,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/components/garden/pixel-garden.tsx",
-            lineNumber: 84,
+            lineNumber: 106,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 75,
+        lineNumber: 97,
         columnNumber: 5
     }, this);
 }
-_s(Bee, "oS4hXbp9zLQF+U7HQmWbttm9Np4=");
+_s(Bee, "hlYvvzCpBIjyIL1f97gcOBhZpDE=");
 _c = Bee;
 function Bees(param) {
     let { hobbies, positionsMap } = param;
@@ -2274,7 +2218,7 @@ function Bees(param) {
                 positionsMap: positionsMap
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 101,
+                lineNumber: 129,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bee, {
@@ -2282,7 +2226,7 @@ function Bees(param) {
                 positionsMap: positionsMap
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 102,
+                lineNumber: 130,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bee, {
@@ -2290,7 +2234,7 @@ function Bees(param) {
                 positionsMap: positionsMap
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 103,
+                lineNumber: 131,
                 columnNumber: 7
             }, this)
         ]
@@ -2328,7 +2272,7 @@ function GardenPlant(param) {
                 className: "absolute w-8 h-2 bg-black/30 rounded-full blur-sm bottom-0 left-1/2 -translate-x-1/2"
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 131,
+                lineNumber: 167,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2338,18 +2282,18 @@ function GardenPlant(param) {
                     hobbyName: hobby.name
                 }, void 0, false, {
                     fileName: "[project]/components/garden/pixel-garden.tsx",
-                    lineNumber: 134,
+                    lineNumber: 170,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 133,
+                lineNumber: 169,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 113,
+        lineNumber: 149,
         columnNumber: 5
     }, this);
 }
@@ -2371,7 +2315,7 @@ function PixelGarden(param) {
             })["PixelGarden.useEffect"];
         }
     }["PixelGarden.useEffect"], []);
-    // ---------- NON-OVERLAP PLACEMENT ----------
+    // ---------- NON-OVERLAP LOGIC ----------
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "PixelGarden.useEffect": ()=>{
             setPositionsMap({
@@ -2419,7 +2363,7 @@ function PixelGarden(param) {
                         children: "🌻 Hobby Garden"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 198,
+                        lineNumber: 237,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2428,18 +2372,18 @@ function PixelGarden(param) {
                             className: "w-4 h-4"
                         }, void 0, false, {
                             fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 200,
+                            lineNumber: 239,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 199,
+                        lineNumber: 238,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 197,
+                lineNumber: 236,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2455,14 +2399,14 @@ function PixelGarden(param) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 206,
+                        lineNumber: 245,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none ".concat(timePhase === "dawn" ? "bg-orange-200/30" : timePhase === "noon" ? "bg-yellow-100/20" : timePhase === "dusk" ? "bg-purple-300/30" : timePhase === "night" ? "bg-indigo-900/60" : "")
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 217,
+                        lineNumber: 256,
                         columnNumber: 9
                     }, this),
                     timePhase !== "night" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bees, {
@@ -2470,7 +2414,7 @@ function PixelGarden(param) {
                         positionsMap: positionsMap
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 233,
+                        lineNumber: 272,
                         columnNumber: 11
                     }, this),
                     hobbies.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2478,35 +2422,32 @@ function PixelGarden(param) {
                         children: "🌱 Start planting your hobbies"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 238,
+                        lineNumber: 277,
                         columnNumber: 11
                     }, this),
-                    hobbies.map((h)=>{
-                        const pos = positionsMap[h.id] || {
-                            x: 50,
-                            y: 70,
-                            scale: 1
-                        };
-                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(GardenPlant, {
+                    hobbies.map((h)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(GardenPlant, {
                             hobby: h,
-                            position: pos,
+                            position: positionsMap[h.id] || {
+                                x: 50,
+                                y: 70,
+                                scale: 1
+                            },
                             onClick: ()=>onPlantClick(h)
                         }, h.id, false, {
                             fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 248,
-                            columnNumber: 13
-                        }, this);
-                    })
+                            lineNumber: 284,
+                            columnNumber: 11
+                        }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 204,
+                lineNumber: 243,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 196,
+        lineNumber: 235,
         columnNumber: 5
     }, this);
 }
@@ -2708,8 +2649,6 @@ __turbopack_context__.s([
     ()=>DefaultPlant,
     "FitnessPlant",
     ()=>FitnessPlant,
-    "GardeningPlant",
-    ()=>GardeningPlant,
     "GuitarPlant",
     ()=>GuitarPlant,
     "PaintingPlant",
@@ -2728,2245 +2667,567 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$mo
 "use client";
 ;
 ;
-function GuitarPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#4a7c59" : "#6b8e5e",
-        leaf1: isWatered ? "#e6c95a" : "#d4b84a",
-        leaf2: isWatered ? "#c4a742" : "#b39a38",
-        pot: "#8b5a2b"
-    };
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
-        className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M30 110 L35 130 L65 130 L70 110 Z",
-                fill: colors.pot
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 30,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "22",
-                ry: "6",
-                fill: "#a0522d"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 31,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "18",
-                ry: "4",
-                fill: "#5d3a1a"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 34,
-                columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].path, {
-                d: "M50 110 Q50 ".concat(110 - stage * 15, " 50 ").concat(110 - stage * 18),
-                stroke: colors.stem,
-                strokeWidth: "4",
-                fill: "none",
-                initial: {
-                    pathLength: 0
-                },
-                animate: {
-                    pathLength: 1
-                },
-                transition: {
-                    duration: 0.8
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 38,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.3
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "38",
-                        cy: "75",
-                        rx: "10",
-                        ry: "8",
-                        fill: colors.leaf1,
-                        transform: "rotate(-20 38 75)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 52,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M48 75 L48 55",
-                        stroke: colors.stem,
-                        strokeWidth: "2"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 53,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 51,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.5
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "62",
-                        cy: "65",
-                        rx: "10",
-                        ry: "8",
-                        fill: colors.leaf2,
-                        transform: "rotate(20 62 65)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 59,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M52 65 L52 45",
-                        stroke: colors.stem,
-                        strokeWidth: "2"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 60,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 58,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.7
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "45",
-                        rx: "12",
-                        ry: "10",
-                        fill: colors.leaf1
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 66,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 45 L50 25",
-                        stroke: colors.stem,
-                        strokeWidth: "3"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 67,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "22",
-                        r: "5",
-                        fill: colors.leaf2
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 68,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 65,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    opacity: 0,
-                    y: -10
-                },
-                animate: {
-                    opacity: [
-                        0,
-                        1,
-                        0
-                    ],
-                    y: [
-                        0,
-                        20,
-                        40
-                    ]
-                },
-                transition: {
-                    duration: 1.5,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "45",
-                        cy: "50",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 79,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "55",
-                        cy: "55",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 80,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 74,
-                columnNumber: 9
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 23,
-        columnNumber: 5
-    }, this);
-}
-_c = GuitarPlant;
+const OUTLINE = "#1b1b1b";
 function FitnessPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        main: isWatered ? "#2d5a3d" : "#3d6b4d",
-        accent: isWatered ? "#1e4a2d" : "#2d5a3d",
-        pot: "#c45a3a"
-    };
+    let { stage, className } = param;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
+        viewBox: "0 0 64 80",
         className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M28 110 L33 130 L67 130 L72 110 Z",
-                fill: colors.pot
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 103,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "24",
-                ry: "7",
-                fill: "#d46a4a"
+                cx: "32",
+                cy: "72",
+                rx: "12",
+                ry: "4",
+                fill: "rgba(0,0,0,0.25)"
             }, void 0, false, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 104,
+                lineNumber: 19,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "20",
-                ry: "5",
-                fill: "#5d3a1a"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 105,
-                columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].rect, {
-                x: "42",
-                y: 110 - stage * 12,
-                width: "16",
-                height: stage * 12,
-                rx: "8",
-                fill: colors.main,
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
                 initial: {
-                    scaleY: 0
+                    scaleY: 0.5
                 },
                 animate: {
                     scaleY: 1
                 },
+                transition: {
+                    duration: 0.6
+                },
                 style: {
-                    transformOrigin: "bottom"
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 109,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.3
-                },
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                    x: "28",
-                    y: "80",
-                    width: "14",
-                    height: "25",
-                    rx: "7",
-                    fill: colors.main,
-                    transform: "rotate(-15 35 92)"
-                }, void 0, false, {
-                    fileName: "[project]/components/garden/plant-graphics.tsx",
-                    lineNumber: 125,
-                    columnNumber: 11
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 124,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.5
-                },
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                    x: "58",
-                    y: "70",
-                    width: "14",
-                    height: "30",
-                    rx: "7",
-                    fill: colors.main,
-                    transform: "rotate(15 65 85)"
-                }, void 0, false, {
-                    fileName: "[project]/components/garden/plant-graphics.tsx",
-                    lineNumber: 131,
-                    columnNumber: 11
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 130,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.7
+                    transformOrigin: "bottom center"
                 },
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "50",
-                        r: "8",
+                    stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                x: 27,
+                                y: 40,
+                                width: 10,
+                                height: 28,
+                                fill: OUTLINE
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden/plant-graphics.tsx",
+                                lineNumber: 29,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                x: 28,
+                                y: 42,
+                                width: 8,
+                                height: 24,
+                                fill: "#2e7d32"
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden/plant-graphics.tsx",
+                                lineNumber: 30,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                x: 30,
+                                y: 42,
+                                width: 2,
+                                height: 24,
+                                fill: "#66bb6a"
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden/plant-graphics.tsx",
+                                lineNumber: 31,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true),
+                    stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                x: 20,
+                                y: 50,
+                                width: 8,
+                                height: 4,
+                                fill: "#2e7d32"
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden/plant-graphics.tsx",
+                                lineNumber: 37,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                x: 36,
+                                y: 54,
+                                width: 8,
+                                height: 4,
+                                fill: "#2e7d32"
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden/plant-graphics.tsx",
+                                lineNumber: 38,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true),
+                    stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 30,
+                        y: 36,
+                        width: 4,
+                        height: 4,
                         fill: "#ff6b6b"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 138,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "50",
-                        r: "4",
-                        fill: "#ffd93d"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 139,
+                        lineNumber: 43,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 136,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    opacity: 0
-                },
-                animate: {
-                    opacity: [
-                        0,
-                        0.7,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 2,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "42",
-                        cy: "85",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 149,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "58",
-                        cy: "75",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 150,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 144,
-                columnNumber: 9
+                lineNumber: 21,
+                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 96,
+        lineNumber: 18,
         columnNumber: 5
     }, this);
 }
-_c1 = FitnessPlant;
-function PaintingPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#228b22" : "#3a9a3a",
-        petals: [
-            "#ff6b6b",
-            "#4ecdc4",
-            "#ffe66d",
-            "#95e1d3",
-            "#f38181"
-        ],
-        center: "#ffd93d"
-    };
+_c = FitnessPlant;
+function PhotographyPlant(param) {
+    let { stage, className } = param;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
+        viewBox: "0 0 64 80",
         className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M25 110 L30 130 L70 130 L75 110 Z",
-                fill: "#6c5ce7"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 173,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "27",
-                ry: "7",
-                fill: "#a29bfe"
+                cx: "32",
+                cy: "72",
+                rx: "12",
+                ry: "4",
+                fill: "rgba(0,0,0,0.25)"
             }, void 0, false, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 174,
+                lineNumber: 54,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "22",
-                ry: "5",
-                fill: "#5d3a1a"
+            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                x: 30,
+                y: 40,
+                width: 4,
+                height: 24,
+                fill: "#2e7d32"
             }, void 0, false, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 175,
-                columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].path, {
-                d: "M50 110 C45 90 55 80 50 ".concat(110 - stage * 15),
-                stroke: colors.stem,
-                strokeWidth: "4",
-                fill: "none",
-                initial: {
-                    pathLength: 0
-                },
-                animate: {
-                    pathLength: 1
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 179,
+                lineNumber: 57,
                 columnNumber: 9
             }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
+            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
                 initial: {
                     scale: 0
                 },
                 animate: {
                     scale: 1
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "35",
-                        cy: "85",
-                        rx: "12",
-                        ry: "6",
-                        fill: colors.stem,
-                        transform: "rotate(-30 35 85)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 192,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "65",
-                        cy: "80",
-                        rx: "12",
-                        ry: "6",
-                        fill: colors.stem,
-                        transform: "rotate(30 65 80)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 193,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 191,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0,
-                    rotate: -90
-                },
-                animate: {
-                    scale: 1,
-                    rotate: 0
                 },
                 transition: {
                     type: "spring"
                 },
                 children: [
-                    0,
-                    72,
-                    144,
-                    216,
-                    288
-                ].map((angle, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "45",
-                        rx: "8",
-                        ry: "14",
-                        fill: colors.petals[i],
-                        transform: "rotate(".concat(angle, " 50 55)")
+                    [
+                        0,
+                        60,
+                        120,
+                        180,
+                        240,
+                        300
+                    ].map((r)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                            x: 30,
+                            y: 28,
+                            width: 4,
+                            height: 10,
+                            fill: "#ffc107",
+                            transform: "rotate(".concat(r, " 32 32)")
+                        }, r, false, {
+                            fileName: "[project]/components/garden/plant-graphics.tsx",
+                            lineNumber: 67,
+                            columnNumber: 13
+                        }, this)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 28,
+                        y: 28,
+                        width: 8,
+                        height: 8,
+                        fill: "#5d4037"
+                    }, void 0, false, {
+                        fileName: "[project]/components/garden/plant-graphics.tsx",
+                        lineNumber: 77,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/garden/plant-graphics.tsx",
+                lineNumber: 61,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/components/garden/plant-graphics.tsx",
+        lineNumber: 53,
+        columnNumber: 5
+    }, this);
+}
+_c1 = PhotographyPlant;
+function PaintingPlant(param) {
+    let { stage, className } = param;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
+        viewBox: "0 0 64 80",
+        className: className,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
+                cx: "32",
+                cy: "72",
+                rx: "12",
+                ry: "4",
+                fill: "rgba(0,0,0,0.25)"
+            }, void 0, false, {
+                fileName: "[project]/components/garden/plant-graphics.tsx",
+                lineNumber: 88,
+                columnNumber: 7
+            }, this),
+            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                x: 30,
+                y: 40,
+                width: 4,
+                height: 24,
+                fill: "#388e3c"
+            }, void 0, false, {
+                fileName: "[project]/components/garden/plant-graphics.tsx",
+                lineNumber: 91,
+                columnNumber: 9
+            }, this),
+            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
+                initial: {
+                    scale: 0
+                },
+                animate: {
+                    scale: 1
+                },
+                transition: {
+                    duration: 0.5
+                },
+                children: [
+                    "#ff6b6b",
+                    "#4ecdc4",
+                    "#ffe66d",
+                    "#95e1d3"
+                ].map((c, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 30,
+                        y: 28,
+                        width: 6,
+                        height: 6,
+                        fill: c,
+                        transform: "rotate(".concat(i * 90, " 32 32)")
                     }, i, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 201,
+                        lineNumber: 101,
                         columnNumber: 13
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 199,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].circle, {
-                cx: "50",
-                cy: "55",
-                r: "10",
-                fill: colors.center,
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.5,
-                    type: "spring"
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 215,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    opacity: 0
-                },
-                animate: {
-                    opacity: [
-                        0,
-                        1,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 1.5,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "40",
-                        cy: "60",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 232,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "60",
-                        cy: "50",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 233,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 227,
+                lineNumber: 95,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 166,
+        lineNumber: 87,
         columnNumber: 5
     }, this);
 }
 _c2 = PaintingPlant;
 function ReadingPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#2e7d32" : "#388e3c",
-        leaves: isWatered ? "#81c784" : "#a5d6a7",
-        accent: "#8d6e63"
-    };
+    let { stage, className } = param;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
+        viewBox: "0 0 64 80",
         className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: "28",
-                y: "108",
-                width: "44",
-                height: "22",
-                rx: "2",
-                fill: colors.accent
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 256,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: "30",
-                y: "110",
-                width: "40",
-                height: "2",
-                fill: "#6d4c41"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 257,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "108",
-                rx: "20",
+                cx: "32",
+                cy: "72",
+                rx: "12",
                 ry: "4",
-                fill: "#5d3a1a"
+                fill: "rgba(0,0,0,0.25)"
             }, void 0, false, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 258,
+                lineNumber: 121,
                 columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].path, {
-                d: "M50 108 L50 ".concat(108 - stage * 14),
-                stroke: colors.stem,
-                strokeWidth: "5",
-                fill: "none",
-                initial: {
-                    pathLength: 0
-                },
-                animate: {
-                    pathLength: 1
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 262,
-                columnNumber: 9
             }, this),
             stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
                 initial: {
-                    rotateY: 90
+                    scaleX: 0.5
                 },
                 animate: {
-                    rotateY: 0
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 85 Q35 80 30 70 Q35 75 50 80 Z",
-                        fill: colors.leaves
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 275,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 85 Q65 80 70 70 Q65 75 50 80 Z",
-                        fill: colors.leaves
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 276,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 274,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
+                    scaleX: 1
                 },
                 transition: {
-                    delay: 0.3
+                    duration: 0.5
+                },
+                style: {
+                    transformOrigin: "center"
                 },
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 70 Q30 65 25 50 Q30 60 50 65 Z",
-                        fill: colors.leaves
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 24,
+                        y: 40,
+                        width: 16,
+                        height: 12,
+                        fill: "#8d6e63"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 282,
+                        lineNumber: 130,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 70 Q70 65 75 50 Q70 60 50 65 Z",
-                        fill: colors.leaves
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 24,
+                        y: 40,
+                        width: 8,
+                        height: 12,
+                        fill: "#6d4c41"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 283,
+                        lineNumber: 131,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 281,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.5
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "45",
-                        r: "12",
-                        fill: "#fff9c4"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 289,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
-                        x: "50",
-                        y: "50",
-                        textAnchor: "middle",
-                        fontSize: "12",
-                        fill: colors.accent,
-                        children: "A"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 290,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 288,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                animate: {
-                    opacity: [
-                        0,
-                        0.8,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 2,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "45",
-                        cy: "65",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 296,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "55",
-                        cy: "75",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 297,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 295,
+                lineNumber: 124,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 249,
+        lineNumber: 120,
         columnNumber: 5
     }, this);
 }
 _c3 = ReadingPlant;
 function CookingPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#43a047" : "#66bb6a",
-        herb: isWatered ? "#558b2f" : "#7cb342",
-        pot: "#ff7043"
-    };
+    let { stage, className } = param;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
+        viewBox: "0 0 64 80",
         className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "120",
-                rx: "25",
-                ry: "10",
-                fill: colors.pot
+                cx: "32",
+                cy: "72",
+                rx: "12",
+                ry: "4",
+                fill: "rgba(0,0,0,0.25)"
             }, void 0, false, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 320,
+                lineNumber: 142,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M25 120 L28 135 L72 135 L75 120",
-                fill: colors.pot
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 321,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "120",
-                rx: "20",
-                ry: "7",
-                fill: "#5d3a1a"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 322,
-                columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scaleY: 0
-                },
-                animate: {
-                    scaleY: 1
-                },
-                style: {
-                    transformOrigin: "bottom"
-                },
+            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 120 L50 100",
-                        stroke: colors.stem,
-                        strokeWidth: "3"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 28,
+                        y: 50,
+                        width: 4,
+                        height: 14,
+                        fill: "#558b2f"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 327,
+                        lineNumber: 146,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M45 120 L40 105",
-                        stroke: colors.stem,
-                        strokeWidth: "2"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 34,
+                        y: 48,
+                        width: 4,
+                        height: 16,
+                        fill: "#7cb342"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 328,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M55 120 L60 105",
-                        stroke: colors.stem,
-                        strokeWidth: "2"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 329,
+                        lineNumber: 147,
                         columnNumber: 11
                     }, this)
                 ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 326,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "95",
-                        rx: "6",
-                        ry: "10",
-                        fill: colors.herb
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 335,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "38",
-                        cy: "100",
-                        rx: "5",
-                        ry: "8",
-                        fill: colors.herb,
-                        transform: "rotate(-20 38 100)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 336,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "62",
-                        cy: "100",
-                        rx: "5",
-                        ry: "8",
-                        fill: colors.herb,
-                        transform: "rotate(20 62 100)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 337,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 334,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.3
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "45",
-                        cy: "80",
-                        rx: "7",
-                        ry: "12",
-                        fill: colors.herb,
-                        transform: "rotate(-10 45 80)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 343,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "55",
-                        cy: "80",
-                        rx: "7",
-                        ry: "12",
-                        fill: colors.herb,
-                        transform: "rotate(10 55 80)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 344,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "75",
-                        rx: "6",
-                        ry: "10",
-                        fill: colors.stem
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 345,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 342,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.5
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "35",
-                        cy: "70",
-                        rx: "8",
-                        ry: "14",
-                        fill: colors.herb,
-                        transform: "rotate(-25 35 70)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 351,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "65",
-                        cy: "70",
-                        rx: "8",
-                        ry: "14",
-                        fill: colors.herb,
-                        transform: "rotate(25 65 70)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 352,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "60",
-                        rx: "10",
-                        ry: "16",
-                        fill: colors.stem
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 353,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 350,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                animate: {
-                    opacity: [
-                        0,
-                        0.7,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 1.8,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "42",
-                        cy: "85",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 359,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "58",
-                        cy: "90",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 360,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 358,
-                columnNumber: 9
-            }, this)
+            }, void 0, true)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 313,
+        lineNumber: 141,
         columnNumber: 5
     }, this);
 }
 _c4 = CookingPlant;
-function PhotographyPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#2e7d32" : "#388e3c",
-        petals: isWatered ? "#ffc107" : "#ffca28",
-        center: "#5d4037"
-    };
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
-        className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M30 110 L35 130 L65 130 L70 110 Z",
-                fill: "#607d8b"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 383,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "22",
-                ry: "6",
-                fill: "#78909c"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 384,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "18",
-                ry: "4",
-                fill: "#5d3a1a"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 385,
-                columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].path, {
-                d: "M50 110 L50 ".concat(110 - stage * 15),
-                stroke: colors.stem,
-                strokeWidth: "5",
-                fill: "none",
-                initial: {
-                    pathLength: 0
-                },
-                animate: {
-                    pathLength: 1
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 389,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "35",
-                        cy: "90",
-                        rx: "12",
-                        ry: "7",
-                        fill: colors.stem,
-                        transform: "rotate(-40 35 90)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 402,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "65",
-                        cy: "85",
-                        rx: "12",
-                        ry: "7",
-                        fill: colors.stem,
-                        transform: "rotate(40 65 85)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 403,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 401,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0,
-                    rotate: -180
-                },
-                animate: {
-                    scale: 1,
-                    rotate: 0
-                },
-                transition: {
-                    type: "spring"
-                },
-                children: Array.from({
-                    length: 12
-                }).map((_, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "50",
-                        rx: "5",
-                        ry: "12",
-                        fill: colors.petals,
-                        transform: "rotate(".concat(i * 30, " 50 58)")
-                    }, i, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 411,
-                        columnNumber: 13
-                    }, this))
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 409,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].circle, {
-                cx: "50",
-                cy: "58",
-                r: "12",
-                fill: colors.center,
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.3
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 425,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                animate: {
-                    opacity: [
-                        0,
-                        1,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 1.5,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "40",
-                        cy: "70",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 438,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "60",
-                        cy: "65",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 439,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 437,
-                columnNumber: 9
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 376,
-        columnNumber: 5
-    }, this);
-}
-_c5 = PhotographyPlant;
 function WritingPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#1b5e20" : "#2e7d32",
-        feather: isWatered ? "#7986cb" : "#9fa8da",
-        accent: "#3f51b5"
-    };
+    let { stage, className } = param;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
+        viewBox: "0 0 64 80",
         className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "115",
-                rx: "18",
-                ry: "15",
-                fill: "#37474f"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 462,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "108",
-                rx: "16",
-                ry: "8",
-                fill: "#455a64"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 463,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "108",
+                cx: "32",
+                cy: "72",
                 rx: "12",
-                ry: "5",
-                fill: "#263238"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 464,
-                columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].path, {
-                d: "M50 108 Q55 85 50 ".concat(108 - stage * 18),
-                stroke: colors.stem,
-                strokeWidth: "4",
-                fill: "none",
-                initial: {
-                    pathLength: 0
-                },
-                animate: {
-                    pathLength: 1
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 468,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    opacity: 0
-                },
-                animate: {
-                    opacity: 1
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 80 Q35 75 30 85 Q40 80 50 82",
-                        fill: colors.feather
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 481,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 80 Q65 75 70 85 Q60 80 50 82",
-                        fill: colors.feather
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 482,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 480,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M48 65 Q30 60 25 70 Q35 65 48 68",
-                        fill: colors.feather
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 488,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M52 65 Q70 60 75 70 Q65 65 52 68",
-                        fill: colors.feather
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 489,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 487,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.3
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 50 Q25 45 20 55 Q35 50 50 55",
-                        fill: colors.accent
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 495,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 50 Q75 45 80 55 Q65 50 50 55",
-                        fill: colors.accent
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 496,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "45",
-                        r: "5",
-                        fill: colors.accent
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 497,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 494,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                animate: {
-                    opacity: [
-                        0,
-                        0.8,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 2,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "45",
-                        cy: "70",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 503,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "55",
-                        cy: "60",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 504,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 502,
-                columnNumber: 9
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 455,
-        columnNumber: 5
-    }, this);
-}
-_c6 = WritingPlant;
-function GardeningPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#388e3c" : "#4caf50",
-        leaf: isWatered ? "#66bb6a" : "#81c784",
-        flower: "#e91e63",
-        pot: "#795548"
-    };
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
-        className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: "15",
-                y: "108",
-                width: "70",
-                height: "22",
-                rx: "3",
-                fill: colors.pot
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 528,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: "18",
-                y: "108",
-                width: "64",
-                height: "4",
-                fill: "#8d6e63"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 529,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: "20",
-                y: "110",
-                width: "60",
-                height: "3",
-                fill: "#5d3a1a"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 530,
-                columnNumber: 7
-            }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scaleY: 0
-                },
-                animate: {
-                    scaleY: 1
-                },
-                style: {
-                    transformOrigin: "bottom"
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M30 108 L30 95",
-                        stroke: colors.stem,
-                        strokeWidth: "2"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 535,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M50 108 L50 90",
-                        stroke: colors.stem,
-                        strokeWidth: "3"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 536,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: "M70 108 L70 95",
-                        stroke: colors.stem,
-                        strokeWidth: "2"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 537,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 534,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "30",
-                        cy: "92",
-                        rx: "6",
-                        ry: "8",
-                        fill: colors.leaf
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 543,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "85",
-                        rx: "8",
-                        ry: "10",
-                        fill: colors.leaf
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 544,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "70",
-                        cy: "92",
-                        rx: "6",
-                        ry: "8",
-                        fill: colors.leaf
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 545,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 542,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.2
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "25",
-                        cy: "85",
-                        rx: "5",
-                        ry: "7",
-                        fill: colors.stem,
-                        transform: "rotate(-20 25 85)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 551,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "35",
-                        cy: "85",
-                        rx: "5",
-                        ry: "7",
-                        fill: colors.stem,
-                        transform: "rotate(20 35 85)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 552,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "45",
-                        cy: "75",
-                        rx: "6",
-                        ry: "9",
-                        fill: colors.stem,
-                        transform: "rotate(-15 45 75)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 553,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "55",
-                        cy: "75",
-                        rx: "6",
-                        ry: "9",
-                        fill: colors.stem,
-                        transform: "rotate(15 55 75)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 554,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "65",
-                        cy: "85",
-                        rx: "5",
-                        ry: "7",
-                        fill: colors.stem,
-                        transform: "rotate(-20 65 85)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 555,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "75",
-                        cy: "85",
-                        rx: "5",
-                        ry: "7",
-                        fill: colors.stem,
-                        transform: "rotate(20 75 85)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 556,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 550,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.4
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "30",
-                        cy: "80",
-                        r: "5",
-                        fill: colors.flower
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 562,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "65",
-                        r: "7",
-                        fill: "#ff9800"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 563,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "70",
-                        cy: "80",
-                        r: "5",
-                        fill: "#9c27b0"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 564,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "30",
-                        cy: "80",
-                        r: "2",
-                        fill: "#ffeb3b"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 565,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "65",
-                        r: "3",
-                        fill: "#ffeb3b"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 566,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "70",
-                        cy: "80",
-                        r: "2",
-                        fill: "#ffeb3b"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 567,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 561,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                animate: {
-                    opacity: [
-                        0,
-                        0.7,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 1.5,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "35",
-                        cy: "75",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 573,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "80",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 574,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "65",
-                        cy: "75",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 575,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 572,
-                columnNumber: 9
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 521,
-        columnNumber: 5
-    }, this);
-}
-_c7 = GardeningPlant;
-function DefaultPlant(param) {
-    let { stage, isWatered, className } = param;
-    const colors = {
-        stem: isWatered ? "#4caf50" : "#66bb6a",
-        leaf: isWatered ? "#81c784" : "#a5d6a7",
-        pot: "#8d6e63"
-    };
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-        viewBox: "0 0 100 140",
-        className: className,
-        initial: {
-            scale: 0.8,
-            opacity: 0
-        },
-        animate: {
-            scale: 1,
-            opacity: 1
-        },
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M30 110 L35 130 L65 130 L70 110 Z",
-                fill: colors.pot
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 598,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "22",
-                ry: "6",
-                fill: "#a1887f"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 599,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                cx: "50",
-                cy: "110",
-                rx: "18",
                 ry: "4",
-                fill: "#5d3a1a"
+                fill: "rgba(0,0,0,0.25)"
             }, void 0, false, {
                 fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 600,
+                lineNumber: 158,
                 columnNumber: 7
             }, this),
-            stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].path, {
-                d: "M50 110 L50 ".concat(110 - stage * 15),
-                stroke: colors.stem,
-                strokeWidth: "4",
-                fill: "none",
-                initial: {
-                    pathLength: 0
-                },
-                animate: {
-                    pathLength: 1
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 604,
-                columnNumber: 9
-            }, this),
-            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
+            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "38",
-                        cy: "90",
-                        rx: "10",
-                        ry: "6",
-                        fill: colors.leaf,
-                        transform: "rotate(-30 38 90)"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 30,
+                        y: 40,
+                        width: 4,
+                        height: 20,
+                        fill: "#2e7d32"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 617,
+                        lineNumber: 162,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "62",
-                        cy: "85",
-                        rx: "10",
-                        ry: "6",
-                        fill: colors.leaf,
-                        transform: "rotate(30 62 85)"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 28,
+                        y: 20,
+                        width: 8,
+                        height: 20,
+                        fill: "#7986cb"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 618,
+                        lineNumber: 163,
                         columnNumber: 11
                     }, this)
                 ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 616,
-                columnNumber: 9
-            }, this),
-            stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.3
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "35",
-                        cy: "75",
-                        rx: "12",
-                        ry: "7",
-                        fill: colors.leaf,
-                        transform: "rotate(-40 35 75)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 624,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "65",
-                        cy: "70",
-                        rx: "12",
-                        ry: "7",
-                        fill: colors.leaf,
-                        transform: "rotate(40 65 70)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 625,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 623,
-                columnNumber: 9
-            }, this),
-            stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                initial: {
-                    scale: 0
-                },
-                animate: {
-                    scale: 1
-                },
-                transition: {
-                    delay: 0.5
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                        cx: "50",
-                        cy: "55",
-                        rx: "15",
-                        ry: "10",
-                        fill: colors.stem
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 631,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "50",
-                        cy: "55",
-                        r: "6",
-                        fill: "#fff59d"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 632,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 630,
-                columnNumber: 9
-            }, this),
-            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                animate: {
-                    opacity: [
-                        0,
-                        0.8,
-                        0
-                    ]
-                },
-                transition: {
-                    duration: 1.8,
-                    repeat: Infinity
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "45",
-                        cy: "75",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 638,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                        cx: "55",
-                        cy: "80",
-                        r: "2",
-                        fill: "#87ceeb"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/plant-graphics.tsx",
-                        lineNumber: 639,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/plant-graphics.tsx",
-                lineNumber: 637,
-                columnNumber: 9
-            }, this)
+            }, void 0, true)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/plant-graphics.tsx",
-        lineNumber: 591,
+        lineNumber: 157,
         columnNumber: 5
     }, this);
 }
-_c8 = DefaultPlant;
-function getPlantComponent(hobbyName) {
-    const lowerName = hobbyName.toLowerCase();
-    if (lowerName.includes("guitar") || lowerName.includes("music") || lowerName.includes("piano")) {
-        return GuitarPlant;
-    }
-    if (lowerName.includes("fitness") || lowerName.includes("gym") || lowerName.includes("exercise") || lowerName.includes("workout")) {
-        return FitnessPlant;
-    }
-    if (lowerName.includes("paint") || lowerName.includes("art") || lowerName.includes("draw")) {
-        return PaintingPlant;
-    }
-    if (lowerName.includes("read") || lowerName.includes("book")) {
-        return ReadingPlant;
-    }
-    if (lowerName.includes("cook") || lowerName.includes("bak") || lowerName.includes("chef")) {
-        return CookingPlant;
-    }
-    if (lowerName.includes("photo") || lowerName.includes("camera")) {
-        return PhotographyPlant;
-    }
-    if (lowerName.includes("writ") || lowerName.includes("journal") || lowerName.includes("blog")) {
-        return WritingPlant;
-    }
-    if (lowerName.includes("garden") || lowerName.includes("plant")) {
-        return GardeningPlant;
-    }
+_c5 = WritingPlant;
+function GuitarPlant(param) {
+    let { stage, className } = param;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
+        viewBox: "0 0 64 80",
+        className: className,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
+                cx: "32",
+                cy: "72",
+                rx: "12",
+                ry: "4",
+                fill: "rgba(0,0,0,0.25)"
+            }, void 0, false, {
+                fileName: "[project]/components/garden/plant-graphics.tsx",
+                lineNumber: 174,
+                columnNumber: 7
+            }, this),
+            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 30,
+                        y: 40,
+                        width: 4,
+                        height: 20,
+                        fill: "#8b5a2b"
+                    }, void 0, false, {
+                        fileName: "[project]/components/garden/plant-graphics.tsx",
+                        lineNumber: 178,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                        cx: "32",
+                        cy: "30",
+                        r: "6",
+                        fill: "#ffd700"
+                    }, void 0, false, {
+                        fileName: "[project]/components/garden/plant-graphics.tsx",
+                        lineNumber: 179,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/components/garden/plant-graphics.tsx",
+        lineNumber: 173,
+        columnNumber: 5
+    }, this);
+}
+_c6 = GuitarPlant;
+function DefaultPlant(param) {
+    let { stage, className } = param;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
+        viewBox: "0 0 64 80",
+        className: className,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
+                cx: "32",
+                cy: "72",
+                rx: "12",
+                ry: "4",
+                fill: "rgba(0,0,0,0.25)"
+            }, void 0, false, {
+                fileName: "[project]/components/garden/plant-graphics.tsx",
+                lineNumber: 190,
+                columnNumber: 7
+            }, this),
+            stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 30,
+                        y: 40,
+                        width: 4,
+                        height: 20,
+                        fill: "#2e7d32"
+                    }, void 0, false, {
+                        fileName: "[project]/components/garden/plant-graphics.tsx",
+                        lineNumber: 194,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: 24,
+                        y: 30,
+                        width: 16,
+                        height: 10,
+                        fill: "#4caf50"
+                    }, void 0, false, {
+                        fileName: "[project]/components/garden/plant-graphics.tsx",
+                        lineNumber: 195,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/components/garden/plant-graphics.tsx",
+        lineNumber: 189,
+        columnNumber: 5
+    }, this);
+}
+_c7 = DefaultPlant;
+function getPlantComponent(name) {
+    const n = name.toLowerCase();
+    if (n.includes("fitness") || n.includes("gym")) return FitnessPlant;
+    if (n.includes("photo")) return PhotographyPlant;
+    if (n.includes("paint") || n.includes("art")) return PaintingPlant;
+    if (n.includes("read") || n.includes("book")) return ReadingPlant;
+    if (n.includes("cook")) return CookingPlant;
+    if (n.includes("write")) return WritingPlant;
+    if (n.includes("music") || n.includes("guitar")) return GuitarPlant;
     return DefaultPlant;
 }
-var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8;
-__turbopack_context__.k.register(_c, "GuitarPlant");
-__turbopack_context__.k.register(_c1, "FitnessPlant");
+var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7;
+__turbopack_context__.k.register(_c, "FitnessPlant");
+__turbopack_context__.k.register(_c1, "PhotographyPlant");
 __turbopack_context__.k.register(_c2, "PaintingPlant");
 __turbopack_context__.k.register(_c3, "ReadingPlant");
 __turbopack_context__.k.register(_c4, "CookingPlant");
-__turbopack_context__.k.register(_c5, "PhotographyPlant");
-__turbopack_context__.k.register(_c6, "WritingPlant");
-__turbopack_context__.k.register(_c7, "GardeningPlant");
-__turbopack_context__.k.register(_c8, "DefaultPlant");
+__turbopack_context__.k.register(_c5, "WritingPlant");
+__turbopack_context__.k.register(_c6, "GuitarPlant");
+__turbopack_context__.k.register(_c7, "DefaultPlant");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

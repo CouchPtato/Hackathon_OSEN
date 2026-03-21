@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Flame, Droplet } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Hobby, PlantLevel } from "@/lib/types";
-import { GrowthStage, getPlantComponent } from "@/components/garden/plant-graphics";
+import { PixelPlant, GrowthStage } from "@/components/garden/pixel-plants";
 
 interface HobbyCardProps {
   hobby: Hobby;
@@ -12,7 +12,7 @@ interface HobbyCardProps {
   recentlyCared?: boolean;
 }
 
-// Convert plant level to growth stage
+// 🌱 Level → stage
 function levelToStage(level: PlantLevel): GrowthStage {
   switch (level) {
     case "Seed": return 1;
@@ -23,67 +23,87 @@ function levelToStage(level: PlantLevel): GrowthStage {
   }
 }
 
+// 🌿 Clean level display
+const levelDisplay: Record<PlantLevel, string> = {
+  Seed: "🌱 Beginner",
+  Sprout: "🌿 Growing",
+  Plant: "🌾 Skilled",
+  Tree: "🌳 Master",
+};
+
 export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardProps) {
   const stage = levelToStage(hobby.level);
-  const PlantComponent = getPlantComponent(hobby.name);
   const waterLevel = hobby.waterLevel ?? 50;
   const isWatered = waterLevel > 70;
 
+  const xpPercent = (hobby.xp / hobby.maxXp) * 100;
+
   return (
     <motion.div
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.03, y: -4 }}
+      whileTap={{ scale: 0.97 }}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
     >
       <Card
-        className={`cursor-pointer transition-all hover:shadow-lg overflow-hidden relative ${
-          recentlyCared ? "ring-2 ring-primary ring-offset-2" : ""
-        }`}
         onClick={onClick}
+        className={`
+          cursor-pointer relative overflow-hidden transition-all
+          hover:shadow-xl
+          ${recentlyCared ? "ring-2 ring-green-400 ring-offset-2" : ""}
+        `}
       >
-        {/* Glow effect when recently cared */}
+        {/* 🌿 CARE GLOW */}
         {recentlyCared && (
           <motion.div
-            className="absolute inset-0 bg-primary/10 pointer-events-none"
+            className="absolute inset-0 bg-green-400/20 pointer-events-none"
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.5, 0] }}
+            animate={{ opacity: [0, 0.6, 0] }}
             transition={{ duration: 1.5 }}
           />
         )}
-        
+
         <CardContent className="p-3 sm:p-4">
           <div className="flex flex-col items-center text-center gap-2">
-            {/* Plant SVG */}
+
+            {/* 🌱 PLANT */}
             <motion.div
               className="h-20 w-20 sm:h-24 sm:w-24"
-              animate={{ 
-                y: [0, -2, 0],
-                scale: recentlyCared ? [1, 1.1, 1] : 1
+              animate={{
+                y: [0, -3, 0],
+                scale: recentlyCared ? [1, 1.15, 1] : 1
               }}
               transition={{
                 y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-                scale: { duration: 0.5 }
+                scale: { duration: 0.4 }
               }}
             >
-              <PlantComponent stage={stage} isWatered={isWatered} className="w-full h-full" />
+              <PixelPlant
+                stage={stage}
+                hobbyName={hobby.name}
+                isWatered={isWatered}
+                className="w-full h-full"
+              />
             </motion.div>
 
-            {/* Hobby Name */}
-            <h3 className="font-semibold text-foreground text-sm sm:text-base line-clamp-1">
+            {/* 🌿 NAME */}
+            <h3 className="font-semibold text-sm sm:text-base line-clamp-1">
               {hobby.name}
             </h3>
 
-            {/* Level indicator */}
-            <span className="text-xs text-muted-foreground">{hobby.level}</span>
+            {/* 🌱 LEVEL */}
+            <span className="text-xs text-muted-foreground">
+              {levelDisplay[hobby.level]}
+            </span>
 
-            {/* Water level bar */}
+            {/* 💧 WATER */}
             <div className="w-full space-y-1">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-1 text-sky-500">
                   <Droplet className="h-3 w-3" />
                   <span>{waterLevel}%</span>
                 </div>
+
                 {hobby.streak > 0 && (
                   <div className="flex items-center gap-1 text-orange-500">
                     <Flame className="h-3 w-3" />
@@ -91,11 +111,15 @@ export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardPr
                   </div>
                 )}
               </div>
+
               <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                 <motion.div
                   className={`h-full rounded-full ${
-                    waterLevel > 70 ? "bg-sky-400" : 
-                    waterLevel > 30 ? "bg-sky-300" : "bg-amber-400"
+                    waterLevel > 70
+                      ? "bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.7)]"
+                      : waterLevel > 30
+                      ? "bg-sky-300"
+                      : "bg-amber-400"
                   }`}
                   initial={{ width: 0 }}
                   animate={{ width: `${waterLevel}%` }}
@@ -104,16 +128,17 @@ export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardPr
               </div>
             </div>
 
-            {/* XP Progress */}
+            {/* ⭐ XP */}
             <div className="w-full">
-              <div className="h-1 bg-secondary rounded-full overflow-hidden">
+              <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-primary rounded-full"
+                  className="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-[0_0_6px_rgba(34,197,94,0.6)]"
                   initial={{ width: 0 }}
-                  animate={{ width: `${(hobby.xp / hobby.maxXp) * 100}%` }}
-                  transition={{ duration: 0.5 }}
+                  animate={{ width: `${xpPercent}%` }}
+                  transition={{ duration: 0.6 }}
                 />
               </div>
+
               <p className="text-[10px] text-muted-foreground mt-0.5">
                 {hobby.xp}/{hobby.maxXp} XP
               </p>

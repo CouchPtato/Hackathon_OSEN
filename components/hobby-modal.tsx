@@ -9,8 +9,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Hobby, PlantLevel } from "@/lib/types";
-import { GrowthStage, getPlantComponent } from "@/components/garden/plant-graphics";
+import { Hobby } from "@/lib/types";
+import { PixelPlant, levelToPixelStage } from "@/components/garden/pixel-plants";
 
 interface HobbyModalProps {
   hobby: Hobby | null;
@@ -18,17 +18,6 @@ interface HobbyModalProps {
   onOpenChange: (open: boolean) => void;
   onCompleteTask: (hobbyId: string) => void;
   onGenerateTask: (hobbyId: string) => void;
-}
-
-// Convert plant level to growth stage
-function levelToStage(level: PlantLevel): GrowthStage {
-  switch (level) {
-    case "Seed": return 1;
-    case "Sprout": return 2;
-    case "Plant": return 3;
-    case "Tree": return 4;
-    default: return 1;
-  }
 }
 
 export function HobbyModal({
@@ -40,8 +29,7 @@ export function HobbyModal({
 }: HobbyModalProps) {
   if (!hobby) return null;
 
-  const PlantComponent = getPlantComponent(hobby.name);
-  const stage = levelToStage(hobby.level);
+  const stage = levelToPixelStage(hobby.level);
   const waterLevel = hobby.waterLevel ?? 50;
   const isWatered = waterLevel > 70;
 
@@ -53,101 +41,103 @@ export function HobbyModal({
         </DialogHeader>
 
         <div className="flex flex-col items-center py-6 space-y-5">
-          {/* Plant SVG */}
+
+          {/* 🌱 PLANT */}
           <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            className="h-32 w-32"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="h-32 w-32 relative"
           >
+            {/* glow */}
+            <motion.div
+              className="absolute inset-0 bg-green-400/20 blur-xl rounded-full"
+              animate={{ opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+
             <motion.div
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
-              className="h-full w-full"
+              className="h-full w-full flex items-end justify-center"
+              style={{ imageRendering: "pixelated" }}
             >
-              <PlantComponent stage={stage} isWatered={isWatered} className="w-full h-full" />
+              <PixelPlant
+                stage={stage}
+                hobbyName={hobby.name}
+                isWatered={isWatered}
+                className="w-full h-full scale-110"
+              />
             </motion.div>
           </motion.div>
 
-          {/* Hobby Name */}
-          <h2 className="text-2xl font-bold text-foreground">{hobby.name}</h2>
+          {/* 🌿 NAME */}
+          <h2 className="text-2xl font-bold">{hobby.name}</h2>
 
-          {/* Stats Row */}
+          {/* 🔥 STATS */}
           <div className="flex items-center gap-4">
-            {/* Streak Count */}
-            <div className="flex items-center gap-1.5 rounded-full bg-orange-100 dark:bg-orange-900/30 px-3 py-1.5">
+            <div className="flex items-center gap-1.5 bg-orange-100 dark:bg-orange-900/30 px-3 py-1.5 rounded-full">
               <Flame className="h-4 w-4 text-orange-500" />
-              <span className="text-sm font-semibold text-orange-700 dark:text-orange-400">
-                {hobby.streak} day
-              </span>
+              <span className="text-sm font-semibold">{hobby.streak} day</span>
             </div>
 
-            {/* Water Level */}
-            <div className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 ${
-              waterLevel > 70 
-                ? "bg-sky-100 dark:bg-sky-900/30" 
-                : waterLevel > 30 
-                  ? "bg-sky-50 dark:bg-sky-900/20"
-                  : "bg-amber-100 dark:bg-amber-900/30"
-            }`}>
-              <Droplet className={`h-4 w-4 ${
-                waterLevel > 70 ? "text-sky-500" : waterLevel > 30 ? "text-sky-400" : "text-amber-500"
-              }`} />
-              <span className={`text-sm font-semibold ${
-                waterLevel > 70 
-                  ? "text-sky-700 dark:text-sky-400" 
-                  : waterLevel > 30 
-                    ? "text-sky-600 dark:text-sky-400"
-                    : "text-amber-700 dark:text-amber-400"
-              }`}>
-                {waterLevel}%
-              </span>
+            <div className="flex items-center gap-1.5 bg-sky-100 dark:bg-sky-900/30 px-3 py-1.5 rounded-full">
+              <Droplet className="h-4 w-4 text-sky-500" />
+              <span className="text-sm font-semibold">{waterLevel}%</span>
             </div>
           </div>
 
-          {/* Level Badge and XP Progress */}
-          <div className="w-full space-y-2 px-4">
-            <div className="flex items-center justify-between text-sm">
+          {/* ⭐ XP */}
+          <div className="w-full px-4 space-y-2">
+            <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">
-                Level: <span className="font-medium text-primary">{hobby.level}</span>
+                {hobby.level}
               </span>
-              <span className="text-muted-foreground">
-                {hobby.xp}/{hobby.maxXp} XP
-              </span>
+              <span>{hobby.xp}/{hobby.maxXp} XP</span>
             </div>
+
             <div className="h-2 bg-secondary rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-primary rounded-full"
+                className="h-full bg-gradient-to-r from-green-400 to-emerald-500"
                 initial={{ width: 0 }}
-                animate={{ width: `${(hobby.xp / hobby.maxXp) * 100}%` }}
-                transition={{ duration: 0.5 }}
+                animate={{
+                  width: `${(hobby.xp / hobby.maxXp) * 100}%`,
+                }}
               />
             </div>
           </div>
 
-          {/* Care Actions Info */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <CheckCircle2 className="h-4 w-4 text-primary" />
-            <span>{hobby.careActions || 0} care actions performed</span>
-          </div>
+          {/* 💡 INFO */}
+          <p className="text-sm text-muted-foreground text-center">
+            Complete tasks to grow your plant 🌱
+          </p>
 
-          {/* Task Completion Note */}
-          <div className="bg-secondary/50 rounded-lg p-3 text-center text-sm text-muted-foreground">
-            <span>Completing tasks automatically waters and nurtures your plant!</span>
-          </div>
-
-          {/* Action Buttons */}
+          {/* 🎯 ACTIONS */}
           <div className="flex flex-col gap-3 w-full mt-2">
+
+            {/* ✅ COMPLETE TASK */}
             <Button
               onClick={() => {
                 onCompleteTask(hobby.id);
                 onOpenChange(false);
               }}
               size="lg"
-              className="w-full gap-2"
+              className="w-full gap-2 relative overflow-hidden"
             >
               <CheckCircle2 className="h-4 w-4" />
-              Complete Task & Care for Plant
+              Complete Task
+
+              {/* 💥 XP POP EFFECT */}
+              <motion.span
+                className="absolute right-3 text-xs text-white/80"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: [0, 1, 0], y: [-5, -20] }}
+                transition={{ duration: 1.2 }}
+              >
+                +25 XP
+              </motion.span>
             </Button>
+
+            {/* ✨ GENERATE TASK */}
             <Button
               onClick={() => {
                 onGenerateTask(hobby.id);
@@ -158,7 +148,7 @@ export function HobbyModal({
               className="w-full gap-2"
             >
               <Sparkles className="h-4 w-4" />
-              Generate New Task
+              New Task
             </Button>
           </div>
         </div>

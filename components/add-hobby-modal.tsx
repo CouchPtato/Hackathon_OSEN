@@ -56,19 +56,28 @@ export function AddHobbyModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
+        
+        {/* 🌿 HEADER */}
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Sprout className="h-5 w-5 text-primary" />
-            Add New Hobby
+          <DialogTitle className="flex items-center gap-2 text-xl">
+            <Sprout className="h-5 w-5 text-green-500" />
+            Plant a New Hobby
           </DialogTitle>
+
           <DialogDescription>
-            Plant a new hobby in your garden and watch it grow!
+            Start small 🌱 — stay consistent, and watch it grow into something big.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* 🌱 FORM */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          
+          {/* INPUT */}
           <div className="space-y-2">
-            <Label htmlFor="hobby-name">Hobby Name</Label>
+            <Label htmlFor="hobby-name" variant="accent">
+              Hobby Name
+            </Label>
+
             <Input
               id="hobby-name"
               placeholder="e.g., Learning Piano"
@@ -78,16 +87,23 @@ export function AddHobbyModal({
             />
           </div>
 
-          {/* Suggestions */}
+          {/* 🌿 SUGGESTIONS */}
           <div className="space-y-2">
-            <Label className="text-muted-foreground">Quick add:</Label>
+            <Label variant="muted">Quick start</Label>
+
             <div className="flex flex-wrap gap-2">
               {suggestedHobbies.map((suggestion) => (
                 <button
                   key={suggestion}
                   type="button"
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="rounded-full bg-secondary px-3 py-1 text-sm text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                  className="
+                    rounded-full px-3 py-1 text-sm
+                    bg-secondary text-secondary-foreground
+                    hover:bg-green-100 dark:hover:bg-green-900/40
+                    transition-all duration-200
+                    hover:scale-105 active:scale-95
+                  "
                 >
                   {suggestion}
                 </button>
@@ -95,7 +111,8 @@ export function AddHobbyModal({
             </div>
           </div>
 
-          <DialogFooter>
+          {/* 🌱 ACTIONS */}
+          <DialogFooter className="pt-2">
             <Button
               type="button"
               variant="outline"
@@ -103,8 +120,13 @@ export function AddHobbyModal({
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={!hobbyName.trim()}>
-              Plant Hobby
+
+            <Button
+              type="submit"
+              disabled={!hobbyName.trim()}
+              className="gap-2"
+            >
+              🌱 Plant Hobby
             </Button>
           </DialogFooter>
         </form>

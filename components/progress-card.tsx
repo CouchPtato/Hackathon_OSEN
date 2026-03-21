@@ -11,6 +11,7 @@ interface ProgressCardProps {
   xpToNextLevel: number;
 }
 
+// 🌱 Emojis
 const levelEmojis: Record<PlantLevel, string> = {
   Seed: "🌱",
   Sprout: "🌿",
@@ -18,11 +19,12 @@ const levelEmojis: Record<PlantLevel, string> = {
   Tree: "🌳",
 };
 
+// 🧠 Cleaner titles
 const levelTitles: Record<PlantLevel, string> = {
-  Seed: "Beginner Gardener",
-  Sprout: "Growing Gardener",
-  Plant: "Skilled Gardener",
-  Tree: "Pro Gardener",
+  Seed: "Beginner",
+  Sprout: "Growing",
+  Plant: "Skilled",
+  Tree: "Master",
 };
 
 export function ProgressCard({
@@ -31,22 +33,28 @@ export function ProgressCard({
   xpToNextLevel,
 }: ProgressCardProps) {
   const currentLevelIndex = LEVEL_ORDER.indexOf(currentLevel);
-  const progressPercentage = Math.min((totalXp / xpToNextLevel) * 100, 100);
+  const progressPercentage = Math.min(
+    (totalXp / xpToNextLevel) * 100,
+    100
+  );
 
   return (
     <Card className="glass">
       <CardHeader className="pb-3">
-        <CardTitle className="text-foreground">Progress</CardTitle>
+        <CardTitle>Progress</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {/* XP Progress Bar */}
+
+      <CardContent className="space-y-5">
+
+        {/* ⭐ XP */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">XP Progress</span>
-            <span className="font-medium text-foreground">
-              {totalXp} / {xpToNextLevel} XP
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">XP</span>
+            <span className="font-medium">
+              {totalXp} / {xpToNextLevel}
             </span>
           </div>
+
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
@@ -56,45 +64,50 @@ export function ProgressCard({
           </motion.div>
         </div>
 
-        {/* Level Title */}
+        {/* 🌿 CURRENT LEVEL */}
         <div className="text-center">
-          <span className="text-sm text-muted-foreground">
-            {levelTitles[currentLevel]}
-          </span>
+          <motion.div
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-lg font-semibold"
+          >
+            {levelEmojis[currentLevel]} {levelTitles[currentLevel]}
+          </motion.div>
         </div>
 
-        {/* Level Display */}
-        <div className="flex items-center justify-center gap-2 rounded-xl bg-secondary/50 p-3">
-          <div className="flex items-center gap-4">
-            {LEVEL_ORDER.map((level, idx) => {
-              const isActive = idx <= currentLevelIndex;
-              const isCurrent = level === currentLevel;
+        {/* 🌱 LEVEL PATH */}
+        <div className="flex justify-center gap-3 bg-secondary/50 rounded-xl p-3">
+          {LEVEL_ORDER.map((level, idx) => {
+            const isActive = idx <= currentLevelIndex;
+            const isCurrent = level === currentLevel;
 
-              return (
-                <motion.div
-                  key={level}
-                  className={`flex flex-col items-center gap-1 ${
-                    isActive ? "" : "opacity-40"
+            return (
+              <motion.div
+                key={level}
+                className={`flex flex-col items-center gap-1 ${
+                  isActive ? "" : "opacity-30"
+                }`}
+                animate={isCurrent ? { scale: [1, 1.15, 1] } : {}}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <div
+                  className={`p-2 rounded-full ${
+                    isCurrent
+                      ? "bg-green-200 ring-2 ring-green-500"
+                      : isActive
+                      ? "bg-green-100"
+                      : "bg-muted"
                   }`}
-                  animate={isCurrent ? { scale: [1, 1.1, 1] } : {}}
-                  transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <div
-                    className={`rounded-full p-2 ${
-                      isCurrent
-                        ? "bg-primary/20 ring-2 ring-primary"
-                        : isActive
-                          ? "bg-primary/10"
-                          : "bg-muted"
-                    }`}
-                  >
-                    <span className="text-xl">{levelEmojis[level]}</span>
-                  </div>
-                  <span className="text-xs font-medium text-foreground">{level}</span>
-                </motion.div>
-              );
-            })}
-          </div>
+                  <span className="text-lg">{levelEmojis[level]}</span>
+                </div>
+
+                <span className="text-[10px] font-medium">
+                  {levelTitles[level]}
+                </span>
+              </motion.div>
+            );
+          })}
         </div>
       </CardContent>
     </Card>

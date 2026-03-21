@@ -18,11 +18,11 @@ export function TodaysTasks({
   onCompleteTask,
 }: TodaysTasksProps) {
   const [completingTaskId, setCompletingTaskId] = useState<string | null>(null);
-  const [showStreakPopup, setShowStreakPopup] = useState<string | null>(null);
+  const [showPopup, setShowPopup] = useState<string | null>(null);
 
   const handleComplete = (taskId: string) => {
     setCompletingTaskId(taskId);
-    setShowStreakPopup(taskId);
+    setShowPopup(taskId);
 
     setTimeout(() => {
       onCompleteTask(taskId);
@@ -30,8 +30,8 @@ export function TodaysTasks({
     }, 300);
 
     setTimeout(() => {
-      setShowStreakPopup(null);
-    }, 1000);
+      setShowPopup(null);
+    }, 1200);
   };
 
   const getHobbyName = (hobbyId: string) => {
@@ -41,10 +41,9 @@ export function TodaysTasks({
   return (
     <Card className="glass">
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-foreground">
-          <span>Today&apos;s Tasks</span>
-        </CardTitle>
+        <CardTitle>Today's Tasks</CardTitle>
       </CardHeader>
+
       <CardContent className="space-y-3">
         {tasks.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-4">
@@ -62,59 +61,73 @@ export function TodaysTasks({
                 className="relative"
               >
                 <div
-                  className={`flex items-center gap-3 rounded-xl p-3 transition-all ${
-                    task.completed
-                      ? "bg-primary/10"
-                      : "bg-secondary/50 hover:bg-secondary"
-                  }`}
+                  className={`
+                    flex items-center gap-3 rounded-xl p-3 transition-all
+                    ${
+                      task.completed
+                        ? "bg-green-100/40 dark:bg-green-900/20"
+                        : "bg-secondary/50 hover:bg-secondary"
+                    }
+                  `}
                 >
+                  {/* ✅ CHECK */}
                   <button
                     onClick={() => !task.completed && handleComplete(task.id)}
                     disabled={task.completed}
-                    className="flex-shrink-0 focus:outline-none"
+                    className="flex-shrink-0"
                   >
                     <motion.div
                       animate={
                         completingTaskId === task.id
-                          ? { scale: [1, 1.3, 1] }
+                          ? { scale: [1, 1.4, 1] }
                           : {}
                       }
                     >
                       {task.completed ? (
-                        <CheckCircle2 className="h-6 w-6 text-primary" />
+                        <CheckCircle2 className="h-6 w-6 text-green-500" />
                       ) : (
-                        <Circle className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
+                        <Circle className="h-6 w-6 text-muted-foreground hover:text-green-500 transition-colors" />
                       )}
                     </motion.div>
                   </button>
 
+                  {/* 📄 TEXT */}
                   <div className="flex-1 min-w-0">
                     <p
                       className={`text-sm font-medium ${
                         task.completed
                           ? "line-through text-muted-foreground"
-                          : "text-foreground"
+                          : ""
                       }`}
                     >
                       {task.title}
                     </p>
+
                     <p className="text-xs text-muted-foreground">
                       {getHobbyName(task.hobbyId)}
                     </p>
                   </div>
                 </div>
 
-                {/* Streak Popup */}
+                {/* 💥 XP + STREAK POPUP */}
                 <AnimatePresence>
-                  {showStreakPopup === task.id && (
+                  {showPopup === task.id && (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.5, y: 0 }}
-                      animate={{ opacity: 1, scale: 1.2, y: -10 }}
-                      exit={{ opacity: 0, scale: 1, y: -20 }}
-                      className="absolute right-2 top-0 flex items-center gap-1 text-orange-500 font-bold text-sm pointer-events-none"
+                      animate={{ opacity: 1, scale: 1.2, y: -15 }}
+                      exit={{ opacity: 0, scale: 1, y: -25 }}
+                      className="absolute right-2 top-0 flex flex-col items-end gap-1 pointer-events-none"
                     >
-                      <Flame className="h-4 w-4" />
-                      <span>+1 streak</span>
+                      {/* XP */}
+                      <div className="text-green-500 font-bold text-sm">
+                        +25 XP
+                      </div>
+
+                      {/* STREAK */}
+                      <div className="flex items-center gap-1 text-orange-500 font-semibold text-xs">
+                        <Flame className="h-3 w-3" />
+                        +1 streak
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
