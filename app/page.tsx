@@ -58,6 +58,11 @@ export default function HomePage() {
   });
 
   const [showCareAnimation, setShowCareAnimation] = useState(false);
+
+  // Modal state for hobby and add hobby
+  const [selectedHobby, setSelectedHobby] = useState<Hobby | null>(null);
+  const [showHobbyModal, setShowHobbyModal] = useState(false);
+  const [showAddHobbyModal, setShowAddHobbyModal] = useState(false);
   const [showLevelUp, setShowLevelUp] = useState(false);
 
   // 🌙 Dark mode
@@ -187,7 +192,27 @@ export default function HomePage() {
               xpToNextLevel={100}
             />
 
-            <Button className="w-full gap-2">
+            <Button
+              className="w-full gap-2"
+              onClick={() => {
+                setTasks((prevTasks) => {
+                  const newTasks = [...prevTasks];
+                  hobbies.forEach((hobby) => {
+                    const templates = aiTaskTemplates[hobby.name] || aiTaskTemplates.default;
+                    const randomTitle = templates[Math.floor(Math.random() * templates.length)];
+                    // Use a more robust unique ID
+                    const uniqueId = `t${Date.now()}_${hobby.id}_${Math.floor(Math.random() * 100000)}`;
+                    newTasks.push({
+                      id: uniqueId,
+                      hobbyId: hobby.id,
+                      title: randomTitle,
+                      completed: false,
+                    });
+                  });
+                  return newTasks;
+                });
+              }}
+            >
               <Sparkles /> Generate Tasks
             </Button>
           </div>
@@ -196,9 +221,11 @@ export default function HomePage() {
           <div>
             <PixelGarden
               hobbies={hobbies}
-              onPlantClick={() => {}}
-              onAddHobby={() => {}}
-              
+              onPlantClick={(hobby) => {
+                setSelectedHobby(hobby);
+                setShowHobbyModal(true);
+              }}
+              onAddHobby={() => setShowAddHobbyModal(true)}
             />
           </div>
         </div>
@@ -209,6 +236,26 @@ export default function HomePage() {
           profile={gardenerProfile}
           onUpdateName={() => {}}
           onClose={() => setProfileModalOpen(false)}
+        />
+      )}
+
+      {/* Hobby Modal */}
+      {showHobbyModal && selectedHobby && (
+        <HobbyModal
+          hobby={selectedHobby}
+          open={showHobbyModal}
+          onOpenChange={setShowHobbyModal}
+          onCompleteTask={() => {}}
+          onGenerateTask={() => {}}
+        />
+      )}
+
+      {/* Add Hobby Modal */}
+      {showAddHobbyModal && (
+        <AddHobbyModal
+          open={showAddHobbyModal}
+          onOpenChange={setShowAddHobbyModal}
+          onAddHobby={() => {}}
         />
       )}
     </div>
