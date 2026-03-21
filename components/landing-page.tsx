@@ -2,16 +2,17 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Target, Flame, ArrowRight } from "lucide-react";
+import { Sparkles, Target, Flame, ArrowRight, TreeDeciduous } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 interface LandingPageProps {
   onStartGarden: () => void;
   onAddHobby: (hobby: string) => void;
+  onOpenInteractiveGarden?: () => void;
 }
 
-export function LandingPage({ onStartGarden, onAddHobby }: LandingPageProps) {
+export function LandingPage({ onStartGarden, onAddHobby, onOpenInteractiveGarden }: LandingPageProps) {
   const [hobbyInput, setHobbyInput] = useState("");
 
   const handleAddHobby = () => {
@@ -78,7 +79,7 @@ export function LandingPage({ onStartGarden, onAddHobby }: LandingPageProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-10"
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button
               onClick={onStartGarden}
@@ -88,6 +89,17 @@ export function LandingPage({ onStartGarden, onAddHobby }: LandingPageProps) {
               Start Your Garden
               <ArrowRight className="h-5 w-5" />
             </Button>
+            {onOpenInteractiveGarden && (
+              <Button
+                onClick={onOpenInteractiveGarden}
+                variant="outline"
+                size="lg"
+                className="gap-2 text-lg px-8 py-6"
+              >
+                <TreeDeciduous className="h-5 w-5" />
+                Interactive Garden
+              </Button>
+            )}
           </motion.div>
         </div>
       </section>

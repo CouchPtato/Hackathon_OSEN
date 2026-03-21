@@ -115,3 +115,33 @@
       transparent 40%
     );
 }
+
+/* Plant pot shadow */
+.plant-shadow {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Watering effect */
+.water-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(135, 206, 235, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Soil texture */
+.soil-texture {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1' fill='%235d3a1a' fill-opacity='0.3'/%3E%3Ccircle cx='12' cy='8' r='1.5' fill='%235d3a1a' fill-opacity='0.2'/%3E%3Ccircle cx='7' cy='15' r='1' fill='%235d3a1a' fill-opacity='0.25'/%3E%3C/svg%3E");
+}

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, TreeDeciduous } from "lucide-react";
 import { LandingPage } from "@/components/landing-page";
 import { Navbar } from "@/components/navbar";
 import { TodaysTasks } from "@/components/todays-tasks";
@@ -10,6 +10,7 @@ import { ProgressCard } from "@/components/progress-card";
 import { GardenView } from "@/components/garden-view";
 import { HobbyModal } from "@/components/hobby-modal";
 import { AddHobbyModal } from "@/components/add-hobby-modal";
+import { InteractiveGarden } from "@/components/garden/interactive-garden";
 import { Button } from "@/components/ui/button";
 import {
   Hobby,
@@ -108,6 +109,7 @@ const aiTaskTemplates: Record<string, string[]> = {
 
 export default function HomePage() {
   const [showLanding, setShowLanding] = useState(true);
+  const [showInteractiveGarden, setShowInteractiveGarden] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [hobbies, setHobbies] = useState<Hobby[]>(initialHobbies);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
@@ -300,6 +302,19 @@ export default function HomePage() {
       <LandingPage
         onStartGarden={() => setShowLanding(false)}
         onAddHobby={handleAddHobby}
+        onOpenInteractiveGarden={() => {
+          setShowLanding(false);
+          setShowInteractiveGarden(true);
+        }}
+      />
+    );
+  }
+
+  // Show interactive garden
+  if (showInteractiveGarden) {
+    return (
+      <InteractiveGarden
+        onBackToHome={() => setShowInteractiveGarden(false)}
       />
     );
   }
@@ -350,6 +365,16 @@ export default function HomePage() {
                   Generate AI Tasks
                 </>
               )}
+            </Button>
+
+            <Button
+              onClick={() => setShowInteractiveGarden(true)}
+              variant="outline"
+              className="w-full gap-2"
+              size="lg"
+            >
+              <TreeDeciduous className="h-4 w-4" />
+              Interactive Garden
             </Button>
           </motion.div>
 
