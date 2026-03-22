@@ -43,20 +43,20 @@ export function TodaysTasks({
 
   return (
     <Card className="glass glow-green">
-      <CardHeader className="pb-3 flex flex-row items-center justify-between">
+      <CardHeader className="pb-5 flex flex-row items-center justify-between">
         <CardTitle>Today's Tasks</CardTitle>
         <Button
           variant="outline"
           size="sm"
-          className="gap-2 text-xs px-3 py-1 rounded-full shadow hover:bg-green-100"
+          className="gap-2 text-s px-3 py-1 rounded-full shadow hover:bg-green-100"
           onClick={onAddTaskClick}
         >
           <span role="img" aria-label="Add Task">➕</span> Add Task
         </Button>
       </CardHeader>
-      <CardContent className="space-y-3 max-h-40 overflow-y-auto">
+      <CardContent className="space-y-4 max-h-40 overflow-y-auto">
         {tasks.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-4">
+          <p className="text-sm text-muted-foreground text-center py-10">
             No tasks yet. Generate some AI tasks!
           </p>
         ) : (
@@ -73,10 +73,9 @@ export function TodaysTasks({
                 <div
                   className={`
                     flex items-center gap-3 rounded-xl p-3 transition-all
-                    ${
-                      task.completed
-                        ? "bg-green-100/40 dark:bg-green-900/20"
-                        : "bg-secondary/50 hover:bg-secondary"
+                    ${task.completed
+                      ? "bg-green-100/40 dark:bg-green-900/20"
+                      : "bg-secondary/50 hover:bg-secondary"
                     }
                   `}
                 >
@@ -103,11 +102,10 @@ export function TodaysTasks({
                   {/* 📄 TEXT */}
                   <div className="flex-1 min-w-0">
                     <p
-                      className={`text-sm font-medium ${
-                        task.completed
+                      className={`text-sm font-medium ${task.completed
                           ? "line-through text-muted-foreground"
                           : ""
-                      }`}
+                        }`}
                     >
                       {task.title}
                     </p>

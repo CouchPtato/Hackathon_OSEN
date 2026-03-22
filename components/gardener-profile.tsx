@@ -17,6 +17,9 @@ interface GardenerProfileProps {
   profile: GardenerProfileType;
   onUpdateName: (name: string) => void;
   onClose: () => void;
+  user?: any;
+  onSignOut?: () => void;
+  onSignIn?: () => void;
 }
 
 // 🎨 Colors
@@ -47,6 +50,9 @@ export function GardenerProfileModal({
   profile,
   onUpdateName,
   onClose,
+  user,
+  onSignOut,
+  onSignIn,
 }: GardenerProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(profile.name);
@@ -206,12 +212,25 @@ export function GardenerProfileModal({
               </div>
 
               {/* 📅 DATE */}
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Calendar className="h-4 w-4" />
-                <span>
-                  Since {profile.joinDate.toLocaleDateString()}
-                </span>
-              </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Calendar className="h-4 w-4" />
+                  <span>
+                    Since {profile.joinDate.toLocaleDateString()}
+                  </span>
+                </div>
+
+                {/* Auth actions */}
+                <div className="mt-6 flex justify-center">
+                  {user ? (
+                    <Button variant="outline" className="text-red-600 border-red-400 hover:bg-red-50" onClick={onSignOut}>
+                      Sign Out
+                    </Button>
+                  ) : (
+                    <Button variant="outline" className="text-green-600 border-green-400 hover:bg-green-50" onClick={onSignIn}>
+                      Sign In / Sign Up
+                    </Button>
+                  )}
+                </div>
             </CardContent>
           </Card>
         </motion.div>

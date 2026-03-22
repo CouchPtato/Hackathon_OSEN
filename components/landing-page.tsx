@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AuthModal } from "@/components/auth-modal";
 import { motion } from "framer-motion";
 import {
   Sparkles,
@@ -30,6 +31,8 @@ export function LandingPage({
 
   const [hobbyInput, setHobbyInput] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const suggestedHobbies = [
     "Guitar", "Painting", "Fitness", "Reading", "Cooking", "Photography", "Writing", "Gardening"
   ];
@@ -63,6 +66,8 @@ export function LandingPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-100 to-white dark:from-[#1a2e1a] dark:via-[#1a2e1a] dark:to-[#101c10] relative overflow-hidden">
+      {/* Auth Modal for sign in/up */}
+      <AuthModal open={authModalOpen} onClose={() => setAuthModalOpen(false)} onAuthSuccess={(u) => { setUser(u); setAuthModalOpen(false); onStartGarden(); }} />
       {/* Animated background elements */}
       <motion.div
         className="absolute inset-0 -z-10"
@@ -89,7 +94,7 @@ export function LandingPage({
 
       {/* 🌙 NAVBAR */}
       <header className="absolute top-0 left-0 right-0 z-50 px-4 py-4 sm:px-6">
-        <div className="mx-auto flex max-w-7xl justify-end">
+        <div className="mx-auto flex max-w-7xl justify-end gap-2">
           {onToggleDarkMode && (
             <Button variant="ghost" size="icon" onClick={onToggleDarkMode}>
               {darkMode ? (
@@ -97,6 +102,12 @@ export function LandingPage({
               ) : (
                 <Moon className="h-5 w-5" />
               )}
+            </Button>
+          )}
+          {/* Sign In/Up button */}
+          {!user && (
+            <Button className="bg-green-600 text-white" onClick={() => setAuthModalOpen(true)}>
+              Sign In / Sign Up
             </Button>
           )}
         </div>
@@ -135,11 +146,11 @@ export function LandingPage({
             className="mt-10"
           >
             <Button
-              onClick={onStartGarden}
+              onClick={user ? onStartGarden : () => setAuthModalOpen(true)}
               size="lg"
               className="text-lg px-10 py-6 gap-2 rounded-full shadow-lg bg-gradient-to-r from-green-500 to-emerald-400 hover:scale-105 active:scale-95 transition"
             >
-              Start Growing
+              {user ? "Go to My Garden" : "Start Growing"}
               <ArrowRight className="h-5 w-5" />
             </Button>
           </motion.div>

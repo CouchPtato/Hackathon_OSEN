@@ -101,23 +101,23 @@ export function PixelPlant({
   }, [stage]);
 
 
-  // Granular scaling for each stage for better balance
+  // Refined scaling for all plant types and stages (visually balanced)
   let scale = 1;
-  if (stage === 1) scale = 0.48;
-  else if (stage === 2) scale = 0.58;
-  else if (stage === 3) scale = 1.0;
-  else if (stage === 4) scale = 1.18;
-  else if (stage === 5) scale = 1.32;
-  else if (stage === 6) scale = 1.45;
+  if (stage === 1) scale = 0.58;
+  else if (stage === 2) scale = 0.74;
+  else if (stage === 3) scale = 1.08;
+  else if (stage === 4) scale = 1.32;
+  else if (stage === 5) scale = 1.48;
+  else if (stage === 6) scale = 1.62;
 
-  // Special case: photography or gardening plant (or any other that looks too big)
-  const lowerName = hobbyName.toLowerCase();
-  if (lowerName.includes('photo') || lowerName.includes('garden')) {
-    if (stage === 1) scale = 0.48; // match other seeds, not smaller
-    else if (stage === 2) scale *= 0.85;
-    else if (stage === 3) scale *= 0.9;
-    else scale *= 0.95;
-  }
+  // Per-sprite normalization factors
+  const spriteFolder = getPlantSpriteFolder(type);
+  let spriteScale = 1;
+  if (spriteFolder === "plant1") spriteScale = 0.92;
+  else if (spriteFolder === "plant2") spriteScale = 0.84;
+  else if (spriteFolder === "plant3") spriteScale = 0.86;
+  else if (spriteFolder === "plant4") spriteScale = 1.18;
+  scale *= spriteScale;
 
   return (
     <motion.div className={`relative flex items-end justify-center ${className}`} style={{ width: 'auto', height: 'auto' }}>

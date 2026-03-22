@@ -13,6 +13,7 @@ import { AddHobbyModal } from "@/components/add-hobby-modal";
 import { AddTaskModal } from "@/components/add-task-modal";
 import { GardenerProfileModal } from "@/components/gardener-profile";
 import { Button } from "@/components/ui/button";
+import { AuthModal } from "@/components/auth-modal";
 import {
   Hobby,
   Task,
@@ -60,10 +61,49 @@ export function getGardenerXpToNextLevel(totalXp: number): number {
 }
 
 export default function HomePage() {
+    const [authModalOpen, setAuthModalOpen] = useState(false);
+    const [user, setUser] = useState<any>(null);
+    const [token, setToken] = useState<string | null>(null);
+
   const [showLanding, setShowLanding] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [hobbies, setHobbies] = useState<Hobby[]>(initialHobbies);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
+
+
+  // Load user, hobbies, and tasks from localStorage on mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    const savedToken = localStorage.getItem('token');
+    if (savedUser && savedToken) {
+      setUser(JSON.parse(savedUser));
+      setToken(savedToken);
+    }
+    const savedHobbies = localStorage.getItem('hobbies');
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedHobbies) {
+      try {
+        setHobbies(JSON.parse(savedHobbies));
+      } catch (e) {}
+    }
+    if (savedTasks) {
+      try {
+        setTasks(JSON.parse(savedTasks));
+      } catch (e) {}
+    }
+  }, []);
+
+  // Save user, hobbies, and tasks to localStorage when they change
+  useEffect(() => {
+    if (user) localStorage.setItem('user', JSON.stringify(user));
+    if (token) localStorage.setItem('token', token);
+  }, [user, token]);
+  useEffect(() => {
+    localStorage.setItem('hobbies', JSON.stringify(hobbies));
+  }, [hobbies]);
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   const [profileModalOpen, setProfileModalOpen] = useState(false);
 
@@ -86,8 +126,18 @@ export default function HomePage() {
 
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
 
-  // 🌙 Dark mode
+  // 🌙 Dark mode - Load from localStorage on mount
   useEffect(() => {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  // Save dark mode to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode.toString());
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
@@ -117,6 +167,7 @@ export default function HomePage() {
     setTimeout(() => setShowCareAnimation(false), 1500);
   };
 
+  // Unified XP/level update logic for completing a task
   const handleCompleteTask = (taskId: string) => {
     const task = tasks.find((t) => t.id === taskId);
     if (!task) return;
@@ -127,50 +178,42 @@ export default function HomePage() {
 
     setHobbies((prev) =>
       prev.map((h) => {
-        // Only update the hobby that the task belongs to
         if (h.id !== task.hobbyId) return h;
-
-        const newXp = h.xp + 25;
+        let newXp = h.xp + 25;
+        let newLevel = h.level;
+        let maxXp = h.maxXp;
         let newStreak = h.streak;
-
-        // Check if this is first completion of the day
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const lastCared = h.lastCaredAt ? new Date(h.lastCaredAt) : null;
         const lastCaredDay = lastCared
           ? new Date(lastCared.getFullYear(), lastCared.getMonth(), lastCared.getDate())
           : null;
-
-        // Only increment streak if this is the first completion of the day
         if (!lastCaredDay || lastCaredDay.getTime() !== today.getTime()) {
           newStreak = h.streak === 0 ? 1 : h.streak + 1;
         }
-
-        // Check for level up
-        if (newXp >= LEVEL_XP_THRESHOLDS[h.level]) {
+        const nextLevel = getNextLevel(h.level);
+        if (newXp >= maxXp && nextLevel) {
           setShowLevelUp(true);
           setTimeout(() => setShowLevelUp(false), 2000);
-          return {
-            ...h,
-            xp: 0,
-            level: getNextLevel(h.level) || h.level,
-            streak: newStreak,
-            lastCaredAt: now,
-            careActions: h.careActions + 1,
-          };
+          newXp = newXp - maxXp;
+          newLevel = nextLevel;
+          maxXp = LEVEL_XP_THRESHOLDS[newLevel];
+        } else if (newXp > maxXp) {
+          newXp = maxXp;
         }
-
         return {
           ...h,
           xp: newXp,
+          level: newLevel,
+          maxXp,
           streak: newStreak,
           lastCaredAt: now,
           careActions: h.careActions + 1,
         };
       })
     );
-
-    performPlantCare("1");
+    performPlantCare(task.hobbyId);
   };
 
   if (showLanding) {
@@ -265,6 +308,9 @@ export default function HomePage() {
       </AnimatePresence>
 
       <main className="mx-auto max-w-7xl px-4 py-6">
+
+          {/* Auth Modal */}
+          <AuthModal open={authModalOpen} onClose={() => setAuthModalOpen(false)} onAuthSuccess={(u, t) => { setUser(u); setToken(t); }} />
         <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
           
           {/* LEFT */}
@@ -334,35 +380,25 @@ export default function HomePage() {
           }}
           onUpdateName={(name) => setGardenerProfile((prev) => ({ ...prev, name }))}
           onClose={() => setProfileModalOpen(false)}
+          user={user}
+          onSignOut={() => {
+            setUser(null);
+            setToken(null);
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+          }}
+          onSignIn={() => setAuthModalOpen(true)}
         />
       )}
 
       {/* Hobby Modal */}
       {showHobbyModal && selectedHobby && (
         <HobbyModal
-          hobby={selectedHobby}
+          hobby={hobbies.find((h) => h.id === selectedHobby.id) || selectedHobby}
           tasks={tasks.filter((t) => t.hobbyId === selectedHobby.id)}
           open={showHobbyModal}
           onOpenChange={setShowHobbyModal}
-          onCompleteTask={(taskId) => {
-            setTasks((prev) => prev.map((t) => t.id === taskId ? { ...t, completed: true } : t));
-            setHobbies((prev) => prev.map((h) => {
-              if (h.id !== selectedHobby.id) return h;
-              let newXp = h.xp + 25;
-              let newLevel = h.level;
-              let maxXp = h.maxXp;
-              // Level up logic
-              const nextLevel = getNextLevel(h.level);
-              if (newXp >= maxXp && nextLevel) {
-                newXp = newXp - maxXp;
-                newLevel = nextLevel;
-                maxXp = LEVEL_XP_THRESHOLDS[newLevel];
-              } else if (newXp > maxXp) {
-                newXp = maxXp;
-              }
-              return { ...h, xp: newXp, level: newLevel, maxXp, careActions: h.careActions + 1 };
-            }));
-          }}
+          onCompleteTask={handleCompleteTask}
           onGenerateTask={(hobbyId) => {
             const templates = aiTaskTemplates[selectedHobby.name] || aiTaskTemplates.default;
             const randomTitle = templates[Math.floor(Math.random() * templates.length)];

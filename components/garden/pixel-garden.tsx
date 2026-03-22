@@ -311,7 +311,7 @@ export function PixelGarden({
             className={`rounded-full bg-yellow-400 hover:bg-yellow-500 text-white p-2 shadow transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 flex items-center justify-center ${shovelMode ? 'ring-2 ring-yellow-600' : ''}`}
             style={{ width: 36, height: 36 }}
           >
-            <span style={{ fontSize: 20 }} role="img" aria-label="Shovel">🧹</span>
+            <span style={{ fontSize: 20 }} role="img" aria-label="Shovel">🪏</span>
           </button>
           <button
             onClick={onAddHobby}

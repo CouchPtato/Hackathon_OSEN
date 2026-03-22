@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Flame, Sparkles, Droplet, CheckCircle2 } from "lucide-react";
 import {
@@ -38,6 +39,14 @@ export function HobbyModal({
   const stage = levelToPixelStage(hobby.level);
   const waterLevel = hobby.waterLevel ?? 50;
   const isWatered = waterLevel > 70;
+
+  // Sort tasks: incomplete first
+  const sortedTasks = [...tasks].sort((a, b) => Number(a.completed) - Number(b.completed));
+
+  // Handler for completing a task
+  const handleCompleteTask = (taskId: string) => {
+    onCompleteTask(taskId);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -120,16 +129,16 @@ export function HobbyModal({
           <div className="w-full mt-2">
             <h3 className="text-base font-semibold mb-2">Tasks</h3>
             <div className="max-h-40 overflow-y-auto pr-1">
-              {tasks.length === 0 ? (
+              {sortedTasks.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center">No tasks for this plant.</p>
               ) : (
                 <ul className="space-y-2">
-                  {tasks.map((task) => (
+                  {sortedTasks.map((task) => (
                     <li key={task.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
                         checked={task.completed}
-                        onChange={() => onCompleteTask(task.id)}
+                        onChange={() => handleCompleteTask(task.id)}
                         className="accent-green-500 h-4 w-4"
                         disabled={task.completed}
                       />
