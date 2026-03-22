@@ -29,6 +29,7 @@ const suggestedHobbies = [
   "Photography",
   "Writing",
   "Gardening",
+  "Coding",
 ];
 
 export function AddHobbyModal({

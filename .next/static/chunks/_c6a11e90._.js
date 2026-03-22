@@ -2210,594 +2210,606 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
-"[project]/components/garden/pixel-garden.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"[project]/components/hobby-card.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
 __turbopack_context__.s([
-    "PixelGarden",
-    ()=>PixelGarden
+    "HobbyCard",
+    ()=>HobbyCard
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/garden/pixel-plants.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$flame$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Flame$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/flame.js [app-client] (ecmascript) <export default as Flame>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplet$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplet$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/droplet.js [app-client] (ecmascript) <export default as Droplet>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/card.tsx [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
-;
-var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature(), _s2 = __turbopack_context__.k.signature();
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/garden/pixel-plants.tsx [app-client] (ecmascript)");
 "use client";
 ;
 ;
 ;
 ;
 ;
-// Utility to get time phase
-function getTimePhase() {
-    const h = new Date().getHours();
-    if (h >= 5 && h < 8) return "dawn";
-    if (h >= 8 && h < 11) return "day";
-    if (h >= 11 && h < 15) return "noon";
-    if (h >= 15 && h < 18) return "dusk";
-    return "night";
+// 🌱 Level → stage
+function levelToStage(level) {
+    switch(level){
+        case "Seed":
+            return 1;
+        case "Sprout":
+            return 2;
+        case "Small Plant":
+            return 3;
+        case "Medium Plant":
+            return 4;
+        case "Fruit Stage":
+            return 5;
+        case "Ripe Fruit":
+            return 6;
+        default:
+            return 1;
+    }
 }
-// Random utility
-const rand = (min, max)=>Math.random() * (max - min) + min;
-// Generic Insect (Bee/Firefly) that hovers above plants
-function Insect(param) {
-    let { hobbies, positionsMap, sprite, timePhase } = param;
-    _s();
-    // Pick a random plant to hover above
-    const [targetId, setTargetId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [offset, setOffset] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        x: 0,
-        y: 0
-    });
-    const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(1);
-    const [hover, setHover] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        x: 0,
-        y: 0
-    });
-    // Pick a new target plant occasionally
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "Insect.useEffect": ()=>{
-            if (!hobbies.length) return;
-            const pick = {
-                "Insect.useEffect.pick": ()=>{
-                    const idx = Math.floor(Math.random() * hobbies.length);
-                    setTargetId(hobbies[idx].id);
-                }
-            }["Insect.useEffect.pick"];
-            pick();
-            const interval = setInterval(pick, 8000 + Math.random() * 4000);
-            return ({
-                "Insect.useEffect": ()=>clearInterval(interval)
-            })["Insect.useEffect"];
-        }
-    }["Insect.useEffect"], [
-        hobbies
-    ]);
-    // Animate random hovering above the plant
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "Insect.useEffect": ()=>{
-            let timeout;
-            const animate = {
-                "Insect.useEffect.animate": ()=>{
-                    setOffset({
-                        x: rand(-8, 8),
-                        y: rand(-18, -10)
-                    });
-                    setHover({
-                        x: rand(-2, 2),
-                        y: rand(-2, 2)
-                    });
-                    timeout = setTimeout(animate, 1800 + Math.random() * 2000);
-                }
-            }["Insect.useEffect.animate"];
-            animate();
-            return ({
-                "Insect.useEffect": ()=>clearTimeout(timeout)
-            })["Insect.useEffect"];
-        }
-    }["Insect.useEffect"], [
-        targetId
-    ]);
-    // Flip direction based on movement
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "Insect.useEffect": ()=>{
-            setDirection(offset.x > 0 ? 1 : -1);
-        }
-    }["Insect.useEffect"], [
-        offset.x
-    ]);
-    if (!targetId || !positionsMap[targetId]) return null;
-    const pos = positionsMap[targetId];
+// 🌿 Clean level display
+const levelDisplay = {
+    Seed: "🌱 Beginner",
+    Sprout: "🌿 Growing",
+    "Small Plant": "🌾 Skilled",
+    "Medium Plant": "🌳 Master",
+    "Fruit Stage": "🍎 Fruiting",
+    "Ripe Fruit": "✨ Complete"
+};
+function HobbyCard(param) {
+    let { hobby, tasks = [], onClick, recentlyCared = false } = param;
+    const stage = levelToStage(hobby.level);
+    var _hobby_waterLevel;
+    const waterLevel = (_hobby_waterLevel = hobby.waterLevel) !== null && _hobby_waterLevel !== void 0 ? _hobby_waterLevel : 50;
+    const isWatered = waterLevel > 70;
+    const xpPercent = hobby.xp / hobby.maxXp * 100;
+    // Filter tasks for this hobby
+    const hobbyTasks = tasks.filter((t)=>t.hobbyId === hobby.id);
+    const visibleTasks = hobbyTasks.slice(0, 3);
+    const hasMoreTasks = hobbyTasks.length > 3;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-        className: "absolute pointer-events-none z-30",
+        whileHover: {
+            scale: 1.03,
+            y: -4
+        },
+        whileTap: {
+            scale: 0.97
+        },
+        initial: {
+            opacity: 0,
+            scale: 0.9
+        },
         animate: {
-            left: "".concat(pos.x + offset.x, "%"),
-            top: "".concat(pos.y + offset.y, "%")
+            opacity: 1,
+            scale: 1
         },
-        transition: {
-            duration: 2.5,
-            ease: "easeInOut"
-        },
-        style: {
-            transform: "scale(".concat(direction, ", 1)")
-        },
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-            animate: {
-                x: [
-                    0,
-                    hover.x,
-                    -hover.x,
-                    hover.x,
-                    0
-                ],
-                y: [
-                    0,
-                    hover.y,
-                    -hover.y,
-                    hover.y,
-                    0
-                ]
-            },
-            transition: {
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "mirror"
-            },
-            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                src: sprite,
-                className: "w-6 h-6 drop-shadow-lg",
-                style: {
-                    imageRendering: "pixelated"
-                },
-                alt: "insect"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 99,
-                columnNumber: 9
-            }, this)
-        }, void 0, false, {
-            fileName: "[project]/components/garden/pixel-garden.tsx",
-            lineNumber: 95,
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+            onClick: onClick,
+            className: "\n          cursor-pointer relative overflow-hidden transition-all\n          hover:shadow-xl glow-green\n          ".concat(recentlyCared ? "ring-2 ring-green-400 ring-offset-2" : "", "\n        "),
+            children: [
+                recentlyCared && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                    className: "absolute inset-0 bg-green-400/20 pointer-events-none",
+                    initial: {
+                        opacity: 0
+                    },
+                    animate: {
+                        opacity: [
+                            0,
+                            0.6,
+                            0
+                        ]
+                    },
+                    transition: {
+                        duration: 1.5
+                    }
+                }, void 0, false, {
+                    fileName: "[project]/components/hobby-card.tsx",
+                    lineNumber: 68,
+                    columnNumber: 11
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
+                    className: "p-3 sm:p-4",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-col items-center text-center gap-2",
+                        children: [
+                            hobbyTasks.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-full max-h-28 overflow-y-auto mt-2 rounded bg-secondary/30",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                    className: "divide-y divide-muted-foreground/10",
+                                    children: [
+                                        visibleTasks.map((task)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                className: "px-2 py-1 text-xs text-left flex items-center gap-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "inline-block w-2 h-2 rounded-full ".concat(task.completed ? 'bg-green-400' : 'bg-gray-300')
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/hobby-card.tsx",
+                                                        lineNumber: 84,
+                                                        columnNumber: 23
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: task.completed ? 'line-through text-muted-foreground' : '',
+                                                        children: task.title
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/hobby-card.tsx",
+                                                        lineNumber: 85,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                ]
+                                            }, task.id, true, {
+                                                fileName: "[project]/components/hobby-card.tsx",
+                                                lineNumber: 83,
+                                                columnNumber: 21
+                                            }, this)),
+                                        hasMoreTasks && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                            className: "px-2 py-1 text-xs text-muted-foreground text-center",
+                                            children: [
+                                                "+",
+                                                hobbyTasks.length - 3,
+                                                " more..."
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/hobby-card.tsx",
+                                            lineNumber: 89,
+                                            columnNumber: 21
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/components/hobby-card.tsx",
+                                    lineNumber: 81,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/components/hobby-card.tsx",
+                                lineNumber: 80,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                className: "h-20 w-20 sm:h-24 sm:w-24",
+                                animate: {
+                                    y: [
+                                        0,
+                                        -3,
+                                        0
+                                    ],
+                                    scale: recentlyCared ? [
+                                        1,
+                                        1.15,
+                                        1
+                                    ] : 1
+                                },
+                                transition: {
+                                    y: {
+                                        duration: 3,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    },
+                                    scale: {
+                                        duration: 0.4
+                                    }
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PixelPlant"], {
+                                    stage: stage,
+                                    hobbyName: hobby.name,
+                                    isWatered: isWatered,
+                                    className: "w-full h-full"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/hobby-card.tsx",
+                                    lineNumber: 107,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/components/hobby-card.tsx",
+                                lineNumber: 96,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                className: "font-semibold text-sm sm:text-base line-clamp-1",
+                                children: hobby.name
+                            }, void 0, false, {
+                                fileName: "[project]/components/hobby-card.tsx",
+                                lineNumber: 116,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "text-xs text-muted-foreground",
+                                children: levelDisplay[hobby.level]
+                            }, void 0, false, {
+                                fileName: "[project]/components/hobby-card.tsx",
+                                lineNumber: 121,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-full space-y-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center justify-between text-xs",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center gap-1 text-sky-500",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplet$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplet$3e$__["Droplet"], {
+                                                        className: "h-3 w-3"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/hobby-card.tsx",
+                                                        lineNumber: 129,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        children: [
+                                                            waterLevel,
+                                                            "%"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/hobby-card.tsx",
+                                                        lineNumber: 130,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/hobby-card.tsx",
+                                                lineNumber: 128,
+                                                columnNumber: 17
+                                            }, this),
+                                            hobby.streak > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center gap-1 text-orange-500",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$flame$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Flame$3e$__["Flame"], {
+                                                        className: "h-3 w-3"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/hobby-card.tsx",
+                                                        lineNumber: 135,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        children: hobby.streak
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/hobby-card.tsx",
+                                                        lineNumber: 136,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/hobby-card.tsx",
+                                                lineNumber: 134,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/components/hobby-card.tsx",
+                                        lineNumber: 127,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-1.5 bg-secondary rounded-full overflow-hidden",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                            className: "h-full rounded-full ".concat(waterLevel > 70 ? "bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.7)]" : waterLevel > 30 ? "bg-sky-300" : "bg-amber-400"),
+                                            initial: {
+                                                width: 0
+                                            },
+                                            animate: {
+                                                width: "".concat(waterLevel, "%")
+                                            },
+                                            transition: {
+                                                duration: 0.5
+                                            }
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/hobby-card.tsx",
+                                            lineNumber: 142,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/hobby-card.tsx",
+                                        lineNumber: 141,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/hobby-card.tsx",
+                                lineNumber: 126,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-full",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-1.5 bg-secondary rounded-full overflow-hidden",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                            className: "h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-[0_0_6px_rgba(34,197,94,0.6)]",
+                                            initial: {
+                                                width: 0
+                                            },
+                                            animate: {
+                                                width: "".concat(xpPercent, "%")
+                                            },
+                                            transition: {
+                                                duration: 0.6
+                                            }
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/hobby-card.tsx",
+                                            lineNumber: 159,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/hobby-card.tsx",
+                                        lineNumber: 158,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-[10px] text-muted-foreground mt-0.5",
+                                        children: [
+                                            hobby.xp,
+                                            "/",
+                                            hobby.maxXp,
+                                            " XP"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/components/hobby-card.tsx",
+                                        lineNumber: 167,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/hobby-card.tsx",
+                                lineNumber: 157,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/hobby-card.tsx",
+                        lineNumber: 77,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/components/hobby-card.tsx",
+                    lineNumber: 76,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/components/hobby-card.tsx",
+            lineNumber: 58,
             columnNumber: 7
         }, this)
     }, void 0, false, {
-        fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 86,
+        fileName: "[project]/components/hobby-card.tsx",
+        lineNumber: 52,
         columnNumber: 5
     }, this);
 }
-_s(Insect, "kqj+1jzNeA5P7AIvD8PVR/A+pwY=");
-_c = Insect;
-// Insects wrapper (bees or fireflies)
-function Insects(param) {
-    let { hobbies, positionsMap, timePhase } = param;
-    // Use bees for dawn/day/noon, fireflies for dusk/night
-    const sprite = [
-        "dawn",
-        "day",
-        "noon"
-    ].includes(timePhase) ? "/sprites/bee.png" : "/sprites/firefly.png";
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insect, {
-                hobbies: hobbies,
-                positionsMap: positionsMap,
-                sprite: sprite,
-                timePhase: timePhase
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 127,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insect, {
-                hobbies: hobbies,
-                positionsMap: positionsMap,
-                sprite: sprite,
-                timePhase: timePhase
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 128,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insect, {
-                hobbies: hobbies,
-                positionsMap: positionsMap,
-                sprite: sprite,
-                timePhase: timePhase
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 129,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true);
+_c = HobbyCard;
+var _c;
+__turbopack_context__.k.register(_c, "HobbyCard");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
-_c1 = Insects;
-// ---------- 🌱 PLANT ----------
-function GardenPlant(param) {
-    let { hobby, position, onClick, onDrag, onDragEnd } = param;
-    _s1();
-    const stage = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["levelToPixelStage"])(hobby.level);
-    const [hovered, setHovered] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [dragging, setDragging] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [dragOffset, setDragOffset] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        x: 0,
-        y: 0
-    });
-    const dragStart = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
-    // Mouse drag handlers
-    function handleMouseDown(e) {
-        e.stopPropagation();
-        setDragging(true);
-        dragStart.current = {
-            x: e.clientX,
-            y: e.clientY
-        };
-        setDragOffset({
-            x: 0,
-            y: 0
-        });
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseup', handleMouseUp);
-    }
-    function handleMouseMove(e) {
-        if (!dragStart.current) return;
-        const dx = e.clientX - dragStart.current.x;
-        const dy = e.clientY - dragStart.current.y;
-        setDragOffset({
-            x: dx,
-            y: dy
-        });
-        onDrag(dx, dy);
-    }
-    function handleMouseUp(e) {
-        setDragging(false);
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
-        onDragEnd(dragOffset.x, dragOffset.y);
-        setDragOffset({
-            x: 0,
-            y: 0
-        });
-        dragStart.current = null;
-    }
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-        className: "absolute cursor-pointer group ".concat(dragging ? 'z-50' : ''),
-        style: {
-            left: "calc(".concat(position.x, "% + ").concat(dragOffset.x, "px)"),
-            top: "calc(".concat(position.y, "% + ").concat(dragOffset.y, "px)"),
-            zIndex: Math.floor(position.y * 10),
-            transformOrigin: "bottom center"
-        },
-        animate: {
-            x: "-50%",
-            y: "-100%",
-            scale: position.scale
-        },
-        whileHover: {
-            scale: position.scale + 0.05
-        },
-        transition: {
-            type: "spring",
-            stiffness: 200,
-            damping: 15
-        },
-        onClick: onClick,
-        onMouseEnter: ()=>setHovered(true),
-        onMouseLeave: ()=>setHovered(false),
-        onMouseDown: handleMouseDown,
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    width: "".concat(56 * position.scale, "px"),
-                    height: "".concat(72 * position.scale, "px")
-                },
-                className: "flex items-end justify-center",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PixelPlant"], {
-                    stage: stage,
-                    hobbyName: hobby.name,
-                    className: "relative"
-                }, void 0, false, {
-                    fileName: "[project]/components/garden/pixel-garden.tsx",
-                    lineNumber: 203,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 202,
-                columnNumber: 7
-            }, this),
-            hovered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute left-1/2 top-full mt-0.5 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded shadow z-20 pointer-events-none whitespace-nowrap",
-                children: hobby.name
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 208,
-                columnNumber: 9
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 181,
-        columnNumber: 5
-    }, this);
-}
-_s1(GardenPlant, "rfQ2CS36EhDYGdi3oTw/yHHX6dE=");
-_c2 = GardenPlant;
-function PixelGarden(param) {
-    let { hobbies, onPlantClick, onAddHobby, onRemoveHobby } = param;
-    _s2();
-    const [positionsMap, setPositionsMap] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "PixelGarden.useState": ()=>{
-            if ("TURBOPACK compile-time truthy", 1) {
-                try {
-                    const saved = localStorage.getItem('garden-positions');
-                    if (saved) return JSON.parse(saved);
-                } catch (e) {}
-            }
-            return {};
-        }
-    }["PixelGarden.useState"]);
-    const [timePhase, setTimePhase] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("day");
-    const [shovelMode, setShovelMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "PixelGarden.useEffect": ()=>{
-            const update = {
-                "PixelGarden.useEffect.update": ()=>setTimePhase(getTimePhase())
-            }["PixelGarden.useEffect.update"];
-            update();
-            const interval = setInterval(update, 60000);
-            return ({
-                "PixelGarden.useEffect": ()=>clearInterval(interval)
-            })["PixelGarden.useEffect"];
-        }
-    }["PixelGarden.useEffect"], []);
-    // ---------- NON-OVERLAP LOGIC ----------
-    // Restore or randomize positions for new hobbies
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "PixelGarden.useEffect": ()=>{
-            setPositionsMap({
-                "PixelGarden.useEffect": (prev)=>{
-                    const updated = {
-                        ...prev
-                    };
-                    const placed = [];
-                    // Margins to keep the largest plant (stage 6) fully inside
-                    const marginX = 12; // percent, adjust as needed for plant width
-                    const marginY = 18; // percent, adjust as needed for plant height
-                    const minX = marginX;
-                    const maxX = 100 - marginX;
-                    const minY = marginY;
-                    const maxY = 100 - marginY;
-                    hobbies.forEach({
-                        "PixelGarden.useEffect": (h)=>{
-                            if (!updated[h.id]) {
-                                let tries = 0;
-                                let pos;
-                                do {
-                                    pos = {
-                                        x: rand(minX, maxX),
-                                        y: rand(minY, maxY),
-                                        scale: rand(0.8, 1)
-                                    };
-                                    tries++;
-                                }while (placed.some({
-                                    "PixelGarden.useEffect": (p)=>Math.abs(p.x - pos.x) < 12 && Math.abs(p.y - pos.y) < 10
-                                }["PixelGarden.useEffect"]) && tries < 50)
-                                updated[h.id] = pos;
-                                placed.push(pos);
-                            } else {
-                                placed.push(updated[h.id]);
-                            }
-                        }
-                    }["PixelGarden.useEffect"]);
-                    return updated;
-                }
-            }["PixelGarden.useEffect"]);
-        }
-    }["PixelGarden.useEffect"], [
-        hobbies
-    ]);
-    // Persist positions to localStorage whenever they change
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "PixelGarden.useEffect": ()=>{
-            if ("TURBOPACK compile-time truthy", 1) {
-                try {
-                    localStorage.setItem('garden-positions', JSON.stringify(positionsMap));
-                } catch (e) {}
-            }
-        }
-    }["PixelGarden.useEffect"], [
-        positionsMap
-    ]);
+}),
+"[project]/components/garden-view.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "GardenView",
+    ()=>GardenView
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sprout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sprout$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sprout.js [app-client] (ecmascript) <export default as Sprout>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$hobby$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/hobby-card.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/button.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/card.tsx [app-client] (ecmascript)");
+"use client";
+;
+;
+;
+;
+;
+;
+function GardenView(param) {
+    let { hobbies, onPlantClick, onAddHobby, recentlyCaredHobbyId } = param;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
-        className: "h-full glow-green",
+        className: "h-full min-h-[400px] glow-green",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
-                className: "flex justify-between items-center gap-2",
+                className: "flex flex-row items-center justify-between pb-4 relative z-20",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                        children: "🌻 Hobby Garden"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 306,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex gap-2 items-center",
+                        className: "flex items-center gap-2",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setShovelMode((m)=>!m),
-                                title: shovelMode ? "Exit Shovel Mode" : "Remove Plant (Shovel Mode)",
-                                className: "rounded-full bg-yellow-400 hover:bg-yellow-500 text-white p-2 shadow transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 flex items-center justify-center ".concat(shovelMode ? 'ring-2 ring-yellow-600' : ''),
-                                style: {
-                                    width: 36,
-                                    height: 36
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                animate: {
+                                    rotate: [
+                                        0,
+                                        10,
+                                        -10,
+                                        0
+                                    ]
                                 },
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    style: {
-                                        fontSize: 20
-                                    },
-                                    role: "img",
-                                    "aria-label": "Shovel",
-                                    children: "🪏"
+                                transition: {
+                                    duration: 3,
+                                    repeat: Infinity,
+                                    repeatDelay: 4
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sprout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sprout$3e$__["Sprout"], {
+                                    className: "h-5 w-5 text-green-500"
                                 }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-garden.tsx",
-                                    lineNumber: 314,
+                                    fileName: "[project]/components/garden-view.tsx",
+                                    lineNumber: 33,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
-                                fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 308,
+                                fileName: "[project]/components/garden-view.tsx",
+                                lineNumber: 29,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: onAddHobby,
-                                title: "Add Hobby",
-                                className: "rounded-full bg-green-500 hover:bg-green-600 text-white p-2 shadow transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 flex items-center justify-center",
-                                style: {
-                                    width: 36,
-                                    height: 36
-                                },
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
-                                    className: "w-5 h-5"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-garden.tsx",
-                                    lineNumber: 322,
-                                    columnNumber: 13
-                                }, this)
+                            "Hobby Garden"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/garden-view.tsx",
+                        lineNumber: 28,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                        onClick: onAddHobby,
+                        size: "sm",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                                className: "h-4 w-4"
                             }, void 0, false, {
-                                fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 316,
+                                fileName: "[project]/components/garden-view.tsx",
+                                lineNumber: 39,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "hidden sm:inline ml-1",
+                                children: "Add Hobby"
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden-view.tsx",
+                                lineNumber: 40,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
-                        fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 307,
+                        fileName: "[project]/components/garden-view.tsx",
+                        lineNumber: 38,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 305,
+                fileName: "[project]/components/garden-view.tsx",
+                lineNumber: 27,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
-                className: "relative min-h-[400px] overflow-hidden garden-area ".concat(shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''),
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute inset-0 pointer-events-none",
-                        style: {
-                            backgroundImage: "url('/tiles/grass_".concat(timePhase, ".jpg')"),
-                            backgroundRepeat: "repeat",
-                            backgroundSize: "128px 128px",
-                            imageRendering: "pixelated"
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 332,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute inset-0 pointer-events-none ".concat(timePhase === "dawn" ? "bg-orange-200/30" : timePhase === "noon" ? "bg-yellow-100/20" : timePhase === "dusk" ? "bg-purple-300/30" : timePhase === "night" ? "bg-indigo-900/60" : "")
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 343,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insects, {
-                        hobbies: hobbies,
-                        positionsMap: positionsMap,
-                        timePhase: timePhase
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 357,
-                        columnNumber: 9
-                    }, this),
-                    hobbies.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute inset-0 flex items-center justify-center text-white pointer-events-none",
-                        children: "🌱 Start planting your hobbies"
-                    }, void 0, false, {
-                        fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 361,
-                        columnNumber: 11
-                    }, this),
-                    hobbies.map((h)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "pointer-events-auto",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(GardenPlant, {
-                                hobby: h,
-                                position: positionsMap[h.id] || {
-                                    x: 50,
-                                    y: 70,
-                                    scale: 1
-                                },
-                                onClick: ()=>{
-                                    if (shovelMode) {
-                                        onRemoveHobby(h.id);
-                                    } else {
-                                        onPlantClick(h);
-                                    }
-                                },
-                                onDrag: (dx, dy)=>{},
-                                onDragEnd: (dx, dy)=>{
-                                    // Convert pixel drag to percent (approximate)
-                                    const garden = document.querySelector('.garden-area');
-                                    if (!garden) return;
-                                    const rect = garden.getBoundingClientRect();
-                                    const percentX = dx / rect.width * 100;
-                                    const percentY = dy / rect.height * 100;
-                                    setPositionsMap((prev)=>{
-                                        const newMap = {
-                                            ...prev,
-                                            [h.id]: {
-                                                ...prev[h.id],
-                                                x: Math.max(5, Math.min(95, prev[h.id].x + percentX)),
-                                                y: Math.max(5, Math.min(95, prev[h.id].y + percentY))
-                                            }
-                                        };
-                                        // Persist immediately
-                                        if ("TURBOPACK compile-time truthy", 1) {
-                                            try {
-                                                localStorage.setItem('garden-positions', JSON.stringify(newMap));
-                                            } catch (e) {}
-                                        }
-                                        return newMap;
-                                    });
-                                }
+                className: "relative z-10",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
+                    mode: "wait",
+                    children: hobbies.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        initial: {
+                            opacity: 0,
+                            y: 20
+                        },
+                        animate: {
+                            opacity: 1,
+                            y: 0
+                        },
+                        exit: {
+                            opacity: 0,
+                            y: -20
+                        },
+                        className: "flex flex-col items-center justify-center py-16 text-center",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "text-6xl mb-4",
+                                children: "🌱"
                             }, void 0, false, {
-                                fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 369,
-                                columnNumber: 13
+                                fileName: "[project]/components/garden-view.tsx",
+                                lineNumber: 56,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-muted-foreground text-lg",
+                                children: "Plant your first hobby"
+                            }, void 0, false, {
+                                fileName: "[project]/components/garden-view.tsx",
+                                lineNumber: 58,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                onClick: onAddHobby,
+                                variant: "outline",
+                                className: "mt-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                                        className: "h-4 w-4 mr-2"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/garden-view.tsx",
+                                        lineNumber: 63,
+                                        columnNumber: 17
+                                    }, this),
+                                    "Add Hobby"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/garden-view.tsx",
+                                lineNumber: 62,
+                                columnNumber: 15
                             }, this)
-                        }, h.id, false, {
-                            fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 368,
-                            columnNumber: 11
-                        }, this))
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 327,
+                        ]
+                    }, "empty", true, {
+                        fileName: "[project]/components/garden-view.tsx",
+                        lineNumber: 49,
+                        columnNumber: 13
+                    }, this) : /* GRID */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                        initial: {
+                            opacity: 0
+                        },
+                        animate: {
+                            opacity: 1
+                        },
+                        className: "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4",
+                        children: hobbies.map((hobby, index)=>{
+                            const isRecentlyCared = recentlyCaredHobbyId === hobby.id;
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                initial: {
+                                    opacity: 0,
+                                    y: 20
+                                },
+                                animate: {
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: isRecentlyCared ? [
+                                        1,
+                                        1.1,
+                                        1
+                                    ] : 1
+                                },
+                                transition: {
+                                    delay: index * 0.05,
+                                    duration: 0.3
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$hobby$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HobbyCard"], {
+                                    hobby: hobby,
+                                    tasks: "object" !== 'undefined' && window.localStorage ? JSON.parse(window.localStorage.getItem('tasks') || '[]') : [],
+                                    onClick: ()=>onPlantClick(hobby),
+                                    recentlyCared: isRecentlyCared
+                                }, void 0, false, {
+                                    fileName: "[project]/components/garden-view.tsx",
+                                    lineNumber: 94,
+                                    columnNumber: 21
+                                }, this)
+                            }, hobby.id, false, {
+                                fileName: "[project]/components/garden-view.tsx",
+                                lineNumber: 81,
+                                columnNumber: 19
+                            }, this);
+                        })
+                    }, "grid", false, {
+                        fileName: "[project]/components/garden-view.tsx",
+                        lineNumber: 70,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/components/garden-view.tsx",
+                    lineNumber: 45,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/components/garden-view.tsx",
+                lineNumber: 44,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
-        fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 304,
+        fileName: "[project]/components/garden-view.tsx",
+        lineNumber: 24,
         columnNumber: 5
     }, this);
 }
-_s2(PixelGarden, "Qn6MJeg1pswyT+7c9kjPkNqNvsk=");
-_c3 = PixelGarden;
-var _c, _c1, _c2, _c3;
-__turbopack_context__.k.register(_c, "Insect");
-__turbopack_context__.k.register(_c1, "Insects");
-__turbopack_context__.k.register(_c2, "GardenPlant");
-__turbopack_context__.k.register(_c3, "PixelGarden");
+_c = GardenView;
+var _c;
+__turbopack_context__.k.register(_c, "GardenView");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -3094,20 +3106,97 @@ function HobbyModal(param) {
                                         duration: 3,
                                         repeat: Infinity
                                     },
-                                    className: "h-full w-full flex items-end justify-center",
+                                    className: "flex items-end justify-center",
                                     style: {
                                         imageRendering: "pixelated"
                                     },
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PixelPlant"], {
-                                        stage: stage,
-                                        hobbyName: hobby.name,
-                                        isWatered: isWatered,
-                                        className: "w-full h-full scale-110"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/hobby-modal.tsx",
-                                        lineNumber: 76,
-                                        columnNumber: 15
-                                    }, this)
+                                    children: (()=>{
+                                        const PLANT_SCALES = {
+                                            plant1: [
+                                                0.54,
+                                                0.58,
+                                                1.20,
+                                                1.45,
+                                                1.58,
+                                                1.75
+                                            ],
+                                            plant2: [
+                                                0.56,
+                                                0.58,
+                                                0.98,
+                                                1.38,
+                                                1.38,
+                                                1.48
+                                            ],
+                                            plant3: [
+                                                0.52,
+                                                0.52,
+                                                1.04,
+                                                1.36,
+                                                1.54,
+                                                1.60
+                                            ],
+                                            plant4: [
+                                                0.54,
+                                                0.58,
+                                                1.14,
+                                                1.51,
+                                                1.86,
+                                                1.85
+                                            ],
+                                            plant5: [
+                                                0.51,
+                                                0.58,
+                                                0.92,
+                                                1.12,
+                                                1.28,
+                                                1.40
+                                            ]
+                                        };
+                                        const getPlantType = (name)=>{
+                                            const n = name.toLowerCase();
+                                            if (n.includes("fitness") || n.includes("gym")) return "fitness";
+                                            if (n.includes("art") || n.includes("paint")) return "art";
+                                            if (n.includes("music") || n.includes("guitar")) return "music";
+                                            if (n.includes("code") || n.includes("dev") || n.includes("tech") || n.includes("program") || n.includes("software") || n.includes("robot") || n.includes("ai") || n.includes("app") || n.includes("web") || n.includes("data")) return "coding";
+                                            return "default";
+                                        };
+                                        const getPlantSpriteFolder = (type)=>{
+                                            const folders = {
+                                                default: "plant1",
+                                                fitness: "plant2",
+                                                art: "plant3",
+                                                music: "plant4",
+                                                coding: "plant5"
+                                            };
+                                            return folders[type] || folders.default;
+                                        };
+                                        const type = getPlantType(hobby.name);
+                                        const spriteFolder = getPlantSpriteFolder(type);
+                                        const plantScales = PLANT_SCALES[spriteFolder] || PLANT_SCALES["plant1"];
+                                        const scale = plantScales[Math.min(Math.max(stage - 1, 0), 5)];
+                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            style: {
+                                                width: "".concat(56 * scale, "px"),
+                                                height: "".concat(72 * scale, "px")
+                                            },
+                                            className: "flex items-end justify-center mx-auto",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PixelPlant"], {
+                                                stage: stage,
+                                                hobbyName: hobby.name,
+                                                isWatered: isWatered,
+                                                className: "relative"
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/hobby-modal.tsx",
+                                                lineNumber: 120,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/hobby-modal.tsx",
+                                            lineNumber: 119,
+                                            columnNumber: 19
+                                        }, this);
+                                    })()
                                 }, void 0, false, {
                                     fileName: "[project]/components/hobby-modal.tsx",
                                     lineNumber: 70,
@@ -3124,7 +3213,7 @@ function HobbyModal(param) {
                             children: hobby.name
                         }, void 0, false, {
                             fileName: "[project]/components/hobby-modal.tsx",
-                            lineNumber: 86,
+                            lineNumber: 133,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3137,7 +3226,7 @@ function HobbyModal(param) {
                                             className: "h-4 w-4 text-orange-500"
                                         }, void 0, false, {
                                             fileName: "[project]/components/hobby-modal.tsx",
-                                            lineNumber: 91,
+                                            lineNumber: 138,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3148,13 +3237,13 @@ function HobbyModal(param) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/hobby-modal.tsx",
-                                            lineNumber: 92,
+                                            lineNumber: 139,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 90,
+                                    lineNumber: 137,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3164,7 +3253,7 @@ function HobbyModal(param) {
                                             className: "h-4 w-4 text-sky-500"
                                         }, void 0, false, {
                                             fileName: "[project]/components/hobby-modal.tsx",
-                                            lineNumber: 95,
+                                            lineNumber: 142,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3175,13 +3264,13 @@ function HobbyModal(param) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/hobby-modal.tsx",
-                                            lineNumber: 96,
+                                            lineNumber: 143,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 94,
+                                    lineNumber: 141,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3194,18 +3283,18 @@ function HobbyModal(param) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/hobby-modal.tsx",
-                                        lineNumber: 99,
+                                        lineNumber: 146,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 98,
+                                    lineNumber: 145,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/hobby-modal.tsx",
-                            lineNumber: 89,
+                            lineNumber: 136,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3219,7 +3308,7 @@ function HobbyModal(param) {
                                             children: hobby.level
                                         }, void 0, false, {
                                             fileName: "[project]/components/hobby-modal.tsx",
-                                            lineNumber: 106,
+                                            lineNumber: 153,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3231,13 +3320,13 @@ function HobbyModal(param) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/hobby-modal.tsx",
-                                            lineNumber: 107,
+                                            lineNumber: 154,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 105,
+                                    lineNumber: 152,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3252,18 +3341,18 @@ function HobbyModal(param) {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/components/hobby-modal.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 157,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 109,
+                                    lineNumber: 156,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/hobby-modal.tsx",
-                            lineNumber: 104,
+                            lineNumber: 151,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -3275,14 +3364,14 @@ function HobbyModal(param) {
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 124,
+                                    lineNumber: 171,
                                     columnNumber: 13
                                 }, this),
                                 "Water Plant"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/hobby-modal.tsx",
-                            lineNumber: 119,
+                            lineNumber: 166,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3293,7 +3382,7 @@ function HobbyModal(param) {
                                     children: "Tasks"
                                 }, void 0, false, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 130,
+                                    lineNumber: 177,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3303,7 +3392,7 @@ function HobbyModal(param) {
                                         children: "No tasks for this plant."
                                     }, void 0, false, {
                                         fileName: "[project]/components/hobby-modal.tsx",
-                                        lineNumber: 133,
+                                        lineNumber: 180,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
                                         className: "space-y-2",
@@ -3318,7 +3407,7 @@ function HobbyModal(param) {
                                                         disabled: task.completed
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/hobby-modal.tsx",
-                                                        lineNumber: 138,
+                                                        lineNumber: 185,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3326,29 +3415,29 @@ function HobbyModal(param) {
                                                         children: task.title
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/hobby-modal.tsx",
-                                                        lineNumber: 145,
+                                                        lineNumber: 192,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, task.id, true, {
                                                 fileName: "[project]/components/hobby-modal.tsx",
-                                                lineNumber: 137,
+                                                lineNumber: 184,
                                                 columnNumber: 21
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/components/hobby-modal.tsx",
-                                        lineNumber: 135,
+                                        lineNumber: 182,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 131,
+                                    lineNumber: 178,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/hobby-modal.tsx",
-                            lineNumber: 129,
+                            lineNumber: 176,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -3361,14 +3450,14 @@ function HobbyModal(param) {
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/components/hobby-modal.tsx",
-                                    lineNumber: 160,
+                                    lineNumber: 207,
                                     columnNumber: 13
                                 }, this),
                                 "New Task"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/hobby-modal.tsx",
-                            lineNumber: 154,
+                            lineNumber: 201,
                             columnNumber: 11
                         }, this)
                     ]
@@ -4305,14 +4394,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.js [app-client] (ecmascript) <export default as Sparkles>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplets$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/droplets.js [app-client] (ecmascript) <export default as Droplets>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/star.js [app-client] (ecmascript) <export default as Star>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$landing$2d$page$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/landing-page.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$navbar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/navbar.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$todays$2d$tasks$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/todays-tasks.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$progress$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/progress-card.tsx [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$garden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/garden/pixel-garden.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2d$view$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/garden-view.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/hobby-modal.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/add-hobby-modal.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$task$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/add-task-modal.tsx [app-client] (ecmascript)");
@@ -4360,6 +4448,7 @@ const aiTaskTemplates = {
     ]
 };
 function HomePage() {
+    var _hobbies_find;
     _s();
     const [authModalOpen, setAuthModalOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -4481,7 +4570,6 @@ function HomePage() {
     ]);
     // ⭐ XP calc
     const totalXp = hobbies.reduce((sum, h)=>sum + h.xp, 0);
-    // Keep gardenerProfile in sync with plant XP and completed tasks
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "HomePage.useEffect": ()=>{
             setGardenerProfile({
@@ -4516,11 +4604,9 @@ function HomePage() {
                     ...t,
                     completed: true
                 } : t));
-        let xpGained = 0;
         setHobbies((prev)=>prev.map((h)=>{
                 if (h.id !== task.hobbyId) return h;
                 let newXp = h.xp + 25;
-                xpGained = 25;
                 let newLevel = h.level;
                 let maxXp = h.maxXp;
                 let newStreak = h.streak;
@@ -4550,13 +4636,6 @@ function HomePage() {
                     lastCaredAt: now,
                     careActions: h.careActions + 1
                 };
-            }));
-        // Immediately update gardener profile XP and completed tasks
-        setGardenerProfile((prev)=>({
-                ...prev,
-                totalXp: prev.totalXp + 25,
-                totalTasksCompleted: prev.totalTasksCompleted + 1,
-                level: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getGardenerLevel"])(prev.totalXp + 25)
             }));
         performPlantCare(task.hobbyId);
     };
@@ -4588,7 +4667,7 @@ function HomePage() {
             }
         }, void 0, false, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 241,
+            lineNumber: 230,
             columnNumber: 7
         }, this);
     }
@@ -4604,7 +4683,7 @@ function HomePage() {
                 gardenerName: gardenerProfile.name
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 272,
+                lineNumber: 261,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$task$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AddTaskModal"], {
@@ -4624,7 +4703,7 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 284,
+                lineNumber: 273,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -4646,24 +4725,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplets$3e$__["Droplets"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 313,
+                                lineNumber: 302,
                                 columnNumber: 15
                             }, this),
                             " Plant Cared!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 312,
+                        lineNumber: 301,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 306,
+                    lineNumber: 295,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 304,
+                lineNumber: 293,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -4683,24 +4762,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__["Star"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 329,
+                                lineNumber: 318,
                                 columnNumber: 15
                             }, this),
                             " LEVEL UP!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 328,
+                        lineNumber: 317,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 322,
+                    lineNumber: 311,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 320,
+                lineNumber: 309,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -4715,8 +4794,8 @@ function HomePage() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 338,
-                        columnNumber: 11
+                        lineNumber: 326,
+                        columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "grid gap-6 lg:grid-cols-[380px_1fr]",
@@ -4731,7 +4810,7 @@ function HomePage() {
                                         onAddTaskClick: ()=>setShowAddTaskModal(true)
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 343,
+                                        lineNumber: 330,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$progress$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ProgressCard"], {
@@ -4741,7 +4820,7 @@ function HomePage() {
                                         xpInLevel: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getGardenerXpInLevel"])(totalXp)
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 350,
+                                        lineNumber: 337,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -4753,69 +4832,61 @@ function HomePage() {
                                                 ];
                                                 hobbies.forEach((hobby)=>{
                                                     const templates = aiTaskTemplates[hobby.name] || aiTaskTemplates.default;
-                                                    const randomTitle = templates[Math.floor(Math.random() * templates.length)];
-                                                    // Use a more robust unique ID
-                                                    const uniqueId = "t".concat(Date.now(), "_").concat(hobby.id, "_").concat(Math.floor(Math.random() * 100000));
-                                                    newTasks.push({
-                                                        id: uniqueId,
-                                                        hobbyId: hobby.id,
-                                                        title: randomTitle,
-                                                        completed: false
+                                                    templates.forEach((title)=>{
+                                                        newTasks.push({
+                                                            id: "ai_".concat(Date.now(), "_").concat(Math.floor(Math.random() * 100000)),
+                                                            hobbyId: hobby.id,
+                                                            title,
+                                                            completed: false
+                                                        });
                                                     });
                                                 });
                                                 return newTasks;
                                             });
                                         },
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {}, void 0, false, {
-                                                fileName: "[project]/app/page.tsx",
-                                                lineNumber: 377,
-                                                columnNumber: 15
-                                            }, this),
-                                            " Generate Tasks"
-                                        ]
-                                    }, void 0, true, {
+                                        children: "Generate AI Tasks"
+                                    }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 356,
+                                        lineNumber: 343,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 342,
+                                lineNumber: 329,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$garden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PixelGarden"], {
+                                className: "space-y-6",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2d$view$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["GardenView"], {
                                     hobbies: hobbies,
                                     onPlantClick: (hobby)=>{
                                         setSelectedHobby(hobby);
                                         setShowHobbyModal(true);
                                     },
                                     onAddHobby: ()=>setShowAddHobbyModal(true),
-                                    onRemoveHobby: (hobbyId)=>{
-                                        setHobbies((prev)=>prev.filter((h)=>h.id !== hobbyId));
-                                    }
+                                    recentlyCaredHobbyId: showCareAnimation ? (_hobbies_find = hobbies.find((h)=>h.lastCaredAt && new Date(h.lastCaredAt).getTime() === new Date().setHours(0, 0, 0, 0))) === null || _hobbies_find === void 0 ? void 0 : _hobbies_find.id : null,
+                                    onCompleteTask: handleCompleteTask
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 383,
+                                    lineNumber: 369,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 382,
+                                lineNumber: 368,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 339,
+                        lineNumber: 327,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 335,
+                lineNumber: 324,
                 columnNumber: 7
             }, this),
             profileModalOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$gardener$2d$profile$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["GardenerProfileModal"], {
@@ -4840,7 +4911,7 @@ function HomePage() {
                 onSignIn: ()=>setAuthModalOpen(true)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 399,
+                lineNumber: 384,
                 columnNumber: 9
             }, this),
             showHobbyModal && selectedHobby && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HobbyModal"], {
@@ -4876,7 +4947,7 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 422,
+                lineNumber: 407,
                 columnNumber: 9
             }, this),
             showAddHobbyModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AddHobbyModal"], {
@@ -4900,13 +4971,13 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 454,
+                lineNumber: 439,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 271,
+        lineNumber: 260,
         columnNumber: 5
     }, this);
 }
@@ -4920,4 +4991,4 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }),
 ]);
 
-//# sourceMappingURL=_a5c1773d._.js.map
+//# sourceMappingURL=_c6a11e90._.js.map

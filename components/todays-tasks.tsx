@@ -22,14 +22,24 @@ export function TodaysTasks({
 }: TodaysTasksProps) {
   const [completingTaskId, setCompletingTaskId] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState<string | null>(null);
+  const [optimisticallyCompleted, setOptimisticallyCompleted] = useState<Set<string>>(new Set());
 
   const handleComplete = (taskId: string) => {
     setCompletingTaskId(taskId);
     setShowPopup(taskId);
+    setOptimisticallyCompleted((prev) => new Set(prev).add(taskId));
 
     setTimeout(() => {
       onCompleteTask(taskId);
       setCompletingTaskId(null);
+      // Remove from optimisticallyCompleted after a short delay (in case tasks are reloaded)
+      setTimeout(() => {
+        setOptimisticallyCompleted((prev) => {
+          const next = new Set(prev);
+          next.delete(taskId);
+          return next;
+        });
+      }, 1000);
     }, 300);
 
     setTimeout(() => {
@@ -81,8 +91,8 @@ export function TodaysTasks({
                 >
                   {/* ✅ CHECK */}
                   <button
-                    onClick={() => !task.completed && handleComplete(task.id)}
-                    disabled={task.completed}
+                    onClick={() => !task.completed && !optimisticallyCompleted.has(task.id) && handleComplete(task.id)}
+                    disabled={task.completed || optimisticallyCompleted.has(task.id)}
                     className="flex-shrink-0"
                   >
                     <motion.div
@@ -92,7 +102,7 @@ export function TodaysTasks({
                           : {}
                       }
                     >
-                      {task.completed ? (
+                      {task.completed || optimisticallyCompleted.has(task.id) ? (
                         <CheckCircle2 className="h-6 w-6 text-green-500" />
                       ) : (
                         <Circle className="h-6 w-6 text-muted-foreground hover:text-green-500 transition-colors" />

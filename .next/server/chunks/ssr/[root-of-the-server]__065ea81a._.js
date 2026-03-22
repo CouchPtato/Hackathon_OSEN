@@ -44,7 +44,7 @@ var __TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$d
 ;
 ;
 const metadata = {
-    title: "AI Hobby Garden 🌱",
+    title: "Sprouted 🌱",
     description: "Grow your hobbies like a garden — track progress, gain XP, and evolve your plants with consistency."
 };
 const viewport = {

@@ -128,7 +128,7 @@ export function HobbyModal({
           {/* 📋 TASKS FOR THIS PLANT */}
           <div className="w-full mt-2">
             <h3 className="text-base font-semibold mb-2">Tasks</h3>
-            <div className="max-h-40 overflow-y-auto pr-1">
+            <div className="max-h-20 overflow-y-auto pr-1">
               {sortedTasks.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center">No tasks for this plant.</p>
               ) : (

@@ -20,6 +20,7 @@ interface LandingPageProps {
   onAddHobby: (hobby: string) => void;
   darkMode?: boolean;
   onToggleDarkMode?: () => void;
+  onAuthSuccess?: (user: any, token?: string) => void;
 }
 
 export function LandingPage({
@@ -27,6 +28,7 @@ export function LandingPage({
   onAddHobby,
   darkMode = false,
   onToggleDarkMode,
+  onAuthSuccess,
 }: LandingPageProps) {
 
   const [hobbyInput, setHobbyInput] = useState("");
@@ -34,7 +36,7 @@ export function LandingPage({
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const suggestedHobbies = [
-    "Guitar", "Painting", "Fitness", "Reading", "Cooking", "Photography", "Writing", "Gardening"
+    "Guitar", "Painting", "Fitness", "Reading", "Cooking", "Photography", "Writing", "Gardening", "Coding"
   ];
 
   const handleAddHobby = () => {
@@ -67,7 +69,11 @@ export function LandingPage({
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-100 to-white dark:from-[#1a2e1a] dark:via-[#1a2e1a] dark:to-[#101c10] relative overflow-hidden">
       {/* Auth Modal for sign in/up */}
-      <AuthModal open={authModalOpen} onClose={() => setAuthModalOpen(false)} onAuthSuccess={(u) => { setUser(u); setAuthModalOpen(false); onStartGarden(); }} />
+      <AuthModal open={authModalOpen} onClose={() => setAuthModalOpen(false)} onAuthSuccess={(u, t) => {
+        setUser(u);
+        setAuthModalOpen(false);
+        if (onAuthSuccess) onAuthSuccess(u, t);
+      }} />
       {/* Animated background elements */}
       <motion.div
         className="absolute inset-0 -z-10"
@@ -129,16 +135,18 @@ export function LandingPage({
             <Sprout className="h-12 w-12 text-green-500 drop-shadow-lg" />
           </motion.div>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-green-600 via-emerald-500 to-lime-400 bg-clip-text text-transparent drop-shadow-lg">
-            Grow Your Life
+            Sprouted
           </h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mt-6 text-xl sm:text-2xl text-muted-foreground font-medium"
+            className="mt-4 text-base sm:text-lg text-muted-foreground font-normal max-w-xl mx-auto leading-snug"
+            style={{ letterSpacing: 0, lineHeight: '1.5', marginBottom: '0.5rem' }}
           >
-            Build habits. Gain XP. Watch your hobbies evolve.
+            Sprouted is your playful hobby garden! Track your progress, gain XP, and watch your hobbies grow into beautiful pixel plants. Stay motivated with daily tasks, streaks, and a visual garden that evolves as you do.
           </motion.p>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

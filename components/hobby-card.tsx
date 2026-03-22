@@ -3,11 +3,12 @@
 import { motion } from "framer-motion";
 import { Flame, Droplet } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Hobby, PlantLevel } from "@/lib/types";
+import type { Hobby, PlantLevel, Task } from "@/lib/types";
 import { PixelPlant, GrowthStage } from "@/components/garden/pixel-plants";
 
 interface HobbyCardProps {
   hobby: Hobby;
+  tasks?: Task[];
   onClick: () => void;
   recentlyCared?: boolean;
 }
@@ -35,12 +36,17 @@ const levelDisplay: Record<PlantLevel, string> = {
   "Ripe Fruit": "✨ Complete"
 };
 
-export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardProps) {
+export function HobbyCard({ hobby, tasks = [], onClick, recentlyCared = false }: HobbyCardProps) {
   const stage = levelToStage(hobby.level);
   const waterLevel = hobby.waterLevel ?? 50;
   const isWatered = waterLevel > 70;
 
   const xpPercent = (hobby.xp / hobby.maxXp) * 100;
+
+  // Filter tasks for this hobby
+  const hobbyTasks = tasks.filter((t: Task) => t.hobbyId === hobby.id);
+  const visibleTasks = hobbyTasks.slice(0, 3);
+  const hasMoreTasks = hobbyTasks.length > 3;
 
   return (
     <motion.div
@@ -69,10 +75,25 @@ export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardPr
 
         <CardContent className="p-3 sm:p-4">
           <div className="flex flex-col items-center text-center gap-2">
+            {/* 📋 TASKS (max 3, scrollable) */}
+            {hobbyTasks.length > 0 && (
+              <div className="w-full max-h-28 overflow-y-auto mt-2 rounded bg-secondary/30">
+                <ul className="divide-y divide-muted-foreground/10">
+                  {visibleTasks.map((task) => (
+                    <li key={task.id} className="px-2 py-1 text-xs text-left flex items-center gap-2">
+                      <span className={`inline-block w-2 h-2 rounded-full ${task.completed ? 'bg-green-400' : 'bg-gray-300'}`}></span>
+                      <span className={task.completed ? 'line-through text-muted-foreground' : ''}>{task.title}</span>
+                    </li>
+                  ))}
+                  {hasMoreTasks && (
+                    <li className="px-2 py-1 text-xs text-muted-foreground text-center">+{hobbyTasks.length - 3} more...</li>
+                  )}
+                </ul>
+              </div>
+            )}
 
             {/* 🌱 PLANT */}
             <motion.div
-              className="h-20 w-20 sm:h-24 sm:w-24"
               animate={{
                 y: [0, -3, 0],
                 scale: recentlyCared ? [1, 1.15, 1] : 1
@@ -82,12 +103,60 @@ export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardPr
                 scale: { duration: 0.4 }
               }}
             >
-              <PixelPlant
-                stage={stage}
-                hobbyName={hobby.name}
-                isWatered={isWatered}
-                className="w-full h-full"
-              />
+              {/* Use same scaling as garden */}
+              {(() => {
+                // Import scale logic from PixelPlant
+                const PLANT_SCALES = {
+                  plant1: [0.54, 0.58, 1.20, 1.45, 1.58, 1.75],
+                  plant2: [0.56, 0.58, 0.98, 1.38, 1.38, 1.48],
+                  plant3: [0.52, 0.52, 1.04, 1.36, 1.54, 1.60],
+                  plant4: [0.54, 0.58, 1.14, 1.51, 1.86, 1.85],
+                  plant5: [0.51, 0.58, 0.92, 1.12, 1.28, 1.40],
+                };
+                const getPlantType = (name: string): string => {
+                  const n = name.toLowerCase();
+                  if (n.includes("fitness") || n.includes("gym")) return "fitness";
+                  if (n.includes("art") || n.includes("paint")) return "art";
+                  if (n.includes("music") || n.includes("guitar")) return "music";
+                  if (
+                    n.includes("code") ||
+                    n.includes("dev") ||
+                    n.includes("tech") ||
+                    n.includes("program") ||
+                    n.includes("software") ||
+                    n.includes("robot") ||
+                    n.includes("ai") ||
+                    n.includes("app") ||
+                    n.includes("web") ||
+                    n.includes("data")
+                  ) return "coding";
+                  return "default";
+                };
+                const getPlantSpriteFolder = (type: string): string => {
+                  const folders = {
+                    default: "plant1",
+                    fitness: "plant2",
+                    art: "plant3",
+                    music: "plant4",
+                    coding: "plant5",
+                  };
+                  return folders[type as keyof typeof folders] || folders.default;
+                };
+                const type = getPlantType(hobby.name);
+                const spriteFolder = getPlantSpriteFolder(type) as keyof typeof PLANT_SCALES;
+                const plantScales = PLANT_SCALES[spriteFolder] || PLANT_SCALES["plant1"];
+                const scale = plantScales[Math.min(Math.max(stage - 1, 0), 5)];
+                return (
+                  <div style={{ width: `${56 * scale}px`, height: `${72 * scale}px` }} className="flex items-end justify-center mx-auto">
+                    <PixelPlant
+                      stage={stage}
+                      hobbyName={hobby.name}
+                      isWatered={isWatered}
+                      className="relative"
+                    />
+                  </div>
+                );
+              })()}
             </motion.div>
 
             {/* 🌿 NAME */}
@@ -97,7 +166,7 @@ export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardPr
 
             {/* 🌱 LEVEL */}
             <span className="text-xs text-muted-foreground">
-              {levelDisplay[hobby.level]}
+              {levelDisplay[hobby.level as PlantLevel]}
             </span>
 
             {/* 💧 WATER */}

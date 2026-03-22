@@ -54,6 +54,8 @@ export function GardenerProfileModal({
   onSignOut,
   onSignIn,
 }: GardenerProfileProps) {
+  // Debug: log user prop
+  console.log('GardenerProfileModal user prop:', user);
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(profile.name);
 
@@ -221,7 +223,7 @@ export function GardenerProfileModal({
 
                 {/* Auth actions */}
                 <div className="mt-6 flex justify-center">
-                  {user ? (
+                  {user !== null && user !== undefined ? (
                     <Button variant="outline" className="text-red-600 border-red-400 hover:bg-red-50" onClick={onSignOut}>
                       Sign Out
                     </Button>

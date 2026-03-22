@@ -48,31 +48,56 @@ export default function HomePage() {
     const [user, setUser] = useState<any>(null);
     const [token, setToken] = useState<string | null>(null);
 
+  // Default to true (landing page) for SSR, update in useEffect for client
   const [showLanding, setShowLanding] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [hobbies, setHobbies] = useState<Hobby[]>(initialHobbies);
+  const [hobbies, setHobbies] = useState<Hobby[]>(() => {
+    // Add a plant5 stage1 hobby if not present
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('hobbies') : null;
+    let base: Hobby[] = saved ? JSON.parse(saved) : initialHobbies;
+    const hasPlant5 = base.some(h => h.name === 'Plant 5 Example');
+    if (!hasPlant5) {
+      base = [
+        ...base,
+        {
+          id: `plant5_${Date.now()}`,
+          name: 'Plant 5 Example',
+          level: 'Seed',
+          streak: 0,
+          xp: 0,
+          maxXp: 100,
+          waterLevel: 50,
+          careActions: 0,
+        },
+      ];
+    }
+    return base;
+  });
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
 
   // Load user, hobbies, and tasks from localStorage on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    const savedToken = localStorage.getItem('token');
-    if (savedUser && savedToken) {
-      setUser(JSON.parse(savedUser));
-      setToken(savedToken);
-    }
-    const savedHobbies = localStorage.getItem('hobbies');
-    const savedTasks = localStorage.getItem('tasks');
-    if (savedHobbies) {
-      try {
-        setHobbies(JSON.parse(savedHobbies));
-      } catch (e) {}
-    }
-    if (savedTasks) {
-      try {
-        setTasks(JSON.parse(savedTasks));
-      } catch (e) {}
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('user');
+      const savedToken = localStorage.getItem('token');
+      if (savedUser && savedToken) {
+        setUser(JSON.parse(savedUser));
+        setToken(savedToken);
+        setShowLanding(false);
+      }
+      const savedHobbies = localStorage.getItem('hobbies');
+      const savedTasks = localStorage.getItem('tasks');
+      if (savedHobbies) {
+        try {
+          setHobbies(JSON.parse(savedHobbies));
+        } catch (e) {}
+      }
+      if (savedTasks) {
+        try {
+          setTasks(JSON.parse(savedTasks));
+        } catch (e) {}
+      }
     }
   }, []);
 
@@ -127,6 +152,7 @@ export default function HomePage() {
   // ⭐ XP calc
   const totalXp = hobbies.reduce((sum, h) => sum + h.xp, 0);
 
+  // Keep gardenerProfile in sync with plant XP and completed tasks
   useEffect(() => {
     setGardenerProfile((prev) => ({
       ...prev,
@@ -159,10 +185,12 @@ export default function HomePage() {
       prev.map((t) => (t.id === taskId ? { ...t, completed: true } : t))
     );
 
+    let xpGained = 0;
     setHobbies((prev) =>
       prev.map((h) => {
         if (h.id !== task.hobbyId) return h;
         let newXp = h.xp + 25;
+        xpGained = 25;
         let newLevel = h.level;
         let maxXp = h.maxXp;
         let newStreak = h.streak;
@@ -196,6 +224,15 @@ export default function HomePage() {
         };
       })
     );
+
+    // Immediately update gardener profile XP and completed tasks
+    setGardenerProfile((prev) => ({
+      ...prev,
+      totalXp: prev.totalXp + 25,
+      totalTasksCompleted: prev.totalTasksCompleted + 1,
+      level: getGardenerLevel(prev.totalXp + 25),
+    }));
+
     performPlantCare(task.hobbyId);
   };
 
@@ -221,6 +258,11 @@ export default function HomePage() {
         }}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
+        onAuthSuccess={(u, t) => {
+          setUser(u);
+          setToken(t ?? null);
+          setShowLanding(false);
+        }}
       />
     );
   }
@@ -363,12 +405,13 @@ export default function HomePage() {
           }}
           onUpdateName={(name) => setGardenerProfile((prev) => ({ ...prev, name }))}
           onClose={() => setProfileModalOpen(false)}
-          user={user}
+          user={user ? user : null}
           onSignOut={() => {
             setUser(null);
             setToken(null);
             localStorage.removeItem('user');
             localStorage.removeItem('token');
+            setShowLanding(true);
           }}
           onSignIn={() => setAuthModalOpen(true)}
         />

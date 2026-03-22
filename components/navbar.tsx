@@ -58,7 +58,7 @@ export function Navbar({
             <Sprout className="h-6 w-6 text-green-500 sm:h-7 sm:w-7" />
           </motion.div>
           <span className="text-lg font-semibold sm:text-xl">
-            AI Hobby Garden
+            Hobby Garden
           </span>
         </div>
         {/* ⚡ RIGHT */}
@@ -69,12 +69,14 @@ export function Navbar({
           </div>
           {/* ⭐ XP */}
           <motion.div
-            className="flex items-center gap-1 rounded-full bg-green-100/40 px-2 py-1 sm:px-3 sm:py-1.5 shadow-sm"
+            className={`flex items-center gap-1 rounded-full px-2 py-1 sm:px-3 sm:py-1.5 shadow-sm ${darkMode ? 'bg-green-900/40' : 'bg-green-100/40'}`}
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             <span className="text-xs font-semibold text-green-600 sm:text-sm">
-              {totalXp} XP
+              <span className={darkMode ? 'text-green-200' : 'text-green-600'}>
+                {totalXp} XP
+              </span>
             </span>
           </motion.div>
           {/* 🌙 DARK MODE */}
@@ -90,14 +92,7 @@ export function Navbar({
               <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
             )}
           </Button>
-          {/* 🏠 BACK TO HOME */}
-          <Button
-            variant="outline"
-            className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
-            onClick={() => window.location.href = '/'}
-          >
-            <span role="img" aria-label="Home">🏠</span> Back to Home
-          </Button>
+          {/* Removed Back to Home button */}
           {/* 👤 PROFILE */}
           {onOpenProfile && (
             <motion.button

@@ -93,6 +93,7 @@ export function GardenView({
                   >
                     <HobbyCard
                       hobby={hobby}
+                      tasks={typeof window !== 'undefined' && window.localStorage ? (JSON.parse(window.localStorage.getItem('tasks') || '[]')) : []}
                       onClick={() => onPlantClick(hobby)}
                       recentlyCared={isRecentlyCared}
                     />

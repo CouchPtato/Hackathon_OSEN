@@ -8,7 +8,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AI Hobby Garden 🌱",
+  title: "Sprouted 🌱",
   description:
     "Grow your hobbies like a garden — track progress, gain XP, and evolve your plants with consistency.",
 };

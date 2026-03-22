@@ -32,7 +32,19 @@ function getPlantType(name: string) {
   if (n.includes("fitness") || n.includes("gym")) return "fitness";
   if (n.includes("art") || n.includes("paint")) return "art";
   if (n.includes("music") || n.includes("guitar")) return "music";
-  if (n.includes("code") || n.includes("dev")) return "coding";
+  if (
+    n.includes("code") ||
+    n.includes("dev") ||
+    n.includes("tech") ||
+    n.includes("program") ||
+    n.includes("software") ||
+    n.includes("robot") ||
+    n.includes("ai") ||
+    n.includes("app") ||
+    n.includes("web") ||
+    n.includes("data")
+  )
+    return "coding";
   return "default";
 }
 
@@ -101,23 +113,20 @@ export function PixelPlant({
   }, [stage]);
 
 
-  // Refined scaling for all plant types and stages (visually balanced)
-  let scale = 1;
-  if (stage === 1) scale = 0.58;
-  else if (stage === 2) scale = 0.74;
-  else if (stage === 3) scale = 1.08;
-  else if (stage === 4) scale = 1.32;
-  else if (stage === 5) scale = 1.48;
-  else if (stage === 6) scale = 1.62;
-
-  // Per-sprite normalization factors
+  // Per-plant, per-stage scaling for consistent visual size
   const spriteFolder = getPlantSpriteFolder(type);
-  let spriteScale = 1;
-  if (spriteFolder === "plant1") spriteScale = 0.92;
-  else if (spriteFolder === "plant2") spriteScale = 0.84;
-  else if (spriteFolder === "plant3") spriteScale = 0.86;
-  else if (spriteFolder === "plant4") spriteScale = 1.18;
-  scale *= spriteScale;
+  // These values should be tuned for your actual sprite dimensions
+  const PLANT_SCALES: Record<string, number[]> = {
+    plant1: [0.54, 0.58, 1.20, 1.45, 1.58, 1.75],
+    plant2: [0.56, 0.58, 0.98, 1.38, 1.38, 1.48],
+    plant3: [0.52, 0.52, 1.04, 1.36, 1.54, 1.60],
+    plant4: [0.54, 0.58, 1.14, 1.51, 1.86, 1.85],
+    plant5: [0.51, 0.58, 0.92, 1.12, 1.28, 1.40],
+  };
+  // fallback to plant1 if not found
+  const plantScales = PLANT_SCALES[spriteFolder] || PLANT_SCALES["plant1"];
+  // stage is 1-based, array is 0-based
+  const scale = plantScales[Math.min(Math.max(stage - 1, 0), 5)];
 
   return (
     <motion.div className={`relative flex items-end justify-center ${className}`} style={{ width: 'auto', height: 'auto' }}>
