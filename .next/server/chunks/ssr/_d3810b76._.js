@@ -2351,21 +2351,21 @@ function PixelGarden({ hobbies, onPlantClick, onAddHobby, onRemoveHobby }) {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none",
                         style: {
-                            backgroundImage: "url('/tiles/grass.jpg')",
+                            backgroundImage: `url('/tiles/grass_${timePhase}.jpg')`,
                             backgroundRepeat: "repeat",
                             backgroundSize: "128px 128px",
                             imageRendering: "pixelated"
                         }
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 274,
+                        lineNumber: 276,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: `absolute inset-0 pointer-events-none ${timePhase === "dawn" ? "bg-orange-200/30" : timePhase === "noon" ? "bg-yellow-100/20" : timePhase === "dusk" ? "bg-purple-300/30" : timePhase === "night" ? "bg-indigo-900/60" : ""}`
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 285,
+                        lineNumber: 287,
                         columnNumber: 9
                     }, this),
                     timePhase !== "night" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Bees, {
@@ -2373,7 +2373,7 @@ function PixelGarden({ hobbies, onPlantClick, onAddHobby, onRemoveHobby }) {
                         positionsMap: positionsMap
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 301,
+                        lineNumber: 303,
                         columnNumber: 11
                     }, this),
                     hobbies.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2381,7 +2381,7 @@ function PixelGarden({ hobbies, onPlantClick, onAddHobby, onRemoveHobby }) {
                         children: "🌱 Start planting your hobbies"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 306,
+                        lineNumber: 308,
                         columnNumber: 11
                     }, this),
                     hobbies.map((h)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2402,12 +2402,12 @@ function PixelGarden({ hobbies, onPlantClick, onAddHobby, onRemoveHobby }) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 314,
+                                lineNumber: 316,
                                 columnNumber: 13
                             }, this)
                         }, h.id, false, {
                             fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 313,
+                            lineNumber: 315,
                             columnNumber: 11
                         }, this))
                 ]

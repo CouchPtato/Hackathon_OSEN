@@ -271,10 +271,12 @@ export function PixelGarden({
       <CardContent className={`relative min-h-[400px] overflow-hidden ${shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''}`}>
 
         {/* 🌿 BACKGROUND (FIXED) */}
+
+        {/* Dynamic grass background based on time of day */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: "url('/tiles/grass.jpg')",
+            backgroundImage: `url('/tiles/grass_${timePhase}.jpg')`,
             backgroundRepeat: "repeat",
             backgroundSize: "128px 128px",
             imageRendering: "pixelated",

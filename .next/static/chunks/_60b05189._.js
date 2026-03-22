@@ -2505,21 +2505,21 @@ function PixelGarden(param) {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none",
                         style: {
-                            backgroundImage: "url('/tiles/grass.jpg')",
+                            backgroundImage: "url('/tiles/grass_".concat(timePhase, ".jpg')"),
                             backgroundRepeat: "repeat",
                             backgroundSize: "128px 128px",
                             imageRendering: "pixelated"
                         }
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 274,
+                        lineNumber: 276,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none ".concat(timePhase === "dawn" ? "bg-orange-200/30" : timePhase === "noon" ? "bg-yellow-100/20" : timePhase === "dusk" ? "bg-purple-300/30" : timePhase === "night" ? "bg-indigo-900/60" : "")
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 285,
+                        lineNumber: 287,
                         columnNumber: 9
                     }, this),
                     timePhase !== "night" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bees, {
@@ -2527,7 +2527,7 @@ function PixelGarden(param) {
                         positionsMap: positionsMap
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 301,
+                        lineNumber: 303,
                         columnNumber: 11
                     }, this),
                     hobbies.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2535,7 +2535,7 @@ function PixelGarden(param) {
                         children: "🌱 Start planting your hobbies"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 306,
+                        lineNumber: 308,
                         columnNumber: 11
                     }, this),
                     hobbies.map((h)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2556,12 +2556,12 @@ function PixelGarden(param) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 314,
+                                lineNumber: 316,
                                 columnNumber: 13
                             }, this)
                         }, h.id, false, {
                             fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 313,
+                            lineNumber: 315,
                             columnNumber: 11
                         }, this))
                 ]
