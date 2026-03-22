@@ -1419,19 +1419,19 @@ function getNextLevel(current) {
 }
 const GARDENER_LEVELS = [
     {
-        level: "Beginner Gardener",
+        level: "Beginner",
         xp: 0
     },
     {
-        level: "Growing Gardener",
+        level: "Growing",
         xp: 500
     },
     {
-        level: "Pro Gardener",
+        level: "Pro",
         xp: 1500
     },
     {
-        level: "Master Gardener",
+        level: "Master",
         xp: 3000
     }
 ];
@@ -1441,7 +1441,7 @@ function getGardenerLevel(totalXp) {
             return GARDENER_LEVELS[i].level;
         }
     }
-    return "Beginner Gardener";
+    return "Beginner";
 }
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
@@ -1467,10 +1467,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$
 ;
 // Gardener emojis and titles
 const gardenerEmojis = {
-    "Beginner Gardener": "🧑‍🌾",
-    "Growing Gardener": "🌱",
-    "Pro Gardener": "🌿",
-    "Master Gardener": "🌳"
+    "Beginner": "🧑‍🌾",
+    "Growing": "🌱",
+    "Pro": "🌿",
+    "Master": "🌳"
 };
 function ProgressCard(param) {
     let { totalXp, currentLevel, xpToNextLevel, xpInLevel } = param;
@@ -1585,7 +1585,7 @@ function ProgressCard(param) {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex justify-center gap-3 bg-secondary/50 rounded-xl p-3",
+                        className: "flex justify-center gap-8 bg-secondary/50 rounded-xl p-3",
                         children: __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["GARDENER_LEVELS"].map((l, idx)=>{
                             const isActive = idx <= currentLevelIndex;
                             const isCurrent = l.level === currentLevel;
@@ -2047,7 +2047,7 @@ function Insect(param) {
             },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                 src: sprite,
-                className: "w-7 h-7 drop-shadow-lg",
+                className: "w-6 h-6 drop-shadow-lg",
                 style: {
                     imageRendering: "pixelated"
                 },
@@ -2414,7 +2414,7 @@ function PixelGarden(param) {
                         timePhase: timePhase
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 358,
+                        lineNumber: 357,
                         columnNumber: 9
                     }, this),
                     hobbies.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2422,7 +2422,7 @@ function PixelGarden(param) {
                         children: "🌱 Start planting your hobbies"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 362,
+                        lineNumber: 361,
                         columnNumber: 11
                     }, this),
                     hobbies.map((h)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2469,12 +2469,12 @@ function PixelGarden(param) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 370,
+                                lineNumber: 369,
                                 columnNumber: 13
                             }, this)
                         }, h.id, false, {
                             fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 369,
+                            lineNumber: 368,
                             columnNumber: 11
                         }, this))
                 ]
@@ -2490,7 +2490,7 @@ function PixelGarden(param) {
         columnNumber: 5
     }, this);
 }
-_s2(PixelGarden, "Cw6BxSbQxNmWtLZEYq5wu7hvF1E=");
+_s2(PixelGarden, "Qn6MJeg1pswyT+7c9kjPkNqNvsk=");
 _c3 = PixelGarden;
 var _c, _c1, _c2, _c3;
 __turbopack_context__.k.register(_c, "Insect");
@@ -3538,24 +3538,24 @@ var _s = __turbopack_context__.k.signature();
 ;
 // 🎨 Colors
 const levelColors = {
-    "Beginner Gardener": "from-emerald-400 to-green-500",
-    "Growing Gardener": "from-green-400 to-teal-500",
-    "Pro Gardener": "from-teal-400 to-cyan-500",
-    "Master Gardener": "from-amber-400 to-yellow-500"
+    "Beginner": "from-emerald-400 to-green-500",
+    "Growing": "from-green-400 to-teal-500",
+    "Pro": "from-teal-400 to-cyan-500",
+    "Master": "from-amber-400 to-yellow-500"
 };
 // 🌱 Icons
 const levelIcons = {
-    "Beginner Gardener": "🌱",
-    "Growing Gardener": "🌿",
-    "Pro Gardener": "🌳",
-    "Master Gardener": "👑"
+    "Beginner": "🌱",
+    "Growing": "🌿",
+    "Pro": "🌳",
+    "Master": "👑"
 };
 // 🧠 Short names
 const levelDisplay = {
-    "Beginner Gardener": "Beginner",
-    "Growing Gardener": "Growing",
-    "Pro Gardener": "Pro",
-    "Master Gardener": "Master"
+    "Beginner": "Beginner",
+    "Growing": "Growing",
+    "Pro": "Pro",
+    "Master": "Master"
 };
 function GardenerProfileModal(param) {
     let { profile, onUpdateName, onClose } = param;
@@ -4055,7 +4055,7 @@ function HomePage() {
     const [profileModalOpen, setProfileModalOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [gardenerProfile, setGardenerProfile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         name: "Gardener",
-        level: "Beginner Gardener",
+        level: "Beginner",
         totalXp: 0,
         totalTasksCompleted: 0,
         longestStreak: 0,
@@ -4105,24 +4105,45 @@ function HomePage() {
         setTimeout(()=>setShowCareAnimation(false), 1500);
     };
     const handleCompleteTask = (taskId)=>{
+        const task = tasks.find((t)=>t.id === taskId);
+        if (!task) return;
         setTasks((prev)=>prev.map((t)=>t.id === taskId ? {
                     ...t,
                     completed: true
                 } : t));
         setHobbies((prev)=>prev.map((h)=>{
+                // Only update the hobby that the task belongs to
+                if (h.id !== task.hobbyId) return h;
                 const newXp = h.xp + 25;
+                let newStreak = h.streak;
+                // Check if this is first completion of the day
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const lastCared = h.lastCaredAt ? new Date(h.lastCaredAt) : null;
+                const lastCaredDay = lastCared ? new Date(lastCared.getFullYear(), lastCared.getMonth(), lastCared.getDate()) : null;
+                // Only increment streak if this is the first completion of the day
+                if (!lastCaredDay || lastCaredDay.getTime() !== today.getTime()) {
+                    newStreak = h.streak === 0 ? 1 : h.streak + 1;
+                }
+                // Check for level up
                 if (newXp >= __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEVEL_XP_THRESHOLDS"][h.level]) {
                     setShowLevelUp(true);
                     setTimeout(()=>setShowLevelUp(false), 2000);
                     return {
                         ...h,
                         xp: 0,
-                        level: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getNextLevel"])(h.level) || h.level
+                        level: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getNextLevel"])(h.level) || h.level,
+                        streak: newStreak,
+                        lastCaredAt: now,
+                        careActions: h.careActions + 1
                     };
                 }
                 return {
                     ...h,
-                    xp: newXp
+                    xp: newXp,
+                    streak: newStreak,
+                    lastCaredAt: now,
+                    careActions: h.careActions + 1
                 };
             }));
         performPlantCare("1");
@@ -4150,7 +4171,7 @@ function HomePage() {
             onToggleDarkMode: ()=>setDarkMode(!darkMode)
         }, void 0, false, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 149,
+            lineNumber: 178,
             columnNumber: 7
         }, this);
     }
@@ -4166,7 +4187,7 @@ function HomePage() {
                 gardenerName: gardenerProfile.name
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 175,
+                lineNumber: 204,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$task$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AddTaskModal"], {
@@ -4186,7 +4207,7 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 187,
+                lineNumber: 216,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -4208,24 +4229,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplets$3e$__["Droplets"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 216,
+                                lineNumber: 245,
                                 columnNumber: 15
                             }, this),
                             " Plant Cared!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 215,
+                        lineNumber: 244,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 209,
+                    lineNumber: 238,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 207,
+                lineNumber: 236,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -4245,24 +4266,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__["Star"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 232,
+                                lineNumber: 261,
                                 columnNumber: 15
                             }, this),
                             " LEVEL UP!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 231,
+                        lineNumber: 260,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 225,
+                    lineNumber: 254,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 223,
+                lineNumber: 252,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -4280,7 +4301,7 @@ function HomePage() {
                                     onAddTaskClick: ()=>setShowAddTaskModal(true)
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 243,
+                                    lineNumber: 272,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$progress$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ProgressCard"], {
@@ -4290,7 +4311,7 @@ function HomePage() {
                                     xpInLevel: getGardenerXpInLevel(totalXp)
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 250,
+                                    lineNumber: 279,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -4318,20 +4339,20 @@ function HomePage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {}, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 277,
+                                            lineNumber: 306,
                                             columnNumber: 15
                                         }, this),
                                         " Generate Tasks"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 256,
+                                    lineNumber: 285,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 242,
+                            lineNumber: 271,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4347,23 +4368,23 @@ function HomePage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 283,
+                                lineNumber: 312,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 282,
+                            lineNumber: 311,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 239,
+                    lineNumber: 268,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 238,
+                lineNumber: 267,
                 columnNumber: 7
             }, this),
             profileModalOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$gardener$2d$profile$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["GardenerProfileModal"], {
@@ -4379,7 +4400,7 @@ function HomePage() {
                 onClose: ()=>setProfileModalOpen(false)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 299,
+                lineNumber: 328,
                 columnNumber: 9
             }, this),
             showHobbyModal && selectedHobby && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HobbyModal"], {
@@ -4442,7 +4463,7 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 313,
+                lineNumber: 342,
                 columnNumber: 9
             }, this),
             showAddHobbyModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$hobby$2d$modal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AddHobbyModal"], {
@@ -4466,17 +4487,17 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 363,
+                lineNumber: 392,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 174,
+        lineNumber: 203,
         columnNumber: 5
     }, this);
 }
-_s(HomePage, "RETnDXfA0v57Kl9Imc94lEEp+Jc=");
+_s(HomePage, "tuW7MFua96gRvATk319bpeICkhA=");
 _c = HomePage;
 var _c;
 __turbopack_context__.k.register(_c, "HomePage");

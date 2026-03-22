@@ -21,26 +21,26 @@ interface GardenerProfileProps {
 
 // 🎨 Colors
 const levelColors: Record<GardenerLevel, string> = {
-  "Beginner Gardener": "from-emerald-400 to-green-500",
-  "Growing Gardener": "from-green-400 to-teal-500",
-  "Pro Gardener": "from-teal-400 to-cyan-500",
-  "Master Gardener": "from-amber-400 to-yellow-500",
+  "Beginner": "from-emerald-400 to-green-500",
+  "Growing": "from-green-400 to-teal-500",
+  "Pro": "from-teal-400 to-cyan-500",
+  "Master": "from-amber-400 to-yellow-500",
 };
 
 // 🌱 Icons
 const levelIcons: Record<GardenerLevel, string> = {
-  "Beginner Gardener": "🌱",
-  "Growing Gardener": "🌿",
-  "Pro Gardener": "🌳",
-  "Master Gardener": "👑",
+  "Beginner": "🌱",
+  "Growing": "🌿",
+  "Pro": "🌳",
+  "Master": "👑",
 };
 
 // 🧠 Short names
 const levelDisplay: Record<GardenerLevel, string> = {
-  "Beginner Gardener": "Beginner",
-  "Growing Gardener": "Growing",
-  "Pro Gardener": "Pro",
-  "Master Gardener": "Master",
+  "Beginner": "Beginner",
+  "Growing": "Growing",
+  "Pro": "Pro",
+  "Master": "Master",
 };
 
 export function GardenerProfileModal({

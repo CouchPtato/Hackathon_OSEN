@@ -1,6 +1,6 @@
 export type PlantLevel = "Seed" | "Sprout" | "Small Plant" | "Medium Plant" | "Fruit Stage" | "Ripe Fruit";
 
-export type GardenerLevel = "Beginner Gardener" | "Growing Gardener" | "Pro Gardener" | "Master Gardener";
+export type GardenerLevel = "Beginner" | "Growing" | "Pro" | "Master";
 
 export interface GardenerProfile {
   name: string;
@@ -57,10 +57,10 @@ export function getNextLevel(current: PlantLevel): PlantLevel | null {
 }
 
 export const GARDENER_LEVELS: { level: GardenerLevel; xp: number }[] = [
-  { level: "Beginner Gardener", xp: 0 },
-  { level: "Growing Gardener", xp: 500 },
-  { level: "Pro Gardener", xp: 1500 },
-  { level: "Master Gardener", xp: 3000 },
+  { level: "Beginner", xp: 0 },
+  { level: "Growing", xp: 500 },
+  { level: "Pro", xp: 1500 },
+  { level: "Master", xp: 3000 },
 ];
 
 export function getGardenerLevel(totalXp: number): GardenerLevel {
@@ -69,5 +69,5 @@ export function getGardenerLevel(totalXp: number): GardenerLevel {
       return GARDENER_LEVELS[i].level;
     }
   }
-  return "Beginner Gardener";
+  return "Beginner";
 }

@@ -15,10 +15,10 @@ interface ProgressCardProps {
 
 // Gardener emojis and titles
 const gardenerEmojis: Record<GardenerLevel, string> = {
-  "Beginner Gardener": "🧑‍🌾",
-  "Growing Gardener": "🌱",
-  "Pro Gardener": "🌿",
-  "Master Gardener": "🌳",
+  "Beginner": "🧑‍🌾",
+  "Growing": "🌱",
+  "Pro": "🌿",
+  "Master": "🌳",
 };
 
 export function ProgressCard({
@@ -67,7 +67,7 @@ export function ProgressCard({
         </div>
 
         {/* 👨‍🌾 GARDENER LEVEL PATH */}
-        <div className="flex justify-center gap-3 bg-secondary/50 rounded-xl p-3">
+        <div className="flex justify-center gap-8 bg-secondary/50 rounded-xl p-3">
           {GARDENER_LEVELS.map((l, idx) => {
             const isActive = idx <= currentLevelIndex;
             const isCurrent = l.level === currentLevel;

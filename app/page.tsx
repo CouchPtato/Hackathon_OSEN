@@ -69,7 +69,7 @@ export default function HomePage() {
 
   const [gardenerProfile, setGardenerProfile] = useState<GardenerProfile>({
     name: "Gardener",
-    level: "Beginner Gardener",
+    level: "Beginner",
     totalXp: 0,
     totalTasksCompleted: 0,
     longestStreak: 0,
@@ -118,26 +118,55 @@ export default function HomePage() {
   };
 
   const handleCompleteTask = (taskId: string) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (!task) return;
+
     setTasks((prev) =>
       prev.map((t) => (t.id === taskId ? { ...t, completed: true } : t))
     );
 
     setHobbies((prev) =>
       prev.map((h) => {
-        const newXp = h.xp + 25;
+        // Only update the hobby that the task belongs to
+        if (h.id !== task.hobbyId) return h;
 
+        const newXp = h.xp + 25;
+        let newStreak = h.streak;
+
+        // Check if this is first completion of the day
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const lastCared = h.lastCaredAt ? new Date(h.lastCaredAt) : null;
+        const lastCaredDay = lastCared
+          ? new Date(lastCared.getFullYear(), lastCared.getMonth(), lastCared.getDate())
+          : null;
+
+        // Only increment streak if this is the first completion of the day
+        if (!lastCaredDay || lastCaredDay.getTime() !== today.getTime()) {
+          newStreak = h.streak === 0 ? 1 : h.streak + 1;
+        }
+
+        // Check for level up
         if (newXp >= LEVEL_XP_THRESHOLDS[h.level]) {
           setShowLevelUp(true);
           setTimeout(() => setShowLevelUp(false), 2000);
-
           return {
             ...h,
             xp: 0,
             level: getNextLevel(h.level) || h.level,
+            streak: newStreak,
+            lastCaredAt: now,
+            careActions: h.careActions + 1,
           };
         }
 
-        return { ...h, xp: newXp };
+        return {
+          ...h,
+          xp: newXp,
+          streak: newStreak,
+          lastCaredAt: now,
+          careActions: h.careActions + 1,
+        };
       })
     );
 

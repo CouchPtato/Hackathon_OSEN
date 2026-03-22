@@ -98,7 +98,7 @@ function Insect({
       >
         <img
           src={sprite}
-          className="w-7 h-7 drop-shadow-lg"
+          className="w-6 h-6 drop-shadow-lg"
           style={{ imageRendering: "pixelated" }}
           alt="insect"
         />
@@ -230,7 +230,7 @@ export function PixelGarden({
       try {
         const saved = localStorage.getItem('garden-positions');
         if (saved) return JSON.parse(saved);
-      } catch {}
+      } catch { }
     }
     return {};
   });
@@ -296,7 +296,7 @@ export function PixelGarden({
     if (typeof window !== 'undefined') {
       try {
         localStorage.setItem('garden-positions', JSON.stringify(positionsMap));
-      } catch {}
+      } catch { }
     }
   }, [positionsMap]);
 
@@ -341,17 +341,16 @@ export function PixelGarden({
 
         {/* 🌙 TIME OVERLAY (SAFE) */}
         <div
-          className={`absolute inset-0 pointer-events-none ${
-            timePhase === "dawn"
-              ? "bg-orange-200/30"
-              : timePhase === "noon"
+          className={`absolute inset-0 pointer-events-none ${timePhase === "dawn"
+            ? "bg-orange-200/30"
+            : timePhase === "noon"
               ? "bg-yellow-100/20"
               : timePhase === "dusk"
-              ? "bg-purple-300/30"
-              : timePhase === "night"
-              ? "bg-indigo-900/60"
-              : ""
-          }`}
+                ? "bg-purple-300/30"
+                : timePhase === "night"
+                  ? "bg-indigo-900/60"
+                  : ""
+            }`}
         />
 
         {/* 🐝/🪲 Insects (bees/fireflies) always above plants */}
@@ -377,7 +376,7 @@ export function PixelGarden({
                   onPlantClick(h);
                 }
               }}
-              onDrag={(dx, dy) => {}}
+              onDrag={(dx, dy) => { }}
               onDragEnd={(dx, dy) => {
                 // Convert pixel drag to percent (approximate)
                 const garden = document.querySelector('.garden-area');
@@ -398,7 +397,7 @@ export function PixelGarden({
                   if (typeof window !== 'undefined') {
                     try {
                       localStorage.setItem('garden-positions', JSON.stringify(newMap));
-                    } catch {}
+                    } catch { }
                   }
                   return newMap;
                 });
