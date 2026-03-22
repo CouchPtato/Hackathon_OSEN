@@ -18,16 +18,20 @@ interface NavbarProps {
 const levelEmojis: Record<PlantLevel, string> = {
   Seed: "🌱",
   Sprout: "🌿",
-  Plant: "🌾",
-  Tree: "🌳",
+  "Small Plant": "🌱",
+  "Medium Plant": "🌿",
+  "Fruit Stage": "🍎",
+  "Ripe Fruit": "🍉",
 };
 
 // 🧠 Titles
 const levelTitles: Record<PlantLevel, string> = {
   Seed: "Beginner",
   Sprout: "Growing",
-  Plant: "Skilled",
-  Tree: "Master",
+  "Small Plant": "Small Plant",
+  "Medium Plant": "Medium Plant",
+  "Fruit Stage": "Fruit Stage",
+  "Ripe Fruit": "Ripe Fruit",
 };
 
 export function Navbar({
@@ -45,7 +49,6 @@ export function Navbar({
       className="glass sticky top-0 z-50 px-4 py-3 sm:px-6 backdrop-blur-md glow-green"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between">
-
         {/* 🌿 LOGO */}
         <div className="flex items-center gap-2">
           <motion.div
@@ -54,22 +57,16 @@ export function Navbar({
           >
             <Sprout className="h-6 w-6 text-green-500 sm:h-7 sm:w-7" />
           </motion.div>
-
           <span className="text-lg font-semibold sm:text-xl">
             AI Hobby Garden
           </span>
         </div>
-
         {/* ⚡ RIGHT */}
         <div className="flex items-center gap-2 sm:gap-4">
-
-          {/* 🌱 LEVEL removed as requested */}
-
           {/* 📱 MOBILE */}
           <div className="flex sm:hidden items-center px-2 py-1 bg-secondary rounded-full">
             {levelEmojis[level]}
           </div>
-
           {/* ⭐ XP */}
           <motion.div
             className="flex items-center gap-1 rounded-full bg-green-100/40 px-2 py-1 sm:px-3 sm:py-1.5 shadow-sm"
@@ -80,7 +77,6 @@ export function Navbar({
               {totalXp} XP
             </span>
           </motion.div>
-
           {/* 🌙 DARK MODE */}
           <Button
             variant="ghost"
@@ -94,7 +90,14 @@ export function Navbar({
               <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
             )}
           </Button>
-
+          {/* 🏠 BACK TO HOME */}
+          <Button
+            variant="outline"
+            className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
+            onClick={() => window.location.href = '/'}
+          >
+            <span role="img" aria-label="Home">🏠</span> Back to Home
+          </Button>
           {/* 👤 PROFILE */}
           {onOpenProfile && (
             <motion.button
@@ -106,7 +109,6 @@ export function Navbar({
               <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-primary/20 flex items-center justify-center">
                 <User className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
               </div>
-
               <span className="hidden sm:inline text-sm font-medium">
                 {gardenerName}
               </span>

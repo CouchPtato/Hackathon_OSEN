@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Circle, Flame } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Task, Hobby } from "@/lib/types";
 import { useState } from "react";
 
@@ -10,12 +11,14 @@ interface TodaysTasksProps {
   tasks: Task[];
   hobbies: Hobby[];
   onCompleteTask: (taskId: string) => void;
+  onAddTaskClick: () => void;
 }
 
 export function TodaysTasks({
   tasks,
   hobbies,
   onCompleteTask,
+  onAddTaskClick,
 }: TodaysTasksProps) {
   const [completingTaskId, setCompletingTaskId] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState<string | null>(null);
@@ -40,11 +43,18 @@ export function TodaysTasks({
 
   return (
     <Card className="glass glow-green">
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-3 flex flex-row items-center justify-between">
         <CardTitle>Today's Tasks</CardTitle>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2 text-xs px-3 py-1 rounded-full shadow hover:bg-green-100"
+          onClick={onAddTaskClick}
+        >
+          <span role="img" aria-label="Add Task">➕</span> Add Task
+        </Button>
       </CardHeader>
-
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3 max-h-40 overflow-y-auto">
         {tasks.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-4">
             No tasks yet. Generate some AI tasks!
@@ -90,7 +100,6 @@ export function TodaysTasks({
                       )}
                     </motion.div>
                   </button>
-
                   {/* 📄 TEXT */}
                   <div className="flex-1 min-w-0">
                     <p
@@ -102,13 +111,11 @@ export function TodaysTasks({
                     >
                       {task.title}
                     </p>
-
                     <p className="text-xs text-muted-foreground">
                       {getHobbyName(task.hobbyId)}
                     </p>
                   </div>
                 </div>
-
                 {/* 💥 XP + STREAK POPUP */}
                 <AnimatePresence>
                   {showPopup === task.id && (
@@ -122,7 +129,6 @@ export function TodaysTasks({
                       <div className="text-green-500 font-bold text-sm">
                         +25 XP
                       </div>
-
                       {/* STREAK */}
                       <div className="flex items-center gap-1 text-orange-500 font-semibold text-xs">
                         <Flame className="h-3 w-3" />

@@ -17,8 +17,10 @@ function levelToStage(level: PlantLevel): GrowthStage {
   switch (level) {
     case "Seed": return 1;
     case "Sprout": return 2;
-    case "Plant": return 3;
-    case "Tree": return 4;
+    case "Small Plant": return 3;
+    case "Medium Plant": return 4;
+    case "Fruit Stage": return 5;
+    case "Ripe Fruit": return 6;
     default: return 1;
   }
 }
@@ -27,8 +29,10 @@ function levelToStage(level: PlantLevel): GrowthStage {
 const levelDisplay: Record<PlantLevel, string> = {
   Seed: "🌱 Beginner",
   Sprout: "🌿 Growing",
-  Plant: "🌾 Skilled",
-  Tree: "🌳 Master",
+  "Small Plant": "🌾 Skilled",
+  "Medium Plant": "🌳 Master",
+  "Fruit Stage": "🍎 Fruiting",
+  "Ripe Fruit": "✨ Complete"
 };
 
 export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardProps) {
@@ -114,13 +118,12 @@ export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardPr
 
               <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                 <motion.div
-                  className={`h-full rounded-full ${
-                    waterLevel > 70
+                  className={`h-full rounded-full ${waterLevel > 70
                       ? "bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.7)]"
                       : waterLevel > 30
-                      ? "bg-sky-300"
-                      : "bg-amber-400"
-                  }`}
+                        ? "bg-sky-300"
+                        : "bg-amber-400"
+                    }`}
                   initial={{ width: 0 }}
                   animate={{ width: `${waterLevel}%` }}
                   transition={{ duration: 0.5 }}

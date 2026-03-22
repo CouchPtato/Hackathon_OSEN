@@ -58,9 +58,9 @@ export function getNextLevel(current: PlantLevel): PlantLevel | null {
 
 export const GARDENER_LEVELS: { level: GardenerLevel; xp: number }[] = [
   { level: "Beginner Gardener", xp: 0 },
-  { level: "Growing Gardener", xp: 50 },
-  { level: "Pro Gardener", xp: 150 },
-  { level: "Master Gardener", xp: 500 },
+  { level: "Growing Gardener", xp: 500 },
+  { level: "Pro Gardener", xp: 1500 },
+  { level: "Master Gardener", xp: 3000 },
 ];
 
 export function getGardenerLevel(totalXp: number): GardenerLevel {

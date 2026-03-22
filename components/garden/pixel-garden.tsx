@@ -98,7 +98,7 @@ function Insect({
       >
         <img
           src={sprite}
-          className="w-12 h-12 drop-shadow-lg"
+          className="w-7 h-7 drop-shadow-lg"
           style={{ imageRendering: "pixelated" }}
           alt="insect"
         />

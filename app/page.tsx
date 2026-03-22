@@ -39,18 +39,24 @@ const aiTaskTemplates: Record<string, string[]> = {
 
 
 // Gardener XP helpers (define outside of component, after HomePage)
+// New XP caps for gardener levels
+const GARDENER_LEVEL_THRESHOLDS = [0, 500, 1500, 3000, 5000];
+// 0: Beginner, 500: Growing, 1500: Pro, 3000: Master, 5000: Max
+
 export function getGardenerXpInLevel(totalXp: number): number {
-  if (totalXp >= 500) return totalXp - 500;
-  if (totalXp >= 150) return totalXp - 150;
-  if (totalXp >= 50) return totalXp - 50;
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return totalXp - GARDENER_LEVEL_THRESHOLDS[4];
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return totalXp - GARDENER_LEVEL_THRESHOLDS[3];
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return totalXp - GARDENER_LEVEL_THRESHOLDS[2];
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return totalXp - GARDENER_LEVEL_THRESHOLDS[1];
   return totalXp;
 }
 
 export function getGardenerXpToNextLevel(totalXp: number): number {
-  if (totalXp >= 500) return 0; // Maxed out
-  if (totalXp >= 150) return 500 - 150; // Pro → Master
-  if (totalXp >= 50) return 150 - 50; // Growing → Pro
-  return 50; // Beginner → Growing
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return 0; // Maxed out
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return GARDENER_LEVEL_THRESHOLDS[4] - totalXp;
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return GARDENER_LEVEL_THRESHOLDS[3] - totalXp;
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return GARDENER_LEVEL_THRESHOLDS[2] - totalXp;
+  return GARDENER_LEVEL_THRESHOLDS[1] - totalXp;
 }
 
 export default function HomePage() {
@@ -97,9 +103,11 @@ export default function HomePage() {
   }, [totalXp]);
 
   const getOverallLevel = (): PlantLevel => {
-    if (totalXp >= 1000) return "Tree";
-    if (totalXp >= 500) return "Plant";
-    if (totalXp >= 250) return "Sprout";
+    if (totalXp >= 1000) return "Ripe Fruit";
+    if (totalXp >= 800) return "Fruit Stage";
+    if (totalXp >= 550) return "Medium Plant";
+    if (totalXp >= 350) return "Small Plant";
+    if (totalXp >= 200) return "Sprout";
     return "Seed";
   };
 
@@ -173,29 +181,7 @@ export default function HomePage() {
         gardenerName={gardenerProfile.name}
       />
 
-      {/* Row: Add Task + Back to Home */}
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-4 mt-2">
-        {/* Add Task Button (left) */}
-        <div>
-          <Button
-            variant="outline"
-            className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
-            onClick={() => setShowAddTaskModal(true)}
-          >
-            <span role="img" aria-label="Add Task">➕</span> Add Task
-          </Button>
-        </div>
-        {/* Back to Home (right) */}
-        <div>
-          <Button
-            variant="outline"
-            className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
-            onClick={() => setShowLanding(true)}
-          >
-            <span role="img" aria-label="Home">🏡</span> Back to Home
-          </Button>
-        </div>
-      </div>
+
 
       {/* Add Task Modal */}
       <AddTaskModal
@@ -258,6 +244,7 @@ export default function HomePage() {
               tasks={tasks.filter((t) => !t.completed)}
               hobbies={hobbies}
               onCompleteTask={handleCompleteTask}
+              onAddTaskClick={() => setShowAddTaskModal(true)}
             />
 
             <ProgressCard
@@ -310,8 +297,13 @@ export default function HomePage() {
 
       {profileModalOpen && (
         <GardenerProfileModal
-          profile={gardenerProfile}
-          onUpdateName={() => {}}
+          profile={{
+            ...gardenerProfile,
+            totalTasksCompleted: tasks.filter(t => t.completed).length,
+            longestStreak: Math.max(...hobbies.map(h => h.streak || 0), 0),
+            // joinDate is already in gardenerProfile
+          }}
+          onUpdateName={(name) => setGardenerProfile((prev) => ({ ...prev, name }))}
           onClose={() => setProfileModalOpen(false)}
         />
       )}
