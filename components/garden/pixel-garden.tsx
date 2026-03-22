@@ -245,7 +245,7 @@ export function PixelGarden({
   }, [hobbies]);
 
   return (
-    <Card className="h-full">
+    <Card className="h-full glow-green">
       <CardHeader className="flex justify-between items-center gap-2">
         <CardTitle>🌻 Hobby Garden</CardTitle>
         <div className="flex gap-2 items-center">

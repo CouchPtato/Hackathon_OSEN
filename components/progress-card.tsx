@@ -31,7 +31,7 @@ export function ProgressCard({
   const progressPercentage = xpToNextLevel === 0 ? 100 : Math.min((xpInLevel / xpToNextLevel) * 100, 100);
 
   return (
-    <Card className="glass">
+    <Card className="glass glow-emerald">
       <CardHeader className="pb-3">
         <CardTitle>Progress</CardTitle>
       </CardHeader>

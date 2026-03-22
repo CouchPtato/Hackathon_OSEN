@@ -10,6 +10,7 @@ import { ProgressCard } from "@/components/progress-card";
 import { PixelGarden } from "@/components/garden/pixel-garden";
 import { HobbyModal } from "@/components/hobby-modal";
 import { AddHobbyModal } from "@/components/add-hobby-modal";
+import { AddTaskModal } from "@/components/add-task-modal";
 import { GardenerProfileModal } from "@/components/gardener-profile";
 import { Button } from "@/components/ui/button";
 import {
@@ -76,6 +77,8 @@ export default function HomePage() {
   const [showHobbyModal, setShowHobbyModal] = useState(false);
   const [showAddHobbyModal, setShowAddHobbyModal] = useState(false);
   const [showLevelUp, setShowLevelUp] = useState(false);
+
+    const [showAddTaskModal, setShowAddTaskModal] = useState(false);
 
   // 🌙 Dark mode
   useEffect(() => {
@@ -169,15 +172,50 @@ export default function HomePage() {
         onOpenProfile={() => setProfileModalOpen(true)}
         gardenerName={gardenerProfile.name}
       />
-      <div className="flex justify-end max-w-7xl mx-auto px-4 mt-2">
-        <Button
-          variant="outline"
-          className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
-          onClick={() => setShowLanding(true)}
-        >
-          <span role="img" aria-label="Home">🏡</span> Back to Home
-        </Button>
+
+      {/* Row: Add Task + Back to Home */}
+      <div className="flex justify-between items-center max-w-7xl mx-auto px-4 mt-2">
+        {/* Add Task Button (left) */}
+        <div>
+          <Button
+            variant="outline"
+            className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
+            onClick={() => setShowAddTaskModal(true)}
+          >
+            <span role="img" aria-label="Add Task">➕</span> Add Task
+          </Button>
+        </div>
+        {/* Back to Home (right) */}
+        <div>
+          <Button
+            variant="outline"
+            className="gap-2 text-sm px-4 py-2 rounded-full shadow hover:bg-green-100"
+            onClick={() => setShowLanding(true)}
+          >
+            <span role="img" aria-label="Home">🏡</span> Back to Home
+          </Button>
+        </div>
       </div>
+
+      {/* Add Task Modal */}
+      <AddTaskModal
+        open={showAddTaskModal}
+        onOpenChange={setShowAddTaskModal}
+        hobbies={hobbies}
+        onAddTask={(task) => {
+          setTasks((prev) => [
+            ...prev,
+            {
+              id: `manual_${Date.now()}_${Math.floor(Math.random() * 100000)}`,
+              hobbyId: task.hobbyId,
+              title: task.title,
+              completed: false,
+            },
+          ]);
+        }}
+      />
+  
+
 
       {/* 💧 CARE ANIMATION */}
       <AnimatePresence>
@@ -282,10 +320,49 @@ export default function HomePage() {
       {showHobbyModal && selectedHobby && (
         <HobbyModal
           hobby={selectedHobby}
+          tasks={tasks.filter((t) => t.hobbyId === selectedHobby.id)}
           open={showHobbyModal}
           onOpenChange={setShowHobbyModal}
-          onCompleteTask={() => {}}
-          onGenerateTask={() => {}}
+          onCompleteTask={(taskId) => {
+            setTasks((prev) => prev.map((t) => t.id === taskId ? { ...t, completed: true } : t));
+            setHobbies((prev) => prev.map((h) => {
+              if (h.id !== selectedHobby.id) return h;
+              let newXp = h.xp + 25;
+              let newLevel = h.level;
+              let maxXp = h.maxXp;
+              // Level up logic
+              const nextLevel = getNextLevel(h.level);
+              if (newXp >= maxXp && nextLevel) {
+                newXp = newXp - maxXp;
+                newLevel = nextLevel;
+                maxXp = LEVEL_XP_THRESHOLDS[newLevel];
+              } else if (newXp > maxXp) {
+                newXp = maxXp;
+              }
+              return { ...h, xp: newXp, level: newLevel, maxXp, careActions: h.careActions + 1 };
+            }));
+          }}
+          onGenerateTask={(hobbyId) => {
+            const templates = aiTaskTemplates[selectedHobby.name] || aiTaskTemplates.default;
+            const randomTitle = templates[Math.floor(Math.random() * templates.length)];
+            const uniqueId = `t${Date.now()}_${hobbyId}_${Math.floor(Math.random() * 100000)}`;
+            setTasks((prev) => [
+              ...prev,
+              {
+                id: uniqueId,
+                hobbyId,
+                title: randomTitle,
+                completed: false,
+              },
+            ]);
+          }}
+          onWaterPlant={(hobbyId) => {
+            setHobbies((prev) => prev.map((h) =>
+              h.id === hobbyId
+                ? { ...h, waterLevel: Math.min(100, (h.waterLevel ?? 50) + 20), careActions: h.careActions + 1, lastCaredAt: new Date() }
+                : h
+            ));
+          }}
         />
       )}
 

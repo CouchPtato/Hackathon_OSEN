@@ -42,7 +42,7 @@ export function Navbar({
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="glass sticky top-0 z-50 px-4 py-3 sm:px-6 backdrop-blur-md"
+      className="glass sticky top-0 z-50 px-4 py-3 sm:px-6 backdrop-blur-md glow-green"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between">
 

@@ -21,7 +21,7 @@ export function GardenView({
   recentlyCaredHobbyId,
 }: GardenViewProps) {
   return (
-    <Card className="h-full min-h-[400px]">
+    <Card className="h-full min-h-[400px] glow-green">
 
       {/* HEADER */}
       <CardHeader className="flex flex-row items-center justify-between pb-4 relative z-20">

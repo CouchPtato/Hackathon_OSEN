@@ -49,7 +49,7 @@ export function HobbyCard({ hobby, onClick, recentlyCared = false }: HobbyCardPr
         onClick={onClick}
         className={`
           cursor-pointer relative overflow-hidden transition-all
-          hover:shadow-xl
+          hover:shadow-xl glow-green
           ${recentlyCared ? "ring-2 ring-green-400 ring-offset-2" : ""}
         `}
       >

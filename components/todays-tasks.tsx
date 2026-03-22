@@ -39,7 +39,7 @@ export function TodaysTasks({
   };
 
   return (
-    <Card className="glass">
+    <Card className="glass glow-green">
       <CardHeader className="pb-3">
         <CardTitle>Today's Tasks</CardTitle>
       </CardHeader>
