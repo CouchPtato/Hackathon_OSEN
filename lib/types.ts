@@ -1,3 +1,21 @@
+// Gardener XP thresholds (single source of truth)
+export const GARDENER_LEVEL_THRESHOLDS = [0, 500, 1500, 3000, 5000];
+
+export function getGardenerXpInLevel(totalXp: number): number {
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return totalXp - GARDENER_LEVEL_THRESHOLDS[4];
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return totalXp - GARDENER_LEVEL_THRESHOLDS[3];
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return totalXp - GARDENER_LEVEL_THRESHOLDS[2];
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return totalXp - GARDENER_LEVEL_THRESHOLDS[1];
+  return totalXp;
+}
+
+export function getGardenerXpToNextLevel(totalXp: number): number {
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return 0; // Maxed out
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return GARDENER_LEVEL_THRESHOLDS[4] - totalXp;
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return GARDENER_LEVEL_THRESHOLDS[3] - totalXp;
+  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return GARDENER_LEVEL_THRESHOLDS[2] - totalXp;
+  return GARDENER_LEVEL_THRESHOLDS[1] - totalXp;
+}
 export type PlantLevel = "Seed" | "Sprout" | "Small Plant" | "Medium Plant" | "Fruit Stage" | "Ripe Fruit";
 
 export type GardenerLevel = "Beginner" | "Growing" | "Pro" | "Master";

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-import { GardenerLevel, GARDENER_LEVELS } from "@/lib/types";
+import { GardenerLevel, GARDENER_LEVELS, GARDENER_LEVEL_THRESHOLDS } from "@/lib/types";
 
 interface ProgressCardProps {
   totalXp: number;
@@ -43,7 +43,16 @@ export function ProgressCard({
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">XP</span>
             <span className="font-medium">
-              {xpInLevel} / {xpToNextLevel}
+              {xpInLevel} / {(() => {
+                // Find the XP cap for the current level
+                const idx = GARDENER_LEVELS.findIndex(l => l.level === currentLevel);
+                const nextIdx = idx + 1;
+                if (nextIdx < GARDENER_LEVEL_THRESHOLDS.length) {
+                  return GARDENER_LEVEL_THRESHOLDS[nextIdx] - GARDENER_LEVEL_THRESHOLDS[idx];
+                }
+                // If maxed out, show cap for last level
+                return GARDENER_LEVEL_THRESHOLDS[GARDENER_LEVEL_THRESHOLDS.length-1] - GARDENER_LEVEL_THRESHOLDS[GARDENER_LEVEL_THRESHOLDS.length-2];
+              })()}
             </span>
           </div>
           <motion.div

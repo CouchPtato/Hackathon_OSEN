@@ -1593,18 +1593,46 @@ Progress.displayName = __TURBOPACK__imported__module__$5b$project$5d2f$node_modu
 "[project]/lib/types.ts [app-ssr] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
+// Gardener XP thresholds (single source of truth)
 __turbopack_context__.s([
     "GARDENER_LEVELS",
     ()=>GARDENER_LEVELS,
+    "GARDENER_LEVEL_THRESHOLDS",
+    ()=>GARDENER_LEVEL_THRESHOLDS,
     "LEVEL_ORDER",
     ()=>LEVEL_ORDER,
     "LEVEL_XP_THRESHOLDS",
     ()=>LEVEL_XP_THRESHOLDS,
     "getGardenerLevel",
     ()=>getGardenerLevel,
+    "getGardenerXpInLevel",
+    ()=>getGardenerXpInLevel,
+    "getGardenerXpToNextLevel",
+    ()=>getGardenerXpToNextLevel,
     "getNextLevel",
     ()=>getNextLevel
 ]);
+const GARDENER_LEVEL_THRESHOLDS = [
+    0,
+    500,
+    1500,
+    3000,
+    5000
+];
+function getGardenerXpInLevel(totalXp) {
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return totalXp - GARDENER_LEVEL_THRESHOLDS[4];
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return totalXp - GARDENER_LEVEL_THRESHOLDS[3];
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return totalXp - GARDENER_LEVEL_THRESHOLDS[2];
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return totalXp - GARDENER_LEVEL_THRESHOLDS[1];
+    return totalXp;
+}
+function getGardenerXpToNextLevel(totalXp) {
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return 0; // Maxed out
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return GARDENER_LEVEL_THRESHOLDS[4] - totalXp;
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return GARDENER_LEVEL_THRESHOLDS[3] - totalXp;
+    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return GARDENER_LEVEL_THRESHOLDS[2] - totalXp;
+    return GARDENER_LEVEL_THRESHOLDS[1] - totalXp;
+}
 const LEVEL_ORDER = [
     "Seed",
     "Sprout",
@@ -1722,7 +1750,16 @@ function ProgressCard({ totalXp, currentLevel, xpToNextLevel, xpInLevel }) {
                                         children: [
                                             xpInLevel,
                                             " / ",
-                                            xpToNextLevel
+                                            (()=>{
+                                                // Find the XP cap for the current level
+                                                const idx = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVELS"].findIndex((l)=>l.level === currentLevel);
+                                                const nextIdx = idx + 1;
+                                                if (nextIdx < __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVEL_THRESHOLDS"].length) {
+                                                    return __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVEL_THRESHOLDS"][nextIdx] - __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVEL_THRESHOLDS"][idx];
+                                                }
+                                                // If maxed out, show cap for last level
+                                                return __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVEL_THRESHOLDS"][__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVEL_THRESHOLDS"].length - 1] - __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVEL_THRESHOLDS"][__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GARDENER_LEVEL_THRESHOLDS"].length - 2];
+                                            })()
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/progress-card.tsx",
@@ -1747,12 +1784,12 @@ function ProgressCard({ totalXp, currentLevel, xpToNextLevel, xpInLevel }) {
                                     value: progressPercentage
                                 }, void 0, false, {
                                     fileName: "[project]/components/progress-card.tsx",
-                                    lineNumber: 54,
+                                    lineNumber: 63,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/progress-card.tsx",
-                                lineNumber: 49,
+                                lineNumber: 58,
                                 columnNumber: 11
                             }, this)
                         ]
@@ -1783,12 +1820,12 @@ function ProgressCard({ totalXp, currentLevel, xpToNextLevel, xpInLevel }) {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/progress-card.tsx",
-                            lineNumber: 60,
+                            lineNumber: 69,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/progress-card.tsx",
-                        lineNumber: 59,
+                        lineNumber: 68,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1817,12 +1854,12 @@ function ProgressCard({ totalXp, currentLevel, xpToNextLevel, xpInLevel }) {
                                             children: gardenerEmojis[l.level]
                                         }, void 0, false, {
                                             fileName: "[project]/components/progress-card.tsx",
-                                            lineNumber: 82,
+                                            lineNumber: 91,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/progress-card.tsx",
-                                        lineNumber: 81,
+                                        lineNumber: 90,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1830,19 +1867,19 @@ function ProgressCard({ totalXp, currentLevel, xpToNextLevel, xpInLevel }) {
                                         children: l.level
                                     }, void 0, false, {
                                         fileName: "[project]/components/progress-card.tsx",
-                                        lineNumber: 84,
+                                        lineNumber: 93,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, l.level, true, {
                                 fileName: "[project]/components/progress-card.tsx",
-                                lineNumber: 75,
+                                lineNumber: 84,
                                 columnNumber: 15
                             }, this);
                         })
                     }, void 0, false, {
                         fileName: "[project]/components/progress-card.tsx",
-                        lineNumber: 70,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, this)
                 ]
@@ -4020,11 +4057,7 @@ function GardenerProfileModal({ profile, onUpdateName, onClose, user, onSignOut,
 
 __turbopack_context__.s([
     "default",
-    ()=>HomePage,
-    "getGardenerXpInLevel",
-    ()=>getGardenerXpInLevel,
-    "getGardenerXpToNextLevel",
-    ()=>getGardenerXpToNextLevel
+    ()=>HomePage
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
@@ -4083,29 +4116,6 @@ const aiTaskTemplates = {
         "Watch tutorial"
     ]
 };
-// Gardener XP helpers (define outside of component, after HomePage)
-// New XP caps for gardener levels
-const GARDENER_LEVEL_THRESHOLDS = [
-    0,
-    500,
-    1500,
-    3000,
-    5000
-];
-function getGardenerXpInLevel(totalXp) {
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return totalXp - GARDENER_LEVEL_THRESHOLDS[4];
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return totalXp - GARDENER_LEVEL_THRESHOLDS[3];
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return totalXp - GARDENER_LEVEL_THRESHOLDS[2];
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return totalXp - GARDENER_LEVEL_THRESHOLDS[1];
-    return totalXp;
-}
-function getGardenerXpToNextLevel(totalXp) {
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return 0; // Maxed out
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return GARDENER_LEVEL_THRESHOLDS[4] - totalXp;
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return GARDENER_LEVEL_THRESHOLDS[3] - totalXp;
-    if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return GARDENER_LEVEL_THRESHOLDS[2] - totalXp;
-    return GARDENER_LEVEL_THRESHOLDS[1] - totalXp;
-}
 function HomePage() {
     const [authModalOpen, setAuthModalOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -4274,7 +4284,7 @@ function HomePage() {
             onToggleDarkMode: ()=>setDarkMode(!darkMode)
         }, void 0, false, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 221,
+            lineNumber: 204,
             columnNumber: 7
         }, this);
     }
@@ -4290,7 +4300,7 @@ function HomePage() {
                 gardenerName: gardenerProfile.name
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 247,
+                lineNumber: 230,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$task$2d$modal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AddTaskModal"], {
@@ -4310,7 +4320,7 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 259,
+                lineNumber: 242,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -4332,24 +4342,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplets$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplets$3e$__["Droplets"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 288,
+                                lineNumber: 271,
                                 columnNumber: 15
                             }, this),
                             " Plant Cared!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 287,
+                        lineNumber: 270,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 281,
+                    lineNumber: 264,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 279,
+                lineNumber: 262,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -4369,24 +4379,24 @@ function HomePage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__["Star"], {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 304,
+                                lineNumber: 287,
                                 columnNumber: 15
                             }, this),
                             " LEVEL UP!"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 303,
+                        lineNumber: 286,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 297,
+                    lineNumber: 280,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 295,
+                lineNumber: 278,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -4401,7 +4411,7 @@ function HomePage() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 313,
+                        lineNumber: 296,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4417,17 +4427,17 @@ function HomePage() {
                                         onAddTaskClick: ()=>setShowAddTaskModal(true)
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 318,
+                                        lineNumber: 301,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$progress$2d$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ProgressCard"], {
                                         totalXp: totalXp,
                                         currentLevel: gardenerProfile.level,
-                                        xpToNextLevel: getGardenerXpToNextLevel(totalXp),
-                                        xpInLevel: getGardenerXpInLevel(totalXp)
+                                        xpToNextLevel: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getGardenerXpToNextLevel"])(totalXp),
+                                        xpInLevel: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getGardenerXpInLevel"])(totalXp)
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 325,
+                                        lineNumber: 308,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -4455,20 +4465,20 @@ function HomePage() {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {}, void 0, false, {
                                                 fileName: "[project]/app/page.tsx",
-                                                lineNumber: 352,
+                                                lineNumber: 335,
                                                 columnNumber: 15
                                             }, this),
                                             " Generate Tasks"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 331,
+                                        lineNumber: 314,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 317,
+                                lineNumber: 300,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4484,24 +4494,24 @@ function HomePage() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 358,
+                                    lineNumber: 341,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 357,
+                                lineNumber: 340,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 314,
+                        lineNumber: 297,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 310,
+                lineNumber: 293,
                 columnNumber: 7
             }, this),
             profileModalOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$gardener$2d$profile$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GardenerProfileModal"], {
@@ -4525,7 +4535,7 @@ function HomePage() {
                 onSignIn: ()=>setAuthModalOpen(true)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 374,
+                lineNumber: 357,
                 columnNumber: 9
             }, this),
             showHobbyModal && selectedHobby && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$hobby$2d$modal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["HobbyModal"], {
@@ -4558,7 +4568,7 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 396,
+                lineNumber: 379,
                 columnNumber: 9
             }, this),
             showAddHobbyModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$add$2d$hobby$2d$modal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AddHobbyModal"], {
@@ -4582,13 +4592,13 @@ function HomePage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 428,
+                lineNumber: 411,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 246,
+        lineNumber: 229,
         columnNumber: 5
     }, this);
 }

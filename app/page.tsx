@@ -22,6 +22,9 @@ import {
   getNextLevel,
   GardenerProfile,
   getGardenerLevel,
+  GARDENER_LEVEL_THRESHOLDS,
+  getGardenerXpInLevel,
+  getGardenerXpToNextLevel,
 } from "@/lib/types";
 
 // ---- SAME DATA ----
@@ -39,26 +42,6 @@ const aiTaskTemplates: Record<string, string[]> = {
 };
 
 
-// Gardener XP helpers (define outside of component, after HomePage)
-// New XP caps for gardener levels
-const GARDENER_LEVEL_THRESHOLDS = [0, 500, 1500, 3000, 5000];
-// 0: Beginner, 500: Growing, 1500: Pro, 3000: Master, 5000: Max
-
-export function getGardenerXpInLevel(totalXp: number): number {
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return totalXp - GARDENER_LEVEL_THRESHOLDS[4];
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return totalXp - GARDENER_LEVEL_THRESHOLDS[3];
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return totalXp - GARDENER_LEVEL_THRESHOLDS[2];
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return totalXp - GARDENER_LEVEL_THRESHOLDS[1];
-  return totalXp;
-}
-
-export function getGardenerXpToNextLevel(totalXp: number): number {
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[4]) return 0; // Maxed out
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[3]) return GARDENER_LEVEL_THRESHOLDS[4] - totalXp;
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[2]) return GARDENER_LEVEL_THRESHOLDS[3] - totalXp;
-  if (totalXp >= GARDENER_LEVEL_THRESHOLDS[1]) return GARDENER_LEVEL_THRESHOLDS[2] - totalXp;
-  return GARDENER_LEVEL_THRESHOLDS[1] - totalXp;
-}
 
 export default function HomePage() {
     const [authModalOpen, setAuthModalOpen] = useState(false);
