@@ -1346,14 +1346,18 @@ __turbopack_context__.s([
 const LEVEL_ORDER = [
     "Seed",
     "Sprout",
-    "Plant",
-    "Tree"
+    "Small Plant",
+    "Medium Plant",
+    "Fruit Stage",
+    "Ripe Fruit"
 ];
 const LEVEL_XP_THRESHOLDS = {
     Seed: 100,
-    Sprout: 250,
-    Plant: 500,
-    Tree: 1000
+    Sprout: 200,
+    "Small Plant": 350,
+    "Medium Plant": 550,
+    "Fruit Stage": 800,
+    "Ripe Fruit": 1000
 };
 function getNextLevel(current) {
     const idx = LEVEL_ORDER.indexOf(current);
@@ -1660,6 +1664,16 @@ function getPlantType(name) {
     if (n.includes("code") || n.includes("dev")) return "coding";
     return "default";
 }
+function getPlantSpriteFolder(type) {
+    const folders = {
+        default: "plant1",
+        fitness: "plant2",
+        art: "plant3",
+        music: "plant4",
+        coding: "plant5"
+    };
+    return folders[type] || folders.default;
+}
 // 🧱 PIXEL WITH OUTLINE
 function Pixel(param) {
     let { x, y, w, h, fill } = param;
@@ -1674,7 +1688,7 @@ function Pixel(param) {
                 fill: OUTLINE
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 56,
+                lineNumber: 67,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
@@ -1685,7 +1699,7 @@ function Pixel(param) {
                 fill: fill
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-plants.tsx",
-                lineNumber: 57,
+                lineNumber: 68,
                 columnNumber: 7
             }, this)
         ]
@@ -1725,375 +1739,95 @@ function PixelPlant(param) {
     }["PixelPlant.useEffect"], [
         stage
     ]);
+    // Granular scaling for each stage for better balance
+    let scale = 1;
+    if (stage === 1) scale = 0.48;
+    else if (stage === 2) scale = 0.58;
+    else if (stage === 3) scale = 1.0;
+    else if (stage === 4) scale = 1.18;
+    else if (stage === 5) scale = 1.32;
+    else if (stage === 6) scale = 1.45;
+    // Special case: photography or gardening plant (or any other that looks too big)
+    const lowerName = hobbyName.toLowerCase();
+    if (lowerName.includes('photo') || lowerName.includes('garden')) {
+        if (stage === 1) scale = 0.48; // match other seeds, not smaller
+        else if (stage === 2) scale *= 0.85;
+        else if (stage === 3) scale *= 0.9;
+        else scale *= 0.95;
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].svg, {
-            viewBox: "0 0 64 72",
-            className: className,
-            style: {
-                imageRendering: "pixelated"
-            },
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ellipse", {
-                    cx: "32",
-                    cy: "68",
-                    rx: "12",
-                    ry: "4",
-                    fill: "rgba(0,0,0,0.25)"
+        className: "relative flex items-end justify-center ".concat(className),
+        style: {
+            width: 'auto',
+            height: 'auto'
+        },
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute rounded-full blur-sm left-1/2 -translate-x-1/2 z-0",
+                style: {
+                    width: "".concat(32 * scale, "px"),
+                    height: "".concat(8 * scale, "px"),
+                    background: 'rgba(0,0,0,0.25)',
+                    bottom: "".concat(2 * scale, "px")
+                }
+            }, void 0, false, {
+                fileName: "[project]/components/garden/pixel-plants.tsx",
+                lineNumber: 125,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].img, {
+                src: "/sprites/".concat(getPlantSpriteFolder(type), "/stage").concat(stage, ".png"),
+                style: {
+                    imageRendering: "pixelated",
+                    width: 'auto',
+                    height: 'auto',
+                    maxWidth: "".concat(64 * scale, "px"),
+                    maxHeight: "".concat(80 * scale, "px"),
+                    aspectRatio: 'auto'
+                },
+                animate: {
+                    rotate: variation * 2 - 1
+                },
+                transition: {
+                    duration: 4,
+                    repeat: Infinity
+                },
+                alt: "plant"
+            }, void 0, false, {
+                fileName: "[project]/components/garden/pixel-plants.tsx",
+                lineNumber: 136,
+                columnNumber: 7
+            }, this),
+            isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                className: "absolute inset-0 flex items-center justify-center",
+                animate: {
+                    opacity: [
+                        0,
+                        1,
+                        0
+                    ]
+                },
+                transition: {
+                    duration: 1.5,
+                    repeat: Infinity
+                },
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "text-blue-300 text-2xl",
+                    children: "💧"
                 }, void 0, false, {
                     fileName: "[project]/components/garden/pixel-plants.tsx",
-                    lineNumber: 100,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                    animate: {
-                        rotate: variation * 2 - 1
-                    },
-                    transition: {
-                        duration: 4,
-                        repeat: Infinity
-                    },
-                    style: {
-                        transformOrigin: "bottom center"
-                    },
-                    children: [
-                        stage >= 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                                    x: 26,
-                                    y: 62,
-                                    width: 12,
-                                    height: 4,
-                                    fill: "#5d4037"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 111,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 31,
-                                    y: 60,
-                                    w: 2,
-                                    h: 2,
-                                    fill: "#3e2723"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 112,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true),
-                        stage >= 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 30,
-                                    y: 54,
-                                    w: 4,
-                                    h: 6,
-                                    fill: c.dark
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 119,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 26,
-                                    y: 52,
-                                    w: 4,
-                                    h: 2,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 120,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 34,
-                                    y: 52,
-                                    w: 4,
-                                    h: 2,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 121,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true),
-                        stage >= 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 30,
-                                    y: 46,
-                                    w: 4,
-                                    h: 10,
-                                    fill: c.dark
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 128,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 24,
-                                    y: 48,
-                                    w: 6,
-                                    h: 3,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 129,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 34,
-                                    y: 48,
-                                    w: 6,
-                                    h: 3,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 130,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 28,
-                                    y: 42,
-                                    w: 8,
-                                    h: 3,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 131,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true),
-                        stage >= 4 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 30,
-                                    y: 36,
-                                    w: 4,
-                                    h: 10,
-                                    fill: c.dark
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 138,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 24,
-                                    y: 40,
-                                    w: 6,
-                                    h: 3,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 139,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 34,
-                                    y: 40,
-                                    w: 6,
-                                    h: 3,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 140,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 29,
-                                    y: 32,
-                                    w: 6,
-                                    h: 4,
-                                    fill: c.flower
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 141,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true),
-                        stage >= 5 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 29,
-                                    y: 38,
-                                    w: 6,
-                                    h: 14,
-                                    fill: "#6b3e1f"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 148,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 22,
-                                    y: 34,
-                                    w: 20,
-                                    h: 10,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 149,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 24,
-                                    y: 36,
-                                    w: 3,
-                                    h: 3,
-                                    fill: c.flower
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 151,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 36,
-                                    y: 36,
-                                    w: 3,
-                                    h: 3,
-                                    fill: c.flower
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 152,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true),
-                        stage >= 6 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 28,
-                                    y: 34,
-                                    w: 8,
-                                    h: 18,
-                                    fill: "#5d4037"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 159,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 20,
-                                    y: 28,
-                                    w: 24,
-                                    h: 12,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 160,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 24,
-                                    y: 24,
-                                    w: 16,
-                                    h: 8,
-                                    fill: c.leaf
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 161,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 22,
-                                    y: 30,
-                                    w: 3,
-                                    h: 3,
-                                    fill: c.flower
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 163,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 38,
-                                    y: 30,
-                                    w: 3,
-                                    h: 3,
-                                    fill: c.flower
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 164,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pixel, {
-                                    x: 30,
-                                    y: 26,
-                                    w: 3,
-                                    h: 3,
-                                    fill: c.flower
-                                }, void 0, false, {
-                                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                                    lineNumber: 165,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                    lineNumber: 103,
-                    columnNumber: 9
-                }, this),
-                isWatered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].g, {
-                    animate: {
-                        opacity: [
-                            0,
-                            1,
-                            0
-                        ],
-                        y: [
-                            0,
-                            10,
-                            20
-                        ]
-                    },
-                    transition: {
-                        duration: 1.5,
-                        repeat: Infinity
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                            x: 24,
-                            y: 20,
-                            width: 2,
-                            height: 4,
-                            fill: "#87ceeb"
-                        }, void 0, false, {
-                            fileName: "[project]/components/garden/pixel-plants.tsx",
-                            lineNumber: 176,
-                            columnNumber: 13
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                            x: 38,
-                            y: 24,
-                            width: 2,
-                            height: 4,
-                            fill: "#87ceeb"
-                        }, void 0, false, {
-                            fileName: "[project]/components/garden/pixel-plants.tsx",
-                            lineNumber: 177,
-                            columnNumber: 13
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/garden/pixel-plants.tsx",
-                    lineNumber: 172,
+                    lineNumber: 158,
                     columnNumber: 11
                 }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/components/garden/pixel-plants.tsx",
-            lineNumber: 94,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+            }, void 0, false, {
+                fileName: "[project]/components/garden/pixel-plants.tsx",
+                lineNumber: 153,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "[project]/components/garden/pixel-plants.tsx",
-        lineNumber: 93,
+        lineNumber: 123,
         columnNumber: 5
     }, this);
 }
@@ -2105,13 +1839,13 @@ function levelToPixelStage(level) {
             return 1;
         case "Sprout":
             return 2;
-        case "Plant":
+        case "Small Plant":
             return 3;
-        case "Tree":
+        case "Medium Plant":
             return 4;
-        case "Bloom":
+        case "Fruit Stage":
             return 5;
-        case "Ancient":
+        case "Ripe Fruit":
             return 6;
         default:
             return 1;
@@ -2134,9 +1868,9 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/card.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/garden/pixel-plants.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/card.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
 ;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature(), _s2 = __turbopack_context__.k.signature();
 "use client";
@@ -2145,8 +1879,7 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 ;
 ;
 ;
-// ---------- RANDOM ----------
-const rand = (min, max)=>Math.random() * (max - min) + min;
+// Utility to get time phase
 function getTimePhase() {
     const h = new Date().getHours();
     if (h >= 5 && h < 8) return "dawn";
@@ -2155,69 +1888,85 @@ function getTimePhase() {
     if (h >= 15 && h < 18) return "dusk";
     return "night";
 }
-// ---------- 🐝 SMART BEE ----------
-function Bee(param) {
-    let { hobbies, positionsMap } = param;
+// Random utility
+const rand = (min, max)=>Math.random() * (max - min) + min;
+// Generic Insect (Bee/Firefly) that hovers above plants
+function Insect(param) {
+    let { hobbies, positionsMap, sprite, timePhase } = param;
     _s();
-    const [pos, setPos] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        x: 50,
-        y: 30
+    // Pick a random plant to hover above
+    const [targetId, setTargetId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [offset, setOffset] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        x: 0,
+        y: 0
     });
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(1);
-    const pickTarget = ()=>{
-        if (!hobbies.length) return null;
-        const flowering = hobbies.filter((h)=>h.level === "Tree");
-        const pool = (flowering.length ? flowering : hobbies).sort((a, b)=>b.xp - a.xp);
-        return pool[Math.floor(Math.random() * Math.min(3, pool.length))];
-    };
+    const [hover, setHover] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        x: 0,
+        y: 0
+    });
+    // Pick a new target plant occasionally
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "Bee.useEffect": ()=>{
-            let timeout;
-            const move = {
-                "Bee.useEffect.move": ()=>{
-                    setPos({
-                        "Bee.useEffect.move": (prev)=>{
-                            const target = pickTarget();
-                            let newX = prev.x;
-                            let newY = prev.y;
-                            if (target && positionsMap[target.id]) {
-                                const t = positionsMap[target.id];
-                                newX = t.x + rand(-5, 5);
-                                newY = t.y - 10 + rand(-5, 5);
-                            } else {
-                                newX = prev.x + rand(-10, 10);
-                                newY = prev.y + rand(-10, 10);
-                            }
-                            newX = Math.max(5, Math.min(95, newX));
-                            newY = Math.max(10, Math.min(80, newY));
-                            // update direction safely
-                            setDirection(newX > prev.x ? 1 : -1);
-                            return {
-                                x: newX,
-                                y: newY
-                            };
-                        }
-                    }["Bee.useEffect.move"]);
-                    timeout = setTimeout(move, 2000 + Math.random() * 2000);
+        "Insect.useEffect": ()=>{
+            if (!hobbies.length) return;
+            const pick = {
+                "Insect.useEffect.pick": ()=>{
+                    const idx = Math.floor(Math.random() * hobbies.length);
+                    setTargetId(hobbies[idx].id);
                 }
-            }["Bee.useEffect.move"];
-            move();
+            }["Insect.useEffect.pick"];
+            pick();
+            const interval = setInterval(pick, 8000 + Math.random() * 4000);
             return ({
-                "Bee.useEffect": ()=>clearTimeout(timeout)
-            })["Bee.useEffect"];
+                "Insect.useEffect": ()=>clearInterval(interval)
+            })["Insect.useEffect"];
         }
-    }["Bee.useEffect"], [
-        hobbies,
-        positionsMap
-    ]); // ✅ NO pos here
+    }["Insect.useEffect"], [
+        hobbies
+    ]);
+    // Animate random hovering above the plant
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Insect.useEffect": ()=>{
+            let timeout;
+            const animate = {
+                "Insect.useEffect.animate": ()=>{
+                    setOffset({
+                        x: rand(-8, 8),
+                        y: rand(-18, -10)
+                    });
+                    setHover({
+                        x: rand(-2, 2),
+                        y: rand(-2, 2)
+                    });
+                    timeout = setTimeout(animate, 1800 + Math.random() * 2000);
+                }
+            }["Insect.useEffect.animate"];
+            animate();
+            return ({
+                "Insect.useEffect": ()=>clearTimeout(timeout)
+            })["Insect.useEffect"];
+        }
+    }["Insect.useEffect"], [
+        targetId
+    ]);
+    // Flip direction based on movement
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Insect.useEffect": ()=>{
+            setDirection(offset.x > 0 ? 1 : -1);
+        }
+    }["Insect.useEffect"], [
+        offset.x
+    ]);
+    if (!targetId || !positionsMap[targetId]) return null;
+    const pos = positionsMap[targetId];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-        className: "absolute pointer-events-none",
+        className: "absolute pointer-events-none z-30",
         animate: {
-            left: "".concat(pos.x, "%"),
-            top: "".concat(pos.y, "%")
+            left: "".concat(pos.x + offset.x, "%"),
+            top: "".concat(pos.y + offset.y, "%")
         },
         transition: {
-            duration: 2,
+            duration: 2.5,
             ease: "easeInOut"
         },
         style: {
@@ -2227,90 +1976,147 @@ function Bee(param) {
             animate: {
                 x: [
                     0,
-                    1,
-                    -1,
-                    1,
+                    hover.x,
+                    -hover.x,
+                    hover.x,
                     0
                 ],
                 y: [
                     0,
-                    -1,
-                    1,
-                    -1,
+                    hover.y,
+                    -hover.y,
+                    hover.y,
                     0
                 ]
             },
             transition: {
-                duration: 0.3,
-                repeat: Infinity
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "mirror"
             },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                src: "/sprites/bee.png",
-                className: "w-16 h-16",
+                src: sprite,
+                className: "w-12 h-12 drop-shadow-lg",
                 style: {
                     imageRendering: "pixelated"
-                }
+                },
+                alt: "insect"
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 110,
+                lineNumber: 99,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/components/garden/pixel-garden.tsx",
-            lineNumber: 106,
+            lineNumber: 95,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 97,
+        lineNumber: 86,
         columnNumber: 5
     }, this);
 }
-_s(Bee, "hlYvvzCpBIjyIL1f97gcOBhZpDE=");
-_c = Bee;
-function Bees(param) {
-    let { hobbies, positionsMap } = param;
+_s(Insect, "kqj+1jzNeA5P7AIvD8PVR/A+pwY=");
+_c = Insect;
+// Insects wrapper (bees or fireflies)
+function Insects(param) {
+    let { hobbies, positionsMap, timePhase } = param;
+    // Use bees for dawn/day/noon, fireflies for dusk/night
+    const sprite = [
+        "dawn",
+        "day",
+        "noon"
+    ].includes(timePhase) ? "/sprites/bee.png" : "/sprites/firefly.png";
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bee, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insect, {
                 hobbies: hobbies,
-                positionsMap: positionsMap
+                positionsMap: positionsMap,
+                sprite: sprite,
+                timePhase: timePhase
+            }, void 0, false, {
+                fileName: "[project]/components/garden/pixel-garden.tsx",
+                lineNumber: 127,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insect, {
+                hobbies: hobbies,
+                positionsMap: positionsMap,
+                sprite: sprite,
+                timePhase: timePhase
+            }, void 0, false, {
+                fileName: "[project]/components/garden/pixel-garden.tsx",
+                lineNumber: 128,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insect, {
+                hobbies: hobbies,
+                positionsMap: positionsMap,
+                sprite: sprite,
+                timePhase: timePhase
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
                 lineNumber: 129,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bee, {
-                hobbies: hobbies,
-                positionsMap: positionsMap
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 130,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bee, {
-                hobbies: hobbies,
-                positionsMap: positionsMap
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 131,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_c1 = Bees;
+_c1 = Insects;
 // ---------- 🌱 PLANT ----------
 function GardenPlant(param) {
-    let { hobby, position, onClick } = param;
+    let { hobby, position, onClick, onDrag, onDragEnd } = param;
     _s1();
     const stage = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["levelToPixelStage"])(hobby.level);
     const [hovered, setHovered] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [dragging, setDragging] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [dragOffset, setDragOffset] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        x: 0,
+        y: 0
+    });
+    const dragStart = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // Mouse drag handlers
+    function handleMouseDown(e) {
+        e.stopPropagation();
+        setDragging(true);
+        dragStart.current = {
+            x: e.clientX,
+            y: e.clientY
+        };
+        setDragOffset({
+            x: 0,
+            y: 0
+        });
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+    }
+    function handleMouseMove(e) {
+        if (!dragStart.current) return;
+        const dx = e.clientX - dragStart.current.x;
+        const dy = e.clientY - dragStart.current.y;
+        setDragOffset({
+            x: dx,
+            y: dy
+        });
+        onDrag(dx, dy);
+    }
+    function handleMouseUp(e) {
+        setDragging(false);
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+        onDragEnd(dragOffset.x, dragOffset.y);
+        setDragOffset({
+            x: 0,
+            y: 0
+        });
+        dragStart.current = null;
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
-        className: "absolute cursor-pointer group",
+        className: "absolute cursor-pointer group ".concat(dragging ? 'z-50' : ''),
         style: {
-            left: "".concat(position.x, "%"),
-            top: "".concat(position.y, "%"),
+            left: "calc(".concat(position.x, "% + ").concat(dragOffset.x, "px)"),
+            top: "calc(".concat(position.y, "% + ").concat(dragOffset.y, "px)"),
             zIndex: Math.floor(position.y * 10),
             transformOrigin: "bottom center"
         },
@@ -2330,27 +2136,26 @@ function GardenPlant(param) {
         onClick: onClick,
         onMouseEnter: ()=>setHovered(true),
         onMouseLeave: ()=>setHovered(false),
+        onMouseDown: handleMouseDown,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute w-8 h-2 bg-black/30 rounded-full blur-sm bottom-6 left-1/2 -translate-x-1/2"
-            }, void 0, false, {
-                fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 170,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "w-24 h-32",
+                style: {
+                    width: "".concat(56 * position.scale, "px"),
+                    height: "".concat(72 * position.scale, "px")
+                },
+                className: "flex items-end justify-center",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$garden$2f$pixel$2d$plants$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PixelPlant"], {
                     stage: stage,
-                    hobbyName: hobby.name
+                    hobbyName: hobby.name,
+                    className: "relative"
                 }, void 0, false, {
                     fileName: "[project]/components/garden/pixel-garden.tsx",
-                    lineNumber: 173,
+                    lineNumber: 203,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 172,
+                lineNumber: 202,
                 columnNumber: 7
             }, this),
             hovered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2358,22 +2163,32 @@ function GardenPlant(param) {
                 children: hobby.name
             }, void 0, false, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 178,
+                lineNumber: 208,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 150,
+        lineNumber: 181,
         columnNumber: 5
     }, this);
 }
-_s1(GardenPlant, "V8YbV+gTZxGliGj1g0fftBlvsq4=");
+_s1(GardenPlant, "rfQ2CS36EhDYGdi3oTw/yHHX6dE=");
 _c2 = GardenPlant;
 function PixelGarden(param) {
     let { hobbies, onPlantClick, onAddHobby, onRemoveHobby } = param;
     _s2();
-    const [positionsMap, setPositionsMap] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
+    const [positionsMap, setPositionsMap] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        "PixelGarden.useState": ()=>{
+            if ("TURBOPACK compile-time truthy", 1) {
+                try {
+                    const saved = localStorage.getItem('garden-positions');
+                    if (saved) return JSON.parse(saved);
+                } catch (e) {}
+            }
+            return {};
+        }
+    }["PixelGarden.useState"]);
     const [timePhase, setTimePhase] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("day");
     const [shovelMode, setShovelMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -2389,6 +2204,7 @@ function PixelGarden(param) {
         }
     }["PixelGarden.useEffect"], []);
     // ---------- NON-OVERLAP LOGIC ----------
+    // Restore or randomize positions for new hobbies
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "PixelGarden.useEffect": ()=>{
             setPositionsMap({
@@ -2397,6 +2213,13 @@ function PixelGarden(param) {
                         ...prev
                     };
                     const placed = [];
+                    // Margins to keep the largest plant (stage 6) fully inside
+                    const marginX = 12; // percent, adjust as needed for plant width
+                    const marginY = 18; // percent, adjust as needed for plant height
+                    const minX = marginX;
+                    const maxX = 100 - marginX;
+                    const minY = marginY;
+                    const maxY = 100 - marginY;
                     hobbies.forEach({
                         "PixelGarden.useEffect": (h)=>{
                             if (!updated[h.id]) {
@@ -2404,8 +2227,8 @@ function PixelGarden(param) {
                                 let pos;
                                 do {
                                     pos = {
-                                        x: rand(10, 90),
-                                        y: rand(55, 85),
+                                        x: rand(minX, maxX),
+                                        y: rand(minY, maxY),
                                         scale: rand(0.8, 1)
                                     };
                                     tries++;
@@ -2426,6 +2249,18 @@ function PixelGarden(param) {
     }["PixelGarden.useEffect"], [
         hobbies
     ]);
+    // Persist positions to localStorage whenever they change
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "PixelGarden.useEffect": ()=>{
+            if ("TURBOPACK compile-time truthy", 1) {
+                try {
+                    localStorage.setItem('garden-positions', JSON.stringify(positionsMap));
+                } catch (e) {}
+            }
+        }
+    }["PixelGarden.useEffect"], [
+        positionsMap
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
         className: "h-full glow-green",
         children: [
@@ -2436,7 +2271,7 @@ function PixelGarden(param) {
                         children: "🌻 Hobby Garden"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 250,
+                        lineNumber: 306,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2459,12 +2294,12 @@ function PixelGarden(param) {
                                     children: "🧹"
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-garden.tsx",
-                                    lineNumber: 258,
+                                    lineNumber: 314,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 252,
+                                lineNumber: 308,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2479,28 +2314,28 @@ function PixelGarden(param) {
                                     className: "w-5 h-5"
                                 }, void 0, false, {
                                     fileName: "[project]/components/garden/pixel-garden.tsx",
-                                    lineNumber: 266,
+                                    lineNumber: 322,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 260,
+                                lineNumber: 316,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 251,
+                        lineNumber: 307,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 249,
+                lineNumber: 305,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
-                className: "relative min-h-[400px] overflow-hidden ".concat(shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''),
+                className: "relative min-h-[400px] overflow-hidden garden-area ".concat(shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''),
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none",
@@ -2512,30 +2347,31 @@ function PixelGarden(param) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 276,
+                        lineNumber: 332,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 pointer-events-none ".concat(timePhase === "dawn" ? "bg-orange-200/30" : timePhase === "noon" ? "bg-yellow-100/20" : timePhase === "dusk" ? "bg-purple-300/30" : timePhase === "night" ? "bg-indigo-900/60" : "")
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 287,
+                        lineNumber: 343,
                         columnNumber: 9
                     }, this),
-                    timePhase !== "night" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Bees, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Insects, {
                         hobbies: hobbies,
-                        positionsMap: positionsMap
+                        positionsMap: positionsMap,
+                        timePhase: timePhase
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 303,
-                        columnNumber: 11
+                        lineNumber: 358,
+                        columnNumber: 9
                     }, this),
                     hobbies.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 flex items-center justify-center text-white pointer-events-none",
                         children: "🌱 Start planting your hobbies"
                     }, void 0, false, {
                         fileName: "[project]/components/garden/pixel-garden.tsx",
-                        lineNumber: 308,
+                        lineNumber: 362,
                         columnNumber: 11
                     }, this),
                     hobbies.map((h)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2553,35 +2389,61 @@ function PixelGarden(param) {
                                     } else {
                                         onPlantClick(h);
                                     }
+                                },
+                                onDrag: (dx, dy)=>{},
+                                onDragEnd: (dx, dy)=>{
+                                    // Convert pixel drag to percent (approximate)
+                                    const garden = document.querySelector('.garden-area');
+                                    if (!garden) return;
+                                    const rect = garden.getBoundingClientRect();
+                                    const percentX = dx / rect.width * 100;
+                                    const percentY = dy / rect.height * 100;
+                                    setPositionsMap((prev)=>{
+                                        const newMap = {
+                                            ...prev,
+                                            [h.id]: {
+                                                ...prev[h.id],
+                                                x: Math.max(5, Math.min(95, prev[h.id].x + percentX)),
+                                                y: Math.max(5, Math.min(95, prev[h.id].y + percentY))
+                                            }
+                                        };
+                                        // Persist immediately
+                                        if ("TURBOPACK compile-time truthy", 1) {
+                                            try {
+                                                localStorage.setItem('garden-positions', JSON.stringify(newMap));
+                                            } catch (e) {}
+                                        }
+                                        return newMap;
+                                    });
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                                lineNumber: 316,
+                                lineNumber: 370,
                                 columnNumber: 13
                             }, this)
                         }, h.id, false, {
                             fileName: "[project]/components/garden/pixel-garden.tsx",
-                            lineNumber: 315,
+                            lineNumber: 369,
                             columnNumber: 11
                         }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/garden/pixel-garden.tsx",
-                lineNumber: 271,
+                lineNumber: 327,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/garden/pixel-garden.tsx",
-        lineNumber: 248,
+        lineNumber: 304,
         columnNumber: 5
     }, this);
 }
-_s2(PixelGarden, "Af95iuTmGo7GqplM4M9kJ25b7NE=");
+_s2(PixelGarden, "Cw6BxSbQxNmWtLZEYq5wu7hvF1E=");
 _c3 = PixelGarden;
 var _c, _c1, _c2, _c3;
-__turbopack_context__.k.register(_c, "Bee");
-__turbopack_context__.k.register(_c1, "Bees");
+__turbopack_context__.k.register(_c, "Insect");
+__turbopack_context__.k.register(_c1, "Insects");
 __turbopack_context__.k.register(_c2, "GardenPlant");
 __turbopack_context__.k.register(_c3, "PixelGarden");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {

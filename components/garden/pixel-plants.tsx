@@ -36,6 +36,17 @@ function getPlantType(name: string) {
   return "default";
 }
 
+function getPlantSpriteFolder(type: string) {
+  const folders: Record<string, string> = {
+    default: "plant1",
+    fitness: "plant2",
+    art: "plant3",
+    music: "plant4",
+    coding: "plant5",
+  };
+  return folders[type] || folders.default;
+}
+
 // 🧱 PIXEL WITH OUTLINE
 function Pixel({
   x,
@@ -89,95 +100,64 @@ export function PixelPlant({
     setPrevStage(stage);
   }, [stage]);
 
+
+  // Granular scaling for each stage for better balance
+  let scale = 1;
+  if (stage === 1) scale = 0.48;
+  else if (stage === 2) scale = 0.58;
+  else if (stage === 3) scale = 1.0;
+  else if (stage === 4) scale = 1.18;
+  else if (stage === 5) scale = 1.32;
+  else if (stage === 6) scale = 1.45;
+
+  // Special case: photography or gardening plant (or any other that looks too big)
+  const lowerName = hobbyName.toLowerCase();
+  if (lowerName.includes('photo') || lowerName.includes('garden')) {
+    if (stage === 1) scale = 0.48; // match other seeds, not smaller
+    else if (stage === 2) scale *= 0.85;
+    else if (stage === 3) scale *= 0.9;
+    else scale *= 0.95;
+  }
+
   return (
-    <motion.div>
-      <motion.svg
-        viewBox="0 0 64 72"
-        className={className}
-        style={{ imageRendering: "pixelated" }}
-      >
-        {/* 🌑 SHADOW */}
-        <ellipse cx="32" cy="68" rx="12" ry="4" fill="rgba(0,0,0,0.25)" />
+    <motion.div className={`relative flex items-end justify-center ${className}`} style={{ width: 'auto', height: 'auto' }}>
+      {/* 🌑 SHADOW */}
+      <div
+        className="absolute rounded-full blur-sm left-1/2 -translate-x-1/2 z-0"
+        style={{
+          width: `${32 * scale}px`,
+          height: `${8 * scale}px`,
+          background: 'rgba(0,0,0,0.25)',
+          bottom: `${2 * scale}px`,
+        }}
+      />
 
-        {/* 🌿 PLANT */}
-        <motion.g
-          animate={{ rotate: variation * 2 - 1 }}
-          transition={{ duration: 4, repeat: Infinity }}
-          style={{ transformOrigin: "bottom center" }}
+      {/* 🌿 PLANT */}
+      <motion.img
+        src={`/sprites/${getPlantSpriteFolder(type)}/stage${stage}.png`}
+        style={{ 
+          imageRendering: "pixelated",
+          width: 'auto',
+          height: 'auto',
+          maxWidth: `${64 * scale}px`,
+          maxHeight: `${80 * scale}px`,
+          aspectRatio: 'auto',
+        }}
+        animate={{ rotate: variation * 2 - 1 }}
+        transition={{ duration: 4, repeat: Infinity }}
+        alt="plant"
+      />
+
+      {/* 💧 WATER */}
+      {isWatered && (
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
         >
-          {/* 🌱 STAGE 1 — SEED (NO OUTLINE BASE) */}
-          {stage >= 1 && (
-            <>
-              <rect x={26} y={62} width={12} height={4} fill="#5d4037" />
-              <Pixel x={31} y={60} w={2} h={2} fill="#3e2723" />
-            </>
-          )}
-
-          {/* 🌿 STAGE 2 */}
-          {stage >= 2 && (
-            <>
-              <Pixel x={30} y={54} w={4} h={6} fill={c.dark} />
-              <Pixel x={26} y={52} w={4} h={2} fill={c.leaf} />
-              <Pixel x={34} y={52} w={4} h={2} fill={c.leaf} />
-            </>
-          )}
-
-          {/* 🌱 STAGE 3 */}
-          {stage >= 3 && (
-            <>
-              <Pixel x={30} y={46} w={4} h={10} fill={c.dark} />
-              <Pixel x={24} y={48} w={6} h={3} fill={c.leaf} />
-              <Pixel x={34} y={48} w={6} h={3} fill={c.leaf} />
-              <Pixel x={28} y={42} w={8} h={3} fill={c.leaf} />
-            </>
-          )}
-
-          {/* 🌸 STAGE 4 */}
-          {stage >= 4 && (
-            <>
-              <Pixel x={30} y={36} w={4} h={10} fill={c.dark} />
-              <Pixel x={24} y={40} w={6} h={3} fill={c.leaf} />
-              <Pixel x={34} y={40} w={6} h={3} fill={c.leaf} />
-              <Pixel x={29} y={32} w={6} h={4} fill={c.flower} />
-            </>
-          )}
-
-          {/* 🍎 STAGE 5 */}
-          {stage >= 5 && (
-            <>
-              <Pixel x={29} y={38} w={6} h={14} fill="#6b3e1f" />
-              <Pixel x={22} y={34} w={20} h={10} fill={c.leaf} />
-
-              <Pixel x={24} y={36} w={3} h={3} fill={c.flower} />
-              <Pixel x={36} y={36} w={3} h={3} fill={c.flower} />
-            </>
-          )}
-
-          {/* 🌳 STAGE 6 */}
-          {stage >= 6 && (
-            <>
-              <Pixel x={28} y={34} w={8} h={18} fill="#5d4037" />
-              <Pixel x={20} y={28} w={24} h={12} fill={c.leaf} />
-              <Pixel x={24} y={24} w={16} h={8} fill={c.leaf} />
-
-              <Pixel x={22} y={30} w={3} h={3} fill={c.flower} />
-              <Pixel x={38} y={30} w={3} h={3} fill={c.flower} />
-              <Pixel x={30} y={26} w={3} h={3} fill={c.flower} />
-            </>
-          )}
-        </motion.g>
-
-        {/* 💧 WATER */}
-        {isWatered && (
-          <motion.g
-            animate={{ opacity: [0, 1, 0], y: [0, 10, 20] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <rect x={24} y={20} width={2} height={4} fill="#87ceeb" />
-            <rect x={38} y={24} width={2} height={4} fill="#87ceeb" />
-          </motion.g>
-        )}
-      </motion.svg>
+          <div className="text-blue-300 text-2xl">💧</div>
+        </motion.div>
+      )}
     </motion.div>
   );
 }
@@ -186,10 +166,10 @@ export function levelToPixelStage(level: string): GrowthStage {
   switch (level) {
     case "Seed": return 1;
     case "Sprout": return 2;
-    case "Plant": return 3;
-    case "Tree": return 4;
-    case "Bloom": return 5;
-    case "Ancient": return 6;
+    case "Small Plant": return 3;
+    case "Medium Plant": return 4;
+    case "Fruit Stage": return 5;
+    case "Ripe Fruit": return 6;
     default: return 1;
   }
 }

@@ -1,4 +1,4 @@
-export type PlantLevel = "Seed" | "Sprout" | "Plant" | "Tree";
+export type PlantLevel = "Seed" | "Sprout" | "Small Plant" | "Medium Plant" | "Fruit Stage" | "Ripe Fruit";
 
 export type GardenerLevel = "Beginner Gardener" | "Growing Gardener" | "Pro Gardener" | "Master Gardener";
 
@@ -30,13 +30,22 @@ export interface Task {
   completed: boolean;
 }
 
-export const LEVEL_ORDER: PlantLevel[] = ["Seed", "Sprout", "Plant", "Tree"];
+export const LEVEL_ORDER: PlantLevel[] = [
+  "Seed",
+  "Sprout",
+  "Small Plant",
+  "Medium Plant",
+  "Fruit Stage",
+  "Ripe Fruit"
+];
 
 export const LEVEL_XP_THRESHOLDS: Record<PlantLevel, number> = {
   Seed: 100,
-  Sprout: 250,
-  Plant: 500,
-  Tree: 1000,
+  Sprout: 200,
+  "Small Plant": 350,
+  "Medium Plant": 550,
+  "Fruit Stage": 800,
+  "Ripe Fruit": 1000,
 };
 
 export function getNextLevel(current: PlantLevel): PlantLevel | null {

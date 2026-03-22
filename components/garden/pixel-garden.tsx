@@ -1,29 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Hobby } from "@/lib/types";
-import { PixelPlant, levelToPixelStage } from "./pixel-plants";
+import { levelToPixelStage, PixelPlant } from "./pixel-plants";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Plus } from "lucide-react";
 
-// ---------- TYPES ----------
-type Position = {
-  x: number;
-  y: number;
-  scale: number;
-};
-
-type PositionsMap = Record<string, Position>;
-
-// ---------- RANDOM ----------
-const rand = (min: number, max: number) =>
-  Math.random() * (max - min) + min;
-
-// ---------- TIME ----------
-type TimePhase = "dawn" | "day" | "noon" | "dusk" | "night";
-
+// Utility to get time phase
 function getTimePhase(): TimePhase {
   const h = new Date().getHours();
   if (h >= 5 && h < 8) return "dawn";
@@ -33,125 +18,171 @@ function getTimePhase(): TimePhase {
   return "night";
 }
 
-// ---------- 🐝 SMART BEE ----------
-function Bee({
+// Types for plant positions and time phase
+type Position = { x: number; y: number; scale: number };
+type PositionsMap = Record<string, Position>;
+type TimePhase = "dawn" | "day" | "noon" | "dusk" | "night";
+
+// Random utility
+const rand = (min: number, max: number) => Math.random() * (max - min) + min;
+
+// Generic Insect (Bee/Firefly) that hovers above plants
+function Insect({
   hobbies,
   positionsMap,
+  sprite,
+  timePhase,
 }: {
   hobbies: Hobby[];
   positionsMap: PositionsMap;
+  sprite: string;
+  timePhase: TimePhase;
 }) {
-  const [pos, setPos] = useState<{ x: number; y: number }>({
-    x: 50,
-    y: 30,
-  });
+  // Pick a random plant to hover above
+  const [targetId, setTargetId] = useState<string | null>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [direction, setDirection] = useState(1);
+  const [hover, setHover] = useState({ x: 0, y: 0 });
 
-  const pickTarget = () => {
-    if (!hobbies.length) return null;
+  // Pick a new target plant occasionally
+  useEffect(() => {
+    if (!hobbies.length) return;
+    const pick = () => {
+      const idx = Math.floor(Math.random() * hobbies.length);
+      setTargetId(hobbies[idx].id);
+    };
+    pick();
+    const interval = setInterval(pick, 8000 + Math.random() * 4000);
+    return () => clearInterval(interval);
+  }, [hobbies]);
 
-    const flowering = hobbies.filter((h) => h.level === "Tree");
-    const pool = (flowering.length ? flowering : hobbies).sort(
-      (a, b) => b.xp - a.xp
-    );
-
-    return pool[Math.floor(Math.random() * Math.min(3, pool.length))];
-  };
-
+  // Animate random hovering above the plant
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-
-    const move = () => {
-      setPos((prev) => {
-        const target = pickTarget();
-
-        let newX = prev.x;
-        let newY = prev.y;
-
-        if (target && positionsMap[target.id]) {
-          const t = positionsMap[target.id];
-          newX = t.x + rand(-5, 5);
-          newY = t.y - 10 + rand(-5, 5);
-        } else {
-          newX = prev.x + rand(-10, 10);
-          newY = prev.y + rand(-10, 10);
-        }
-
-        newX = Math.max(5, Math.min(95, newX));
-        newY = Math.max(10, Math.min(80, newY));
-
-        // update direction safely
-        setDirection(newX > prev.x ? 1 : -1);
-
-        return { x: newX, y: newY };
+    const animate = () => {
+      setOffset({
+        x: rand(-8, 8),
+        y: rand(-18, -10), // always above
       });
-
-      timeout = setTimeout(move, 2000 + Math.random() * 2000);
+      setHover({
+        x: rand(-2, 2),
+        y: rand(-2, 2),
+      });
+      timeout = setTimeout(animate, 1800 + Math.random() * 2000);
     };
-
-    move();
+    animate();
     return () => clearTimeout(timeout);
-  }, [hobbies, positionsMap]); // ✅ NO pos here
+  }, [targetId]);
+
+  // Flip direction based on movement
+  useEffect(() => {
+    setDirection(offset.x > 0 ? 1 : -1);
+  }, [offset.x]);
+
+  if (!targetId || !positionsMap[targetId]) return null;
+  const pos = positionsMap[targetId];
 
   return (
     <motion.div
-      className="absolute pointer-events-none"
+      className="absolute pointer-events-none z-30"
       animate={{
-        left: `${pos.x}%`,
-        top: `${pos.y}%`,
+        left: `${pos.x + offset.x}%`,
+        top: `${pos.y + offset.y}%`,
       }}
-      transition={{ duration: 2, ease: "easeInOut" }}
+      transition={{ duration: 2.5, ease: "easeInOut" }}
       style={{ transform: `scale(${direction}, 1)` }}
     >
       <motion.div
-        animate={{ x: [0, 1, -1, 1, 0], y: [0, -1, 1, -1, 0] }}
-        transition={{ duration: 0.3, repeat: Infinity }}
+        animate={{ x: [0, hover.x, -hover.x, hover.x, 0], y: [0, hover.y, -hover.y, hover.y, 0] }}
+        transition={{ duration: 2, repeat: Infinity, repeatType: "mirror" }}
       >
         <img
-          src="/sprites/bee.png"
-          className="w-16 h-16"
+          src={sprite}
+          className="w-12 h-12 drop-shadow-lg"
           style={{ imageRendering: "pixelated" }}
+          alt="insect"
         />
       </motion.div>
     </motion.div>
   );
 }
 
-function Bees({
+
+// Insects wrapper (bees or fireflies)
+function Insects({
   hobbies,
   positionsMap,
+  timePhase,
 }: {
   hobbies: Hobby[];
   positionsMap: PositionsMap;
+  timePhase: TimePhase;
 }) {
+  // Use bees for dawn/day/noon, fireflies for dusk/night
+  const sprite = ["dawn", "day", "noon"].includes(timePhase)
+    ? "/sprites/bee.png"
+    : "/sprites/firefly.png";
   return (
     <>
-      <Bee hobbies={hobbies} positionsMap={positionsMap} />
-      <Bee hobbies={hobbies} positionsMap={positionsMap} />
-      <Bee hobbies={hobbies} positionsMap={positionsMap} />
+      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} timePhase={timePhase} />
+      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} timePhase={timePhase} />
+      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} timePhase={timePhase} />
     </>
   );
 }
+
 
 // ---------- 🌱 PLANT ----------
 function GardenPlant({
   hobby,
   position,
   onClick,
+  onDrag,
+  onDragEnd,
 }: {
   hobby: Hobby;
   position: Position;
   onClick: () => void;
+  onDrag: (dx: number, dy: number) => void;
+  onDragEnd: (dx: number, dy: number) => void;
 }) {
   const stage = levelToPixelStage(hobby.level);
   const [hovered, setHovered] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const dragStart = useRef<{ x: number; y: number } | null>(null);
+
+  // Mouse drag handlers
+  function handleMouseDown(e: React.MouseEvent) {
+    e.stopPropagation();
+    setDragging(true);
+    dragStart.current = { x: e.clientX, y: e.clientY };
+    setDragOffset({ x: 0, y: 0 });
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  }
+  function handleMouseMove(e: MouseEvent) {
+    if (!dragStart.current) return;
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    setDragOffset({ x: dx, y: dy });
+    onDrag(dx, dy);
+  }
+  function handleMouseUp(e: MouseEvent) {
+    setDragging(false);
+    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('mouseup', handleMouseUp);
+    onDragEnd(dragOffset.x, dragOffset.y);
+    setDragOffset({ x: 0, y: 0 });
+    dragStart.current = null;
+  }
 
   return (
     <motion.div
-      className="absolute cursor-pointer group"
+      className={`absolute cursor-pointer group ${dragging ? 'z-50' : ''}`}
       style={{
-        left: `${position.x}%`,
-        top: `${position.y}%`,
+        left: `calc(${position.x}% + ${dragOffset.x}px)`,
+        top: `calc(${position.y}% + ${dragOffset.y}px)`,
         zIndex: Math.floor(position.y * 10),
         transformOrigin: "bottom center",
       }}
@@ -165,12 +196,11 @@ function GardenPlant({
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onMouseDown={handleMouseDown}
     >
-      {/* shadow */}
-      <div className="absolute w-8 h-2 bg-black/30 rounded-full blur-sm bottom-6 left-1/2 -translate-x-1/2" />
-
-      <div className="w-24 h-32">
-        <PixelPlant stage={stage} hobbyName={hobby.name} />
+      {/* shadow handled in PixelPlant */}
+      <div style={{ width: `${56 * position.scale}px`, height: `${72 * position.scale}px` }} className="flex items-end justify-center">
+        <PixelPlant stage={stage} hobbyName={hobby.name} className="relative" />
       </div>
 
       {/* Hobby name below plant on hover */}
@@ -195,7 +225,15 @@ export function PixelGarden({
   onAddHobby: () => void;
   onRemoveHobby: (hobbyId: string) => void;
 }) {
-  const [positionsMap, setPositionsMap] = useState<PositionsMap>({});
+  const [positionsMap, setPositionsMap] = useState<PositionsMap>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('garden-positions');
+        if (saved) return JSON.parse(saved);
+      } catch {}
+    }
+    return {};
+  });
   const [timePhase, setTimePhase] = useState<TimePhase>("day");
   const [shovelMode, setShovelMode] = useState(false);
 
@@ -207,10 +245,19 @@ export function PixelGarden({
   }, []);
 
   // ---------- NON-OVERLAP LOGIC ----------
+  // Restore or randomize positions for new hobbies
   useEffect(() => {
     setPositionsMap((prev) => {
       const updated: PositionsMap = { ...prev };
       const placed: Position[] = [];
+
+      // Margins to keep the largest plant (stage 6) fully inside
+      const marginX = 12; // percent, adjust as needed for plant width
+      const marginY = 18; // percent, adjust as needed for plant height
+      const minX = marginX;
+      const maxX = 100 - marginX;
+      const minY = marginY;
+      const maxY = 100 - marginY;
 
       hobbies.forEach((h) => {
         if (!updated[h.id]) {
@@ -219,8 +266,8 @@ export function PixelGarden({
 
           do {
             pos = {
-              x: rand(10, 90),
-              y: rand(55, 85),
+              x: rand(minX, maxX),
+              y: rand(minY, maxY),
               scale: rand(0.8, 1),
             };
             tries++;
@@ -243,6 +290,15 @@ export function PixelGarden({
       return updated;
     });
   }, [hobbies]);
+
+  // Persist positions to localStorage whenever they change
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('garden-positions', JSON.stringify(positionsMap));
+      } catch {}
+    }
+  }, [positionsMap]);
 
   return (
     <Card className="h-full glow-green">
@@ -268,7 +324,7 @@ export function PixelGarden({
         </div>
       </CardHeader>
 
-      <CardContent className={`relative min-h-[400px] overflow-hidden ${shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''}`}>
+      <CardContent className={`relative min-h-[400px] overflow-hidden garden-area ${shovelMode ? 'cursor-[url(/sprites/shovel-cursor.png),pointer] cursor-pointer' : ''}`}>
 
         {/* 🌿 BACKGROUND (FIXED) */}
 
@@ -298,10 +354,8 @@ export function PixelGarden({
           }`}
         />
 
-        {/* 🐝 BEES (already safe) */}
-        {timePhase !== "night" && (
-          <Bees hobbies={hobbies} positionsMap={positionsMap} />
-        )}
+        {/* 🐝/🪲 Insects (bees/fireflies) always above plants */}
+        <Insects hobbies={hobbies} positionsMap={positionsMap} timePhase={timePhase} />
 
         {/* 🌱 EMPTY */}
         {hobbies.length === 0 && (
@@ -322,6 +376,32 @@ export function PixelGarden({
                 } else {
                   onPlantClick(h);
                 }
+              }}
+              onDrag={(dx, dy) => {}}
+              onDragEnd={(dx, dy) => {
+                // Convert pixel drag to percent (approximate)
+                const garden = document.querySelector('.garden-area');
+                if (!garden) return;
+                const rect = garden.getBoundingClientRect();
+                const percentX = (dx / rect.width) * 100;
+                const percentY = (dy / rect.height) * 100;
+                setPositionsMap((prev) => {
+                  const newMap = {
+                    ...prev,
+                    [h.id]: {
+                      ...prev[h.id],
+                      x: Math.max(5, Math.min(95, prev[h.id].x + percentX)),
+                      y: Math.max(5, Math.min(95, prev[h.id].y + percentY)),
+                    },
+                  };
+                  // Persist immediately
+                  if (typeof window !== 'undefined') {
+                    try {
+                      localStorage.setItem('garden-positions', JSON.stringify(newMap));
+                    } catch {}
+                  }
+                  return newMap;
+                });
               }}
             />
           </div>
