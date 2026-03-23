@@ -54,7 +54,7 @@ export function TodaysTasks({
   return (
     <Card className="glass glow-green">
       <CardHeader className="pb-5 flex flex-row items-center justify-between">
-        <CardTitle>Today's Tasks</CardTitle>
+        <CardTitle>Today&apos;s Tasks</CardTitle>
         <Button
           variant="outline"
           size="sm"

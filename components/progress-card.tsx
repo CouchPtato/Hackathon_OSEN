@@ -28,7 +28,15 @@ export function ProgressCard({
   xpInLevel,
 }: ProgressCardProps) {
   const currentLevelIndex = GARDENER_LEVELS.findIndex(l => l.level === currentLevel);
-  const progressPercentage = xpToNextLevel === 0 ? 100 : Math.min((xpInLevel / xpToNextLevel) * 100, 100);
+  // The XP needed for the current level (denominator)
+  const levelStartXp = GARDENER_LEVEL_THRESHOLDS[currentLevelIndex];
+  const levelEndXp =
+    currentLevelIndex + 1 < GARDENER_LEVEL_THRESHOLDS.length
+      ? GARDENER_LEVEL_THRESHOLDS[currentLevelIndex + 1]
+      : GARDENER_LEVEL_THRESHOLDS[GARDENER_LEVEL_THRESHOLDS.length - 1];
+  const levelXpCap = levelEndXp - levelStartXp;
+  // The XP earned in the current level (numerator)
+  const progressPercentage = levelXpCap === 0 ? 100 : Math.min((xpInLevel / levelXpCap) * 100, 100);
 
   return (
     <Card className="glass glow-emerald">
@@ -43,16 +51,7 @@ export function ProgressCard({
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">XP</span>
             <span className="font-medium">
-              {xpInLevel} / {(() => {
-                // Find the XP cap for the current level
-                const idx = GARDENER_LEVELS.findIndex(l => l.level === currentLevel);
-                const nextIdx = idx + 1;
-                if (nextIdx < GARDENER_LEVEL_THRESHOLDS.length) {
-                  return GARDENER_LEVEL_THRESHOLDS[nextIdx] - GARDENER_LEVEL_THRESHOLDS[idx];
-                }
-                // If maxed out, show cap for last level
-                return GARDENER_LEVEL_THRESHOLDS[GARDENER_LEVEL_THRESHOLDS.length-1] - GARDENER_LEVEL_THRESHOLDS[GARDENER_LEVEL_THRESHOLDS.length-2];
-              })()}
+              {xpInLevel} / {levelXpCap}
             </span>
           </div>
           <motion.div

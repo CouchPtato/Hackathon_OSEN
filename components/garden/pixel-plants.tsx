@@ -16,7 +16,7 @@ const OUTLINE = "#1b1b1b";
 
 // 🎨 COLORS (flower = fruit color)
 function getColors(type: string) {
-  const palettes: any = {
+  const palettes: Record<string, { leaf: string; dark: string; flower: string }> = {
     default: { leaf: "#4caf50", dark: "#2e7d32", flower: "#ffd54f" },
     fitness: { leaf: "#4caf50", dark: "#2e7d32", flower: "#ff5252" },
     art: { leaf: "#66bb6a", dark: "#388e3c", flower: "#ff6ec7" },
@@ -48,38 +48,35 @@ function getPlantType(name: string) {
   return "default";
 }
 
-function getPlantSpriteFolder(type: string) {
-  const folders: Record<string, string> = {
-    default: "plant1",
-    fitness: "plant2",
-    art: "plant3",
-    music: "plant4",
-    coding: "plant5",
-  };
-  return folders[type] || folders.default;
-}
 
-// 🧱 PIXEL WITH OUTLINE
-function Pixel({
-  x,
-  y,
-  w,
-  h,
-  fill,
-}: {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  fill: string;
-}) {
-  // Thinner outline: 0.5px inset instead of 1px
-  return (
-    <>
-      <rect x={x} y={y} width={w} height={h} fill={OUTLINE} />
-      <rect x={x + 0.5} y={y + 0.5} width={w - 1} height={h - 1} fill={fill} />
-    </>
-  );
+
+// Export plant scale constants and sprite folder logic for reuse
+export const PLANT_SCALES: Record<string, number[]> = {
+  plant1: [0.54, 0.58, 1.20, 1.45, 1.58, 1.75],
+  plant2: [0.56, 0.58, 0.98, 1.38, 1.38, 1.48],
+  plant3: [0.64, 0.52, 1.04, 1.36, 1.54, 1.60],
+  plant4: [0.54, 0.58, 1.14, 1.51, 1.86, 1.85],
+  plant5: [0.81, 0.58, 0.92, 1.12, 1.28, 1.40],
+};
+
+export function getPlantSpriteFolder(name: string) {
+  const n = name.toLowerCase();
+  if (n.includes("fitness") || n.includes("gym")) return "plant2";
+  if (n.includes("art") || n.includes("paint")) return "plant3";
+  if (n.includes("music") || n.includes("guitar")) return "plant4";
+  if (
+    n.includes("code") ||
+    n.includes("dev") ||
+    n.includes("tech") ||
+    n.includes("program") ||
+    n.includes("software") ||
+    n.includes("robot") ||
+    n.includes("ai") ||
+    n.includes("app") ||
+    n.includes("web") ||
+    n.includes("data")
+  ) return "plant5";
+  return "plant1";
 }
 
 export function PixelPlant({
@@ -114,18 +111,9 @@ export function PixelPlant({
 
 
   // Per-plant, per-stage scaling for consistent visual size
-  const spriteFolder = getPlantSpriteFolder(type);
-  // These values should be tuned for your actual sprite dimensions
-  const PLANT_SCALES: Record<string, number[]> = {
-    plant1: [0.54, 0.58, 1.20, 1.45, 1.58, 1.75],
-    plant2: [0.56, 0.58, 0.98, 1.38, 1.38, 1.48],
-    plant3: [0.52, 0.52, 1.04, 1.36, 1.54, 1.60],
-    plant4: [0.54, 0.58, 1.14, 1.51, 1.86, 1.85],
-    plant5: [0.51, 0.58, 0.92, 1.12, 1.28, 1.40],
-  };
-  // fallback to plant1 if not found
+  // Use the exported getPlantSpriteFolder and PLANT_SCALES from above
+  const spriteFolder = getPlantSpriteFolder(hobbyName);
   const plantScales = PLANT_SCALES[spriteFolder] || PLANT_SCALES["plant1"];
-  // stage is 1-based, array is 0-based
   const scale = plantScales[Math.min(Math.max(stage - 1, 0), 5)];
 
   return (

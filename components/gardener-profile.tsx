@@ -13,11 +13,12 @@ import {
   GARDENER_LEVELS,
 } from "@/lib/types";
 
+import { User } from "@/lib/types";
 interface GardenerProfileProps {
   profile: GardenerProfileType;
   onUpdateName: (name: string) => void;
   onClose: () => void;
-  user?: any;
+  user?: User;
   onSignOut?: () => void;
   onSignIn?: () => void;
 }

@@ -98,7 +98,7 @@ function Insect({
       >
         <img
           src={sprite}
-          className="w-6 h-6 drop-shadow-lg"
+          className={sprite.includes("bee") ? "w-14 h-14 drop-shadow-lg" : "w-6 h-6 drop-shadow-lg"}
           style={{ imageRendering: "pixelated" }}
           alt="insect"
         />
@@ -234,15 +234,20 @@ export function PixelGarden({
     }
     return {};
   });
-  const [timePhase, setTimePhase] = useState<TimePhase>("day");
+  const [autoTimePhase, setAutoTimePhase] = useState<TimePhase>("day");
+  const [manualTheme, setManualTheme] = useState<string>("auto");
   const [shovelMode, setShovelMode] = useState(false);
 
+  // Update autoTimePhase every minute
   useEffect(() => {
-    const update = () => setTimePhase(getTimePhase());
+    const update = () => setAutoTimePhase(getTimePhase());
     update();
     const interval = setInterval(update, 60000);
     return () => clearInterval(interval);
   }, []);
+
+  // Determine which theme to use
+  const timePhase: TimePhase = manualTheme === "auto" ? autoTimePhase : (manualTheme as TimePhase);
 
   // ---------- NON-OVERLAP LOGIC ----------
   // Restore or randomize positions for new hobbies
@@ -305,6 +310,20 @@ export function PixelGarden({
       <CardHeader className="flex justify-between items-center gap-2">
         <CardTitle>🌻 Hobby Garden</CardTitle>
         <div className="flex gap-2 items-center">
+          {/* Theme Dropdown */}
+          <select
+            value={manualTheme}
+            onChange={e => setManualTheme(e.target.value)}
+            className="rounded border px-2 py-1 text-sm bg-background text-foreground"
+            title="Select Tiles Theme"
+          >
+            <option value="auto">Auto</option>
+            <option value="dawn">Dawn</option>
+            <option value="day">Day</option>
+            <option value="noon">Noon</option>
+            <option value="dusk">Dusk</option>
+            <option value="night">Night</option>
+          </select>
           <button
             onClick={() => setShovelMode((m) => !m)}
             title={shovelMode ? "Exit Shovel Mode" : "Remove Plant (Shovel Mode)"}

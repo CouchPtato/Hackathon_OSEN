@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Flame, Droplet } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Hobby, PlantLevel, Task } from "@/lib/types";
-import { PixelPlant, GrowthStage } from "@/components/garden/pixel-plants";
+import { PixelPlant, GrowthStage, getPlantSpriteFolder, PLANT_SCALES } from "@/components/garden/pixel-plants";
 
 interface HobbyCardProps {
   hobby: Hobby;
@@ -105,45 +105,7 @@ export function HobbyCard({ hobby, tasks = [], onClick, recentlyCared = false }:
             >
               {/* Use same scaling as garden */}
               {(() => {
-                // Import scale logic from PixelPlant
-                const PLANT_SCALES = {
-                  plant1: [0.54, 0.58, 1.20, 1.45, 1.58, 1.75],
-                  plant2: [0.56, 0.58, 0.98, 1.38, 1.38, 1.48],
-                  plant3: [0.52, 0.52, 1.04, 1.36, 1.54, 1.60],
-                  plant4: [0.54, 0.58, 1.14, 1.51, 1.86, 1.85],
-                  plant5: [0.51, 0.58, 0.92, 1.12, 1.28, 1.40],
-                };
-                const getPlantType = (name: string): string => {
-                  const n = name.toLowerCase();
-                  if (n.includes("fitness") || n.includes("gym")) return "fitness";
-                  if (n.includes("art") || n.includes("paint")) return "art";
-                  if (n.includes("music") || n.includes("guitar")) return "music";
-                  if (
-                    n.includes("code") ||
-                    n.includes("dev") ||
-                    n.includes("tech") ||
-                    n.includes("program") ||
-                    n.includes("software") ||
-                    n.includes("robot") ||
-                    n.includes("ai") ||
-                    n.includes("app") ||
-                    n.includes("web") ||
-                    n.includes("data")
-                  ) return "coding";
-                  return "default";
-                };
-                const getPlantSpriteFolder = (type: string): string => {
-                  const folders = {
-                    default: "plant1",
-                    fitness: "plant2",
-                    art: "plant3",
-                    music: "plant4",
-                    coding: "plant5",
-                  };
-                  return folders[type as keyof typeof folders] || folders.default;
-                };
-                const type = getPlantType(hobby.name);
-                const spriteFolder = getPlantSpriteFolder(type) as keyof typeof PLANT_SCALES;
+                const spriteFolder = getPlantSpriteFolder(hobby.name) as keyof typeof PLANT_SCALES;
                 const plantScales = PLANT_SCALES[spriteFolder] || PLANT_SCALES["plant1"];
                 const scale = plantScales[Math.min(Math.max(stage - 1, 0), 5)];
                 return (

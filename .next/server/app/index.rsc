@@ -1,0 +1,19 @@
+1:"$Sreact.fragment"
+2:I[6607,[],""]
+3:I[5027,[],""]
+4:I[730,[],"ClientPageRoot"]
+5:I[8394,["182","static/chunks/182-5c82b858a9a6e861.js","974","static/chunks/app/page-b06d16b81c78d202.js"],"default"]
+8:I[6102,[],"OutletBoundary"]
+a:I[7803,[],"AsyncMetadataOutlet"]
+c:I[6102,[],"ViewportBoundary"]
+e:I[6102,[],"MetadataBoundary"]
+f:"$Sreact.suspense"
+11:I[4485,[],""]
+:HL["/_next/static/css/8e4c0e03a26604d6.css","style"]
+0:{"P":null,"b":"y_C0FmwMx2qXzY-ib0jDl","p":"","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/8e4c0e03a26604d6.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","suppressHydrationWarning":true,"children":["$","body",null,{"className":"\n          __variable_0d7163 font-sans \n          bg-gradient-to-br from-green-50 via-background to-green-100 \n          dark:from-[#0f1a0f] dark:via-background dark:to-[#071207]\n          min-h-screen antialiased\n        ","children":[["$","div",null,{"className":"fixed inset-0 -z-10 pointer-events-none overflow-hidden","children":[["$","div",null,{"className":"absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-green-300/20 blur-3xl rounded-full"}],["$","div",null,{"className":"absolute bottom-[-120px] right-[-120px] w-[300px] h-[300px] bg-emerald-400/20 blur-3xl rounded-full"}]]}],["$","div",null,{"className":"relative z-0","children":["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]]}]}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L4",null,{"Component":"$5","searchParams":{},"params":{},"promises":["$@6","$@7"]}],null,["$","$L8",null,{"children":["$L9",["$","$La",null,{"promise":"$@b"}]]}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,[["$","$Lc",null,{"children":"$Ld"}],null],["$","$Le",null,{"children":["$","div",null,{"hidden":true,"children":["$","$f",null,{"fallback":null,"children":"$L10"}]}]}]]}],false]],"m":"$undefined","G":["$11",[]],"s":false,"S":true}
+6:{}
+7:"$0:f:0:1:2:children:1:props:children:0:props:params"
+d:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#6b9b6b"}]]
+9:null
+b:{"metadata":[["$","title","0",{"children":"Sprouted 🌱"}],["$","meta","1",{"name":"description","content":"Grow your hobbies like a garden — track progress, gain XP, and evolve your plants with consistency."}]],"error":null,"digest":"$undefined"}
+10:"$b:metadata"

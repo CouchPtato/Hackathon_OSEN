@@ -1,3 +1,10 @@
+// Minimal User type for authentication and state
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  // Add more fields as needed
+}
 // Gardener XP thresholds (single source of truth)
 export const GARDENER_LEVEL_THRESHOLDS = [0, 500, 1500, 3000, 5000];
 

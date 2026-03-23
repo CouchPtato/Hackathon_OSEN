@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { signup, signin } from "@/lib/auth";
+import { User } from "@/lib/types";
 
-export function AuthModal({ open, onClose, onAuthSuccess }: { open: boolean; onClose: () => void; onAuthSuccess: (user: any, token: string) => void }) {
+export function AuthModal({ open, onClose, onAuthSuccess }: { open: boolean; onClose: () => void; onAuthSuccess: (user: User, token: string) => void }) {
   const [isSignup, setIsSignup] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,8 +23,23 @@ export function AuthModal({ open, onClose, onAuthSuccess }: { open: boolean; onC
         onAuthSuccess(user, token);
       }
       onClose();
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Authentication failed");
+    } catch (err: unknown) {
+      if (
+        err &&
+        typeof err === "object" &&
+        "response" in err &&
+        err.response &&
+        typeof err.response === "object" &&
+        "data" in err.response &&
+        err.response.data &&
+        typeof err.response.data === "object" &&
+        "message" in err.response.data &&
+        typeof err.response.data.message === "string"
+      ) {
+        setError(err.response.data.message as string);
+      } else {
+        setError("Authentication failed");
+      }
     } finally {
       setLoading(false);
     }

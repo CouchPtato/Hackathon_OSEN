@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { User } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Loader2, Droplets, Star } from "lucide-react";
 import { LandingPage } from "@/components/landing-page";
@@ -45,34 +46,14 @@ const aiTaskTemplates: Record<string, string[]> = {
 
 export default function HomePage() {
     const [authModalOpen, setAuthModalOpen] = useState(false);
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
-  // Default to true (landing page) for SSR, update in useEffect for client
-  const [showLanding, setShowLanding] = useState(true);
+  // Default to false; only show landing if no user/token
+  // SSR-safe: default to false, update in useEffect
+  const [showLanding, setShowLanding] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [hobbies, setHobbies] = useState<Hobby[]>(() => {
-    // Add a plant5 stage1 hobby if not present
-    const saved = typeof window !== 'undefined' ? localStorage.getItem('hobbies') : null;
-    let base: Hobby[] = saved ? JSON.parse(saved) : initialHobbies;
-    const hasPlant5 = base.some(h => h.name === 'Plant 5 Example');
-    if (!hasPlant5) {
-      base = [
-        ...base,
-        {
-          id: `plant5_${Date.now()}`,
-          name: 'Plant 5 Example',
-          level: 'Seed',
-          streak: 0,
-          xp: 0,
-          maxXp: 100,
-          waterLevel: 50,
-          careActions: 0,
-        },
-      ];
-    }
-    return base;
-  });
+  const [hobbies, setHobbies] = useState<Hobby[]>(initialHobbies);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
 
@@ -84,7 +65,6 @@ export default function HomePage() {
       if (savedUser && savedToken) {
         setUser(JSON.parse(savedUser));
         setToken(savedToken);
-        setShowLanding(false);
       }
       const savedHobbies = localStorage.getItem('hobbies');
       const savedTasks = localStorage.getItem('tasks');
@@ -101,11 +81,23 @@ export default function HomePage() {
     }
   }, []);
 
-  // Save user, hobbies, and tasks to localStorage when they change
+  // Show landing page only if user and token are both null
   useEffect(() => {
-    if (user) localStorage.setItem('user', JSON.stringify(user));
-    if (token) localStorage.setItem('token', token);
+    setShowLanding(!(user && token));
   }, [user, token]);
+
+  // Save user, token, hobbies, and tasks to localStorage when they change
+  // (MUST be after gardenerProfile is declared)
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+  }, [token]);
   useEffect(() => {
     localStorage.setItem('hobbies', JSON.stringify(hobbies));
   }, [hobbies]);
@@ -114,15 +106,36 @@ export default function HomePage() {
   }, [tasks]);
 
   const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [gardenerProfile, setGardenerProfile] = useState<GardenerProfile | null>(null);
 
-  const [gardenerProfile, setGardenerProfile] = useState<GardenerProfile>({
-    name: "Gardener",
-    level: "Beginner",
-    totalXp: 0,
-    totalTasksCompleted: 0,
-    longestStreak: 0,
-    joinDate: new Date(),
-  });
+  // Load gardenerProfile from localStorage or construct from user after mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let name = "Gardener";
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        try {
+          name = JSON.parse(savedUser).name || name;
+        } catch {}
+      }
+      const savedProfile = localStorage.getItem('gardenerProfile');
+      if (savedProfile) {
+        try {
+          const parsed = JSON.parse(savedProfile);
+          setGardenerProfile({ ...parsed, name });
+          return;
+        } catch {}
+      }
+      setGardenerProfile({
+        name,
+        level: "Beginner",
+        totalXp: 0,
+        totalTasksCompleted: 0,
+        longestStreak: 0,
+        joinDate: new Date(),
+      });
+    }
+  }, []);
 
   const [showCareAnimation, setShowCareAnimation] = useState(false);
 
@@ -152,14 +165,29 @@ export default function HomePage() {
   // ⭐ XP calc
   const totalXp = hobbies.reduce((sum, h) => sum + h.xp, 0);
 
-  // Keep gardenerProfile in sync with plant XP and completed tasks
+  // Keep gardenerProfile in sync with plant XP, completed tasks, and user name
   useEffect(() => {
-    setGardenerProfile((prev) => ({
-      ...prev,
+    if (!gardenerProfile) return;
+    const completedTasks = tasks.filter(t => t.completed).length;
+    const longestStreak = Math.max(...hobbies.map(h => h.streak || 0), 0);
+    const newProfile = {
+      ...gardenerProfile,
       totalXp,
       level: getGardenerLevel(totalXp),
-    }));
-  }, [totalXp]);
+      totalTasksCompleted: completedTasks,
+      longestStreak,
+      name: user?.name || gardenerProfile.name,
+    };
+    if (
+      newProfile.totalXp !== gardenerProfile.totalXp ||
+      newProfile.level !== gardenerProfile.level ||
+      newProfile.totalTasksCompleted !== gardenerProfile.totalTasksCompleted ||
+      newProfile.longestStreak !== gardenerProfile.longestStreak ||
+      newProfile.name !== gardenerProfile.name
+    ) {
+      setGardenerProfile(newProfile);
+    }
+  }, [totalXp, user?.name, hobbies, tasks]);
 
   const getOverallLevel = (): PlantLevel => {
     if (totalXp >= 1000) return "Ripe Fruit";
@@ -226,16 +254,25 @@ export default function HomePage() {
     );
 
     // Immediately update gardener profile XP and completed tasks
-    setGardenerProfile((prev) => ({
-      ...prev,
-      totalXp: prev.totalXp + 25,
-      totalTasksCompleted: prev.totalTasksCompleted + 1,
-      level: getGardenerLevel(prev.totalXp + 25),
-    }));
+    setGardenerProfile((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        totalXp: prev.totalXp + 25,
+        totalTasksCompleted: prev.totalTasksCompleted + 1,
+        name: prev.name ?? "Gardener",
+        longestStreak: prev.longestStreak ?? 0,
+        joinDate: prev.joinDate ?? new Date(),
+      };
+    });
 
     performPlantCare(task.hobbyId);
   };
 
+  // Wait for gardenerProfile to load before rendering
+  if (gardenerProfile === null) {
+    return null;
+  }
   if (showLanding) {
     return (
       <LandingPage
@@ -403,9 +440,34 @@ export default function HomePage() {
             longestStreak: Math.max(...hobbies.map(h => h.streak || 0), 0),
             // joinDate is already in gardenerProfile
           }}
-          onUpdateName={(name) => setGardenerProfile((prev) => ({ ...prev, name }))}
+          onUpdateName={(name) => {
+            setGardenerProfile((prev) => {
+              if (!prev) return null;
+              return {
+                ...prev,
+                name: name ?? "Gardener",
+                level: prev.level ?? "Beginner",
+                totalXp: prev.totalXp ?? 0,
+                totalTasksCompleted: prev.totalTasksCompleted ?? 0,
+                longestStreak: prev.longestStreak ?? 0,
+                joinDate: prev.joinDate ?? new Date(),
+              };
+            });
+            setUser((prev) => prev ? { ...prev, name } : prev);
+            // Save to localStorage
+            if (typeof window !== 'undefined') {
+              const savedUser = localStorage.getItem('user');
+              if (savedUser) {
+                try {
+                  const userObj = JSON.parse(savedUser);
+                  userObj.name = name;
+                  localStorage.setItem('user', JSON.stringify(userObj));
+                } catch {}
+              }
+            }
+          }}
           onClose={() => setProfileModalOpen(false)}
-          user={user ? user : null}
+          user={user || undefined}
           onSignOut={() => {
             setUser(null);
             setToken(null);

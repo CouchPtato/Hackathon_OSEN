@@ -20,7 +20,7 @@ interface LandingPageProps {
   onAddHobby: (hobby: string) => void;
   darkMode?: boolean;
   onToggleDarkMode?: () => void;
-  onAuthSuccess?: (user: any, token?: string) => void;
+  onAuthSuccess?: (user: import("@/lib/types").User, token?: string) => void;
 }
 
 export function LandingPage({
@@ -34,7 +34,7 @@ export function LandingPage({
   const [hobbyInput, setHobbyInput] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import("@/lib/types").User | null>(null);
   const suggestedHobbies = [
     "Guitar", "Painting", "Fitness", "Reading", "Cooking", "Photography", "Writing", "Gardening", "Coding"
   ];
