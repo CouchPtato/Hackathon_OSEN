@@ -1,9 +1,12 @@
+# 🌱 Sprouted - Demo Login Available!
 
-# 🌱 Sprouted
+**Demo Account:**  
+`demo@example.com` / `demo123`  
+*(Create with seed script below or already seeded in production DB)*
 
 Welcome to **Sprouted**! Sprouted is designed to encourage you to follow through with your hobbies and daily tasks by making the process interactive and meaningful. As you complete tasks and pursue your hobbies, you grow a beautiful pixel-art garden and level up as a gardener-giving your progress a real sense of purpose and fun.
 
-Here’s a tour of the coolest features that make Sprouted unique and motivating:
+Here's a tour of the coolest features that make Sprouted unique and motivating:
 
 ---
 
@@ -38,7 +41,6 @@ Here’s a tour of the coolest features that make Sprouted unique and motivating
 
 ---
 
-
 ## 🖼️ Screenshots
 
 ### Dawn Garden (Time of Day)
@@ -71,22 +73,35 @@ Here’s a tour of the coolest features that make Sprouted unique and motivating
 ---
 
 ## 🚀 Get Started
-1. **Clone the repo:**
-   ```bash
-   git clone https://github.com/your-repo/pixel-garden.git
-   ```
-2. **Install dependencies:**
-   ```bash
-   pnpm install
-   ```
-3. **Start the app:**
-   ```bash
-   pnpm run dev
-   ```
+
+### Backend Setup
+```bash
+cd backend
+npm install
+# Add .env: MONGO_URI=your_mongo_uri, JWT_SECRET=your_secret
+npm run dev  # nodemon server.js
+```
+
+### Seed Demo User (idempotent)
+```bash
+node backend/scripts/seedDemoUser.js
+```
+
+### Frontend
+```bash
+pnpm install  # or npm install
+pnpm run dev
+```
+
+**Vercel Deployment:**
+- Frontend: Direct Vercel deploy (sets NEXT_PUBLIC_API_URL automatically if backend proxied).
+- Backend: Deploy as Vercel Serverless Functions or separate service (Render/Railway). Run seed script once via Vercel CLI or console against prod MongoDB.
+- Env vars: MONGO_URI, JWT_SECRET for both.
 
 ---
 
 ## 💡 Tips
+- Use demo account to test published site instantly!
 - Try completing tasks at different times of day to see the garden change!
 - Level up to unlock new plants and features.
 - Explore the garden at night for a magical surprise.
