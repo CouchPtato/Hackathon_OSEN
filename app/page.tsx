@@ -1,3 +1,5 @@
+
+// ...existing code...
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
@@ -108,6 +110,13 @@ export default function HomePage() {
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [gardenerProfile, setGardenerProfile] = useState<GardenerProfile | null>(null);
 
+    // Persist gardenerProfile to localStorage whenever it changes
+    useEffect(() => {
+      if (gardenerProfile) {
+        localStorage.setItem('gardenerProfile', JSON.stringify(gardenerProfile));
+      }
+    }, [gardenerProfile]);
+
   // Load gardenerProfile from localStorage or construct from user after mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -163,38 +172,36 @@ export default function HomePage() {
   }, [darkMode]);
 
   // ⭐ XP calc
-  const totalXp = hobbies.reduce((sum, h) => sum + h.xp, 0);
+  // totalXp is now only updated via setGardenerProfile (not derived from hobbies)
 
-  // Keep gardenerProfile in sync with plant XP, completed tasks, and user name
+  // Keep gardenerProfile in sync with completed tasks, streak, and user name (but NOT XP)
   useEffect(() => {
     if (!gardenerProfile) return;
     const completedTasks = tasks.filter(t => t.completed).length;
     const longestStreak = Math.max(...hobbies.map(h => h.streak || 0), 0);
     const newProfile = {
       ...gardenerProfile,
-      totalXp,
-      level: getGardenerLevel(totalXp),
       totalTasksCompleted: completedTasks,
       longestStreak,
       name: user?.name || gardenerProfile.name,
     };
     if (
-      newProfile.totalXp !== gardenerProfile.totalXp ||
-      newProfile.level !== gardenerProfile.level ||
       newProfile.totalTasksCompleted !== gardenerProfile.totalTasksCompleted ||
       newProfile.longestStreak !== gardenerProfile.longestStreak ||
       newProfile.name !== gardenerProfile.name
     ) {
       setGardenerProfile(newProfile);
     }
-  }, [totalXp, user?.name, hobbies, tasks]);
+  }, [user?.name, hobbies, tasks]);
 
   const getOverallLevel = (): PlantLevel => {
-    if (totalXp >= 1000) return "Ripe Fruit";
-    if (totalXp >= 800) return "Fruit Stage";
-    if (totalXp >= 550) return "Medium Plant";
-    if (totalXp >= 350) return "Small Plant";
-    if (totalXp >= 200) return "Sprout";
+    if (!gardenerProfile) return "Seed";
+    const xp = gardenerProfile.totalXp;
+    if (xp >= 1000) return "Ripe Fruit";
+    if (xp >= 800) return "Fruit Stage";
+    if (xp >= 550) return "Medium Plant";
+    if (xp >= 350) return "Small Plant";
+    if (xp >= 200) return "Sprout";
     return "Seed";
   };
 
@@ -256,13 +263,23 @@ export default function HomePage() {
     // Immediately update gardener profile XP and completed tasks
     setGardenerProfile((prev) => {
       if (!prev) return null;
+      const newTotalXp = prev.totalXp + 25;
+      // Always recalculate the level based on the new XP
+      const newLevel = getGardenerLevel(newTotalXp);
+      const didLevelUp = newLevel !== prev.level;
+      if (didLevelUp) {
+        setShowLevelUp(true);
+        setTimeout(() => setShowLevelUp(false), 2000);
+      }
       return {
         ...prev,
-        totalXp: prev.totalXp + 25,
+        totalXp: newTotalXp,
+        level: newLevel,
         totalTasksCompleted: prev.totalTasksCompleted + 1,
         name: prev.name ?? "Gardener",
         longestStreak: prev.longestStreak ?? 0,
         joinDate: prev.joinDate ?? new Date(),
+        _force: Math.random(), // dummy field to force re-render
       };
     });
 
@@ -307,7 +324,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar
-        totalXp={totalXp}
+        totalXp={gardenerProfile.totalXp}
         level={getOverallLevel()}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
@@ -385,10 +402,10 @@ export default function HomePage() {
             />
 
             <ProgressCard
-              totalXp={totalXp}
+              totalXp={gardenerProfile.totalXp}
               currentLevel={gardenerProfile.level}
-              xpToNextLevel={getGardenerXpToNextLevel(totalXp)}
-              xpInLevel={getGardenerXpInLevel(totalXp)}
+              xpToNextLevel={getGardenerXpToNextLevel(gardenerProfile.totalXp)}
+              xpInLevel={getGardenerXpInLevel(gardenerProfile.totalXp)}
             />
             <Button
               className="w-full gap-2"
