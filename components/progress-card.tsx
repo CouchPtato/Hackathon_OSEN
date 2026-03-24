@@ -86,7 +86,7 @@ export function ProgressCard({
                 animate={isCurrent ? { scale: [1, 1.15, 1] } : {}}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                <div className={`p-2 rounded-full ${isCurrent ? "bg-green-200 ring-2 ring-green-500" : isActive ? "bg-green-100" : "bg-muted"}`}>
+                <div className={`w-10 h-10 flex items-center justify-center p-2 rounded-full ${isCurrent ? "bg-green-200 ring-2 ring-green-500" : isActive ? "bg-green-100" : "bg-muted"}`}>
                   <span className="text-lg">{gardenerEmojis[l.level]}</span>
                 </div>
                 <span className="text-[10px] font-medium">{l.level}</span>

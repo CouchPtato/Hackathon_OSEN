@@ -65,7 +65,7 @@ export function AuthModal({ open, onClose, onAuthSuccess }: { open: boolean; onC
           </button>
         </div>
         <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400 text-center">
-          💡 Demo: demo@example.com / demo123
+          💡 Demo: test@example.com / test123
         </div>
         <button className="absolute top-2 right-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-2xl font-bold" onClick={onClose}>&times;</button>
       </div>

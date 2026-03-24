@@ -1,7 +1,7 @@
 # 🌱 Sprouted - Demo Login Available!
 
 **Demo Account:**  
-`demo@example.com` / `demo123`  
+`test@example.com` / `test123`  
 *(Create with seed script below or already seeded in production DB)*
 
 Welcome to **Sprouted**! Sprouted is designed to encourage you to follow through with your hobbies and daily tasks by making the process interactive and meaningful. As you complete tasks and pursue your hobbies, you grow a beautiful pixel-art garden and level up as a gardener-giving your progress a real sense of purpose and fun.
