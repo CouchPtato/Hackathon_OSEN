@@ -98,6 +98,10 @@ pnpm run dev
 - Backend: Deploy as Vercel Serverless Functions or separate service (Render/Railway). Run seed script once via Vercel CLI or console against prod MongoDB.
 - Env vars: MONGO_URI, JWT_SECRET for both.
 
+**Auth 404 Fix:**
+- If deployed frontend shows `POST /api/auth/signin 404`, set frontend env var `BACKEND_API_URL` to your backend base URL (example: `https://your-backend.onrender.com`) and redeploy.
+- The app rewrites `/api/*` to `${BACKEND_API_URL}/api/*` at build time.
+
 ---
 
 ## 💡 Tips
