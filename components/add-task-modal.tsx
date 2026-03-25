@@ -37,6 +37,8 @@ export function AddTaskModal({ open, onOpenChange, hobbies, onAddTask }: AddTask
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
+            id="task-title"
+            name="taskTitle"
             placeholder="Task title..."
             value={title}
             onChange={e => setTitle(e.target.value)}
@@ -44,6 +46,8 @@ export function AddTaskModal({ open, onOpenChange, hobbies, onAddTask }: AddTask
             autoFocus
           />
           <select
+            id="task-hobby"
+            name="hobbyId"
             className="w-full border rounded-lg px-3 py-2 bg-background"
             value={hobbyId}
             onChange={e => setHobbyId(e.target.value)}

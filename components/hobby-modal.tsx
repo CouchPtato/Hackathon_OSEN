@@ -135,6 +135,8 @@ export function HobbyModal({
                   {sortedTasks.map((task) => (
                     <li key={task.id} className="flex items-center gap-2">
                       <input
+                        id={`task-complete-${task.id}`}
+                        name={`task-complete-${task.id}`}
                         type="checkbox"
                         checked={task.completed}
                         onChange={() => handleCompleteTask(task.id)}

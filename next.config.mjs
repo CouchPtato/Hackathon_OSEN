@@ -16,9 +16,20 @@ const nextConfig = {
 	allowedDevOrigins,
 	async rewrites() {
 		const destinationBase = proxiedApiBase || (process.env.NODE_ENV !== "production" ? devApiBase : "");
-		if (!destinationBase) return [];
+		if (!destinationBase) {
+			return [
+				{
+					source: "/favicon.ico",
+					destination: "/sprites/plant1/stage1.png",
+				},
+			];
+		}
 
 		return [
+			{
+				source: "/favicon.ico",
+				destination: "/sprites/plant1/stage1.png",
+			},
 			{
 				source: "/api/:path*",
 				destination: `${destinationBase}/:path*`,

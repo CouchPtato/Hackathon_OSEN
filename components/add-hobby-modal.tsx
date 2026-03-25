@@ -81,6 +81,7 @@ export function AddHobbyModal({
 
             <Input
               id="hobby-name"
+              name="hobbyName"
               placeholder="e.g., Learning Piano"
               value={hobbyName}
               onChange={(e) => setHobbyName(e.target.value)}
