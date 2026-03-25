@@ -55,8 +55,13 @@ export function GardenerProfileModal({
   onSignOut,
   onSignIn,
 }: GardenerProfileProps) {
-  // Debug: log user prop
-  console.log('GardenerProfileModal user prop:', user);
+  const joinDate = profile.joinDate instanceof Date
+    ? profile.joinDate
+    : new Date(profile.joinDate);
+  const joinDateLabel = Number.isNaN(joinDate.getTime())
+    ? "Unknown"
+    : joinDate.toLocaleDateString();
+
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(profile.name);
 
@@ -218,7 +223,7 @@ export function GardenerProfileModal({
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   <span>
-                    Since {profile.joinDate.toLocaleDateString()}
+                    Since {joinDateLabel}
                   </span>
                 </div>
 

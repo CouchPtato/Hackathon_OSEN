@@ -5,8 +5,8 @@ import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
-const DEMO_EMAIL = 'demo@example.com';
-const DEMO_PASSWORD = 'demo123';
+const DEMO_EMAIL = 'test@example.com';
+const DEMO_PASSWORD = 'test123';
 const DEMO_NAME = 'Demo Gardener';
 
 async function run() {
@@ -15,10 +15,14 @@ async function run() {
     console.log('✅ Connected to MongoDB');
 
     const existing = await User.findOne({ email: DEMO_EMAIL });
+    const hashed = await bcrypt.hash(DEMO_PASSWORD, 10);
+
     if (existing) {
-      console.log('ℹ️ Demo user exists:', existing.name);
+      existing.name = DEMO_NAME;
+      existing.password = hashed;
+      await existing.save();
+      console.log('✅ Updated demo:', DEMO_EMAIL, '/', DEMO_PASSWORD);
     } else {
-      const hashed = await bcrypt.hash(DEMO_PASSWORD, 10);
       await new User({ name: DEMO_NAME, email: DEMO_EMAIL, password: hashed }).save();
       console.log('✅ Created demo:', DEMO_EMAIL, '/', DEMO_PASSWORD);
     }

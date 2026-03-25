@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export type GrowthStage = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -10,21 +10,6 @@ interface PixelPlantProps {
   hobbyName: string;
   isWatered?: boolean;
   className?: string;
-}
-
-const OUTLINE = "#1b1b1b";
-
-// 🎨 COLORS (flower = fruit color)
-function getColors(type: string) {
-  const palettes: Record<string, { leaf: string; dark: string; flower: string }> = {
-    default: { leaf: "#4caf50", dark: "#2e7d32", flower: "#ffd54f" },
-    fitness: { leaf: "#4caf50", dark: "#2e7d32", flower: "#ff5252" },
-    art: { leaf: "#66bb6a", dark: "#388e3c", flower: "#ff6ec7" },
-    music: { leaf: "#81c784", dark: "#388e3c", flower: "#fff176" },
-    coding: { leaf: "#64b5f6", dark: "#1976d2", flower: "#00e5ff" },
-  };
-
-  return palettes[type] || palettes.default;
 }
 
 function getPlantType(name: string) {
@@ -86,10 +71,8 @@ export function PixelPlant({
   className,
 }: PixelPlantProps) {
   const type = getPlantType(hobbyName);
-  const c = getColors(type);
 
-  const [prevStage, setPrevStage] = useState(stage);
-  const [leveledUp, setLeveledUp] = useState(false);
+  const prevStageRef = useRef(stage);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const seed = hobbyName.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -101,12 +84,10 @@ export function PixelPlant({
   }, []);
 
   useEffect(() => {
-    if (stage > prevStage) {
-      setLeveledUp(true);
+    if (stage > prevStageRef.current) {
       audioRef.current?.play().catch(() => {});
-      setTimeout(() => setLeveledUp(false), 1200);
     }
-    setPrevStage(stage);
+    prevStageRef.current = stage;
   }, [stage]);
 
 

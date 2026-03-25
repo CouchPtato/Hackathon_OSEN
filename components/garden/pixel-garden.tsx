@@ -7,6 +7,7 @@ import { Hobby } from "@/lib/types";
 import { levelToPixelStage, PixelPlant } from "./pixel-plants";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Plus } from "lucide-react";
+import Image from "next/image";
 
 // Utility to get time phase
 function getTimePhase(): TimePhase {
@@ -31,12 +32,10 @@ function Insect({
   hobbies,
   positionsMap,
   sprite,
-  timePhase,
 }: {
   hobbies: Hobby[];
   positionsMap: PositionsMap;
   sprite: string;
-  timePhase: TimePhase;
 }) {
   // Pick a random plant to hover above
   const [targetId, setTargetId] = useState<string | null>(null);
@@ -81,6 +80,7 @@ function Insect({
 
   if (!targetId || !positionsMap[targetId]) return null;
   const pos = positionsMap[targetId];
+  const insectSize = sprite.includes("bee") ? 56 : 24;
 
   return (
     <motion.div
@@ -96,11 +96,14 @@ function Insect({
         animate={{ x: [0, hover.x, -hover.x, hover.x, 0], y: [0, hover.y, -hover.y, hover.y, 0] }}
         transition={{ duration: 2, repeat: Infinity, repeatType: "mirror" }}
       >
-        <img
+        <Image
           src={sprite}
-          className={sprite.includes("bee") ? "w-14 h-14 drop-shadow-lg" : "w-6 h-6 drop-shadow-lg"}
+          width={insectSize}
+          height={insectSize}
+          className="drop-shadow-lg"
           style={{ imageRendering: "pixelated" }}
           alt="insect"
+          unoptimized
         />
       </motion.div>
     </motion.div>
@@ -124,9 +127,9 @@ function Insects({
     : "/sprites/firefly.png";
   return (
     <>
-      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} timePhase={timePhase} />
-      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} timePhase={timePhase} />
-      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} timePhase={timePhase} />
+      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} />
+      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} />
+      <Insect hobbies={hobbies} positionsMap={positionsMap} sprite={sprite} />
     </>
   );
 }
@@ -168,7 +171,7 @@ function GardenPlant({
     setDragOffset({ x: dx, y: dy });
     onDrag(dx, dy);
   }
-  function handleMouseUp(e: MouseEvent) {
+  function handleMouseUp() {
     setDragging(false);
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('mouseup', handleMouseUp);
@@ -395,7 +398,7 @@ export function PixelGarden({
                   onPlantClick(h);
                 }
               }}
-              onDrag={(dx, dy) => { }}
+              onDrag={() => {}}
               onDragEnd={(dx, dy) => {
                 // Convert pixel drag to percent (approximate)
                 const garden = document.querySelector('.garden-area');

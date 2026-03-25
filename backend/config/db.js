@@ -1,11 +1,30 @@
 import mongoose from "mongoose";
 
+let cached = globalThis.__mongoose;
+
+if (!cached) {
+  cached = globalThis.__mongoose = { conn: null, promise: null };
+}
+
 export const connectDB = async () => {
+  if (cached.conn) return cached.conn;
+
+  if (!process.env.MONGO_URI) {
+    throw new Error("MONGO_URI is not set");
+  }
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGO_URI, {
+      bufferCommands: false,
+    });
+  }
+
   try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB connected");
+    cached.conn = await cached.promise;
+    return cached.conn;
   } catch (error) {
+    cached.promise = null;
     console.error(error);
-    process.exit(1);
+    throw error;
   }
 };

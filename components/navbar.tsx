@@ -24,16 +24,6 @@ const levelEmojis: Record<PlantLevel, string> = {
   "Ripe Fruit": "🍉",
 };
 
-// 🧠 Titles
-const levelTitles: Record<PlantLevel, string> = {
-  Seed: "Beginner",
-  Sprout: "Growing",
-  "Small Plant": "Small Plant",
-  "Medium Plant": "Medium Plant",
-  "Fruit Stage": "Fruit Stage",
-  "Ripe Fruit": "Ripe Fruit",
-};
-
 export function Navbar({
   totalXp,
   level,

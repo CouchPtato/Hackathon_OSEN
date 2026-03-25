@@ -22,9 +22,7 @@ const gardenerEmojis: Record<GardenerLevel, string> = {
 };
 
 export function ProgressCard({
-  totalXp,
   currentLevel,
-  xpToNextLevel,
   xpInLevel,
 }: ProgressCardProps) {
   const currentLevelIndex = GARDENER_LEVELS.findIndex(l => l.level === currentLevel);

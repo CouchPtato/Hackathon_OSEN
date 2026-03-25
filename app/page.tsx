@@ -1,11 +1,9 @@
-
-// ...existing code...
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { User } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Loader2, Droplets, Star } from "lucide-react";
+import { Sparkles, Droplets, Star } from "lucide-react";
 import { LandingPage } from "@/components/landing-page";
 import { Navbar } from "@/components/navbar";
 import { TodaysTasks } from "@/components/todays-tasks";
@@ -21,11 +19,11 @@ import {
   Hobby,
   Task,
   PlantLevel,
+  LEVEL_ORDER,
   LEVEL_XP_THRESHOLDS,
   getNextLevel,
   GardenerProfile,
   getGardenerLevel,
-  GARDENER_LEVEL_THRESHOLDS,
   getGardenerXpInLevel,
   getGardenerXpToNextLevel,
 } from "@/lib/types";
@@ -44,12 +42,22 @@ const aiTaskTemplates: Record<string, string[]> = {
   default: ["Practice 15 mins", "Watch tutorial"],
 };
 
+function getHobbyAccumulatedXp(hobby: Hobby): number {
+  const levelIndex = LEVEL_ORDER.indexOf(hobby.level);
+  const baseXp = LEVEL_ORDER
+    .slice(0, Math.max(levelIndex, 0))
+    .reduce((sum, lvl) => sum + LEVEL_XP_THRESHOLDS[lvl], 0);
+
+  return baseXp + Math.max(0, hobby.xp || 0);
+}
+
 
 
 export default function HomePage() {
     const [authModalOpen, setAuthModalOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
+  const [hasHydratedStorage, setHasHydratedStorage] = useState(false);
 
   // Default to false; only show landing if no user/token
   // SSR-safe: default to false, update in useEffect
@@ -68,18 +76,19 @@ export default function HomePage() {
         setUser(JSON.parse(savedUser));
         setToken(savedToken);
       }
-      const savedHobbies = localStorage.getItem('hobbies');
-      const savedTasks = localStorage.getItem('tasks');
+      const savedHobbies = localStorage.getItem('hobbies') || localStorage.getItem('hobbies_backup');
+      const savedTasks = localStorage.getItem('tasks') || localStorage.getItem('tasks_backup');
       if (savedHobbies) {
         try {
           setHobbies(JSON.parse(savedHobbies));
-        } catch (e) {}
+        } catch {}
       }
       if (savedTasks) {
         try {
           setTasks(JSON.parse(savedTasks));
-        } catch (e) {}
+        } catch {}
       }
+      setHasHydratedStorage(true);
     }
   }, []);
 
@@ -91,31 +100,39 @@ export default function HomePage() {
   // Save user, token, hobbies, and tasks to localStorage when they change
   // (MUST be after gardenerProfile is declared)
   useEffect(() => {
+    if (!hasHydratedStorage) return;
     if (user) {
       localStorage.setItem('user', JSON.stringify(user));
     }
-  }, [user]);
+  }, [user, hasHydratedStorage]);
   useEffect(() => {
+    if (!hasHydratedStorage) return;
     if (token) {
       localStorage.setItem('token', token);
     }
-  }, [token]);
+  }, [token, hasHydratedStorage]);
   useEffect(() => {
+    if (!hasHydratedStorage) return;
     localStorage.setItem('hobbies', JSON.stringify(hobbies));
-  }, [hobbies]);
+    localStorage.setItem('hobbies_backup', JSON.stringify(hobbies));
+  }, [hobbies, hasHydratedStorage]);
   useEffect(() => {
+    if (!hasHydratedStorage) return;
     localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+    localStorage.setItem('tasks_backup', JSON.stringify(tasks));
+  }, [tasks, hasHydratedStorage]);
 
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [gardenerProfile, setGardenerProfile] = useState<GardenerProfile | null>(null);
 
     // Persist gardenerProfile to localStorage whenever it changes
     useEffect(() => {
+      if (!hasHydratedStorage) return;
       if (gardenerProfile) {
         localStorage.setItem('gardenerProfile', JSON.stringify(gardenerProfile));
+        localStorage.setItem('gardenerProfile_backup', JSON.stringify(gardenerProfile));
       }
-    }, [gardenerProfile]);
+    }, [gardenerProfile, hasHydratedStorage]);
 
   // Load gardenerProfile from localStorage or construct from user after mount
   useEffect(() => {
@@ -127,11 +144,16 @@ export default function HomePage() {
           name = JSON.parse(savedUser).name || name;
         } catch {}
       }
-      const savedProfile = localStorage.getItem('gardenerProfile');
+      const savedProfile = localStorage.getItem('gardenerProfile') || localStorage.getItem('gardenerProfile_backup');
       if (savedProfile) {
         try {
           const parsed = JSON.parse(savedProfile);
-          setGardenerProfile({ ...parsed, name });
+          const parsedJoinDate = parsed?.joinDate ? new Date(parsed.joinDate) : new Date();
+          setGardenerProfile({
+            ...parsed,
+            name,
+            joinDate: Number.isNaN(parsedJoinDate.getTime()) ? new Date() : parsedJoinDate,
+          });
           return;
         } catch {}
       }
@@ -179,20 +201,29 @@ export default function HomePage() {
     if (!gardenerProfile) return;
     const completedTasks = tasks.filter(t => t.completed).length;
     const longestStreak = Math.max(...hobbies.map(h => h.streak || 0), 0);
+    const recoveredTotalXp = hobbies.length > 0
+      ? hobbies.reduce((sum, hobby) => sum + getHobbyAccumulatedXp(hobby), 0)
+      : gardenerProfile.totalXp;
+    const recoveredLevel = getGardenerLevel(recoveredTotalXp);
+
     const newProfile = {
       ...gardenerProfile,
+      totalXp: recoveredTotalXp,
+      level: recoveredLevel,
       totalTasksCompleted: completedTasks,
       longestStreak,
       name: user?.name || gardenerProfile.name,
     };
     if (
+      newProfile.totalXp !== gardenerProfile.totalXp ||
+      newProfile.level !== gardenerProfile.level ||
       newProfile.totalTasksCompleted !== gardenerProfile.totalTasksCompleted ||
       newProfile.longestStreak !== gardenerProfile.longestStreak ||
       newProfile.name !== gardenerProfile.name
     ) {
       setGardenerProfile(newProfile);
     }
-  }, [user?.name, hobbies, tasks]);
+  }, [gardenerProfile, user?.name, hobbies, tasks]);
 
   const getOverallLevel = (): PlantLevel => {
     if (!gardenerProfile) return "Seed";
@@ -206,7 +237,7 @@ export default function HomePage() {
   };
 
   // 🌱 CARE + LEVEL-UP
-  const performPlantCare = (hobbyId: string) => {
+  const performPlantCare = () => {
     setShowCareAnimation(true);
     setTimeout(() => setShowCareAnimation(false), 1500);
   };
@@ -220,12 +251,10 @@ export default function HomePage() {
       prev.map((t) => (t.id === taskId ? { ...t, completed: true } : t))
     );
 
-    let xpGained = 0;
     setHobbies((prev) =>
       prev.map((h) => {
         if (h.id !== task.hobbyId) return h;
         let newXp = h.xp + 25;
-        xpGained = 25;
         let newLevel = h.level;
         let maxXp = h.maxXp;
         let newStreak = h.streak;
@@ -283,7 +312,7 @@ export default function HomePage() {
       };
     });
 
-    performPlantCare(task.hobbyId);
+    performPlantCare();
   };
 
   // Wait for gardenerProfile to load before rendering

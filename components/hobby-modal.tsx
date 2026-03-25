@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Flame, Sparkles, Droplet, CheckCircle2 } from "lucide-react";
+import { Flame, Sparkles, Droplet } from "lucide-react";
 import {
   Dialog,
   DialogContent,

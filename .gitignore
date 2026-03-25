@@ -33,6 +33,20 @@ coverage/
 
 dist/
 build/
+.next/
+out/
+
+# Vercel local project settings
+
+.vercel/
+
+# Turbo cache
+
+.turbo/
+
+# TypeScript incremental build artifacts
+
+*.tsbuildinfo
 
 # OS files
 

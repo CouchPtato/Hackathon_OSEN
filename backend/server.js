@@ -1,4 +1,3 @@
-console.log('DEBUG MONGO_URI:', process.env.MONGO_URI);
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -8,8 +7,8 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
+import { connectDB } from "./config/db.js";
 
 
 
@@ -23,13 +22,34 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Ensure DB is connected before handling API requests.
+app.use(async (_req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Database connection failed" });
+  }
+});
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/hobbies", hobbyRoutes);
 app.use("/api/tasks", taskRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({ ok: true });
+});
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+if (!process.env.VERCEL) {
+  const port = process.env.PORT || 5000;
+  connectDB()
+    .then(() => {
+      app.listen(port, () => console.log(`Server running on port ${port}`));
+    })
+    .catch((err) => {
+      console.error("Failed to start server:", err);
+    });
+}
+
+export default app;
